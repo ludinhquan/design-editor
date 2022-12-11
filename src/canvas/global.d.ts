@@ -1,4 +1,6 @@
-/// <reference types="vite/client" />
+// export {};
+
+type T = Window & typeof globalThis;
 
 declare module 'fabric/fabric-impl' {
 	// Common
@@ -39,4 +41,23 @@ declare module 'fabric/fabric-impl' {
 	type IUtil = fabric.IUtil & IUtilClass;
 
 	export const util: IUtil;
+}
+
+declare global {
+	interface Window {
+		gifler: any;
+		adsbygoogle: any;
+	}
+}
+
+declare class MediaElementPlayer {
+	constructor(
+		id: string,
+		options: {
+			pauseOtherPlayers: boolean;
+			videoWidth: string;
+			videoHeight: string;
+			success: (mediaeElement: any, originalNode: any, instance: any) => void;
+		},
+	);
 }
