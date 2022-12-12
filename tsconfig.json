@@ -22,11 +22,11 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "@lightdm": [
-        "src/lightdm"
+      "@canvas": [
+        "src/canvas"
       ],
-      "@lightdm/*": [
-        "src/lightdm/*"
+      "@canvas/*": [
+        "src/canvas/*"
       ]
     },
     "types": [
