@@ -1,6 +1,6 @@
 import {fabric} from "fabric";
 import {useEffect} from "react";
-import {LayerUI} from "./LayerUI";
+import {LayerUI} from "@/containers";
 
 export const App = () => {
   useEffect(() => {
@@ -15,7 +15,7 @@ export const App = () => {
   }, []);
 
   return (
-    <div className="w-screen h-screen bg-[#efefef]">
+    <div className="w-screen h-screen bg-[#fefefe]">
       <LayerUI />
     </div>
   )

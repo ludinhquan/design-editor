@@ -11,4 +11,10 @@ body{
 @tailwind components;
 @tailwind utilities;
 
+/* Fix conflict antd icons when used with tailwind */
+svg {
+  vertical-align: initial;
+}
 
+/* Prevent animation with click button */
+[ant-click-animating-without-extra-node='true']::after{display:none;}
