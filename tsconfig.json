@@ -22,16 +22,17 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "@canvas": [
-        "src/canvas"
+      "@": [
+        "src/"
       ],
-      "@canvas/*": [
-        "src/canvas/*"
+      "@/*": [
+        "src/*"
       ]
     },
     "types": [
       "vite/client",
-      "lightdm"
+      "lightdm",
+      "node"
     ]
   },
   "include": [
