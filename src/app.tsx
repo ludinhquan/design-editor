@@ -1,22 +1,28 @@
+import {Canvas, LayerUI} from "@/containers";
 import {fabric} from "fabric";
-import {useEffect} from "react";
-import {LayerUI} from "@/containers";
+import {useEffect, useRef} from "react";
+import {CanvasInstance} from "./core";
+import {useAppContext} from "./hooks";
 
 export const App = () => {
-  useEffect(() => {
-    const options = {
-      backgroundColor: '#eee',
-      width: 600,
-      height: 800,
-    }
-    const canvas = new fabric.Canvas(`canvas`, options);
+  const appContext = useAppContext();
 
-    console.log(canvas)
-  }, []);
+  const canvasInstance = useRef<CanvasInstance>();
+
+  useEffect(() => {
+    if (canvasInstance.current) return;
+    canvasInstance.current = new CanvasInstance(new fabric.Canvas(`canvas`));
+  }, [])
+
+  useEffect(() => {
+    if (!canvasInstance.current) return;
+    canvasInstance.current.setAppContext(appContext);
+  }, [appContext])
 
   return (
-    <div className="w-screen h-screen bg-[#fefefe]">
+    <div className="w-screen h-screen">
       <LayerUI />
+      <Canvas />
     </div>
   )
 }
