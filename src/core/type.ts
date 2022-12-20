@@ -27,7 +27,8 @@ type ElementOption = Readonly<{
   width: number,
   height: number,
   fill: string,
-  angle: number
+  stroke: string,
+  angle: number,
   opacity: number
 }>;
 
@@ -51,9 +52,18 @@ export type EllipseOption = ElementOption & {
   radius: number
 };
 
+export type ArrowOption = ElementOption & {
+  type: "arrow";
+};
+
+export type LineOption = ElementOption & {
+  type: "line";
+};
 
 export type GenericOptions =
   | SelectionOption
   | RectangleOption
   | DiamondOption
   | EllipseOption
+  | ArrowOption
+  | LineOption

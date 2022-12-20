@@ -1,5 +1,6 @@
 import {IAppContext} from "@/contexts";
-import {BaseElement, DiamondElement, EllipseElement, RectangleElement} from "./Element";
+import {ArrowElement, BaseElement, DiamondElement, EllipseElement, RectangleElement} from "./Element";
+import {LineElement} from "./Element/LineElement";
 import {FabricCanvas, FabricEvent} from "./type";
 
 export class CanvasInstance {
@@ -12,7 +13,7 @@ export class CanvasInstance {
   private readonly canvasOptions = {
     backgroundColor: '#eee',
     width: 412,
-    height: 811
+    height: 711
   }
 
   constructor(
@@ -52,6 +53,8 @@ export class CanvasInstance {
     if (activeTool === 'rectangle') this.element = new RectangleElement(this.canvas);
     if (activeTool === 'diamond') this.element = new DiamondElement(this.canvas);
     if (activeTool === 'ellipse') this.element = new EllipseElement(this.canvas);
+    if (activeTool === 'arrow') this.element = new ArrowElement(this.canvas);
+    if (activeTool === 'line') this.element = new LineElement(this.canvas);
 
     if (this.element) {
       this.element.initialize(event);
