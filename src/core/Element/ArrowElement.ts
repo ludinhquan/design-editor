@@ -37,11 +37,13 @@ export class ArrowElement extends BaseElement {
   instance: typeof Arrow
   options: Partial<RectangleOption>
 
-  constructor(private canvas: FabricCanvas) {
-    super()
+  constructor(
+    canvas: FabricCanvas,
+  ) {
+    super(canvas)
   }
 
-  initialize(event: FabricEvent) {
+  create(event: FabricEvent) {
     const pointer = this.canvas.getPointer(event.e);
 
     this.options = {

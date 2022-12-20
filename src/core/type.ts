@@ -30,6 +30,7 @@ type ElementOption = Readonly<{
   stroke: string,
   angle: number,
   opacity: number
+  selectable: boolean
 }>;
 
 
@@ -60,6 +61,15 @@ export type LineOption = ElementOption & {
   type: "line";
 };
 
+export type TextOption = ElementOption & {
+  type: "text";
+  fontSize: number;
+  text: string;
+  baseline: number;
+  originalText: string;
+  editable: boolean
+}
+
 export type GenericOptions =
   | SelectionOption
   | RectangleOption
@@ -67,3 +77,4 @@ export type GenericOptions =
   | EllipseOption
   | ArrowOption
   | LineOption
+  | TextOption

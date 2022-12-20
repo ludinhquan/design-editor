@@ -6,7 +6,11 @@ export class DiamondElement extends BaseElement {
   instance: fabric.Polygon;
   options: Partial<RectangleOption>
 
-  constructor(private canvas: FabricCanvas) {super()}
+  constructor(
+    canvas: FabricCanvas,
+  ) {
+    super(canvas)
+  }
 
   private getPoints(x: number, y: number, width: number, height: number){
     const points = [
@@ -18,7 +22,7 @@ export class DiamondElement extends BaseElement {
     return (points);
   }
 
-  initialize(event: FabricEvent) {
+  create(event: FabricEvent) {
     const pointer = this.canvas.getPointer(event.e);
 
     this.options = {

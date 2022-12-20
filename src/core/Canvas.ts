@@ -1,14 +1,10 @@
 import {IAppContext} from "@/contexts";
-import {ArrowElement, BaseElement, DiamondElement, EllipseElement, RectangleElement} from "./Element";
-import {LineElement} from "./Element/LineElement";
+import {ArrowElement, BaseElement, DiamondElement, EllipseElement, FreeDrawElement, LineElement, RectangleElement} from "./Element";
+import {TextElement} from "./Element/TextElement";
 import {FabricCanvas, FabricEvent} from "./type";
 
 export class CanvasInstance {
   private appContext: IAppContext
-
-  private eventState: {
-    drawing: false
-  }
 
   private readonly canvasOptions = {
     backgroundColor: '#eee',
@@ -23,8 +19,15 @@ export class CanvasInstance {
     this.registerHandlers()
   }
 
+  private setFreeDrawMode(active: boolean){
+    this.canvas.isDrawingMode = active
+    this.canvas.freeDrawingBrush.color = 'purple'
+    this.canvas.freeDrawingBrush.width = 10
+  }
+
   public setAppContext(appContext: IAppContext) {
     this.appContext = appContext
+    this.setFreeDrawMode(appContext.activeTool === 'freedraw')
   }
 
   private initialize() {
@@ -41,11 +44,15 @@ export class CanvasInstance {
   }
 
   private onMouseMove(event: FabricEvent) {
-    const {activeTool} = this.appContext
-    if (this.element) this.element.update(event);
+    if(this.element) this.element.update(event);
   }
 
   private element: BaseElement 
+
+  get isFreeDrawing(){
+    const {activeTool} = this.appContext
+    return activeTool === 'freedraw'
+  }
 
   private onMouseDown(event: FabricEvent) {
     const {activeTool, setActiveTool} = this.appContext;
@@ -55,15 +62,14 @@ export class CanvasInstance {
     if (activeTool === 'ellipse') this.element = new EllipseElement(this.canvas);
     if (activeTool === 'arrow') this.element = new ArrowElement(this.canvas);
     if (activeTool === 'line') this.element = new LineElement(this.canvas);
+    if (activeTool === 'text') this.element = new TextElement(this.canvas);
 
-    if (this.element) {
-      this.element.initialize(event);
-      setActiveTool('selection')
-    }
+    if (this.element)  this.element.create(event);
+
+    if (!this.isFreeDrawing) setActiveTool('selection')
   }
 
-  private onMouseUp(event: FabricEvent) {
-    const {activeTool} = this.appContext
+  private onMouseUp() {
     this.element = null
   }
 }

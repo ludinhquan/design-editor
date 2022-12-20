@@ -8,10 +8,12 @@ export class RectangleElement extends BaseElement {
   options: Partial<RectangleOption>
 
   constructor(
-    private canvas: FabricCanvas,
-  ) {super()}
+    canvas: FabricCanvas,
+  ) {
+    super(canvas)
+  }
 
-  initialize(event: FabricEvent) {
+  create(event: FabricEvent) {
     const pointer = this.canvas.getPointer(event.e);
 
     this.options = {
@@ -34,6 +36,7 @@ export class RectangleElement extends BaseElement {
   update(event: FabricEvent) {
     const pointer = this.canvas.getPointer(event.e);
     const {left, top, originX, originY} = this.options
+
     this.instance.set({
       width: Math.abs(left - pointer.x),
       height: Math.abs(top - pointer.y),

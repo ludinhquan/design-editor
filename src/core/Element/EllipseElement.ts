@@ -7,11 +7,14 @@ export class EllipseElement extends BaseElement {
   instance: fabric.Ellipse;
   options: Partial<EllipseOption>
 
-  constructor(
-    private canvas: FabricCanvas,
-  ) {super()}
 
-  initialize(event: FabricEvent) {
+  constructor(
+    canvas: FabricCanvas,
+  ) {
+    super(canvas)
+  }
+
+  create(event: FabricEvent) {
     const pointer = this.canvas.getPointer(event.e);
 
     this.options = {
