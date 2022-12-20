@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ant-design/icons": "^4.8.0",
     "antd": "^5.0.5",
     "fabric": "^5.2.4",
     "nanoid": "^4.0.0",

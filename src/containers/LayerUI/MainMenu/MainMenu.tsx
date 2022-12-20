@@ -1,6 +1,4 @@
 import {HamburgerMenuIcon, IconButton} from "@/components"
-import {DownloadOutlined} from "@ant-design/icons"
-import {Button} from "antd"
 import {ShapeAction} from "./ShapeAction"
 import {Shapes} from "./Shapes"
 
@@ -15,7 +13,6 @@ export const MainMenu = () => {
           <Shapes />
         </div>
         <div>
-          <Button icon={<DownloadOutlined />} />
         </div>
       </div>
       <ShapeAction />
