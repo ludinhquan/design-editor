@@ -19,9 +19,9 @@ export interface ElementCode {
 class ElementHandler {
     handler?: Handler;
 
-    constructor(handler: Handler) {
-        this.handler = handler;
-    }
+  constructor(handler: Handler) {
+    this.handler = handler;
+  }
 
     /**
      * Set element by id

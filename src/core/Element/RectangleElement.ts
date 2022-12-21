@@ -1,23 +1,21 @@
 import {fabric} from "fabric";
-import {nanoid} from "nanoid";
 import {FabricCanvas, FabricEvent, RectangleOption} from "../type";
 import {BaseElement} from "./BaseElement";
 
-export class RectangleElement extends BaseElement {
-  instance: fabric.Rect;
-  options: Partial<RectangleOption>
+export class RectangleElement 
+  extends BaseElement<fabric.Rect, RectangleOption> {
 
   constructor(
     canvas: FabricCanvas,
+    event: FabricEvent,
   ) {
-    super(canvas)
+    super(canvas, event)
   }
 
   create(event: FabricEvent) {
     const pointer = this.canvas.getPointer(event.e);
 
-    this.options = {
-      id: nanoid(),
+    this.option = {
       originX: 'left',
       originY: 'top',
       left: pointer.x,
@@ -28,14 +26,14 @@ export class RectangleElement extends BaseElement {
       fill: 'black',
       opacity: 0.3,
     }
-    this.instance = new fabric.Rect(this.options);
 
+    this.instance = new fabric.Rect(this.option);
     this.canvas.add(this.instance);
   }
 
   update(event: FabricEvent) {
     const pointer = this.canvas.getPointer(event.e);
-    const {left, top, originX, originY} = this.options
+    const {left, top, originX, originY} = this.option
 
     this.instance.set({
       width: Math.abs(left - pointer.x),

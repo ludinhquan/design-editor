@@ -1,17 +1,15 @@
-import {fabric} from "fabric";
-import {FabricCanvas, FabricEvent, LineOption} from "../type";
+import {FabricCanvas, FabricEvent} from "../type";
 import {BaseElement} from "./BaseElement";
 
-export class FreeDrawElement extends BaseElement {
-  instance: fabric.Line
-  options: Partial<LineOption>
+export class FreeDrawElement 
+  extends BaseElement {
 
   constructor(
     canvas: FabricCanvas,
+    event: FabricEvent
   ) {
-    super(canvas)
+    super(canvas, event)
   }
-
 
   create(_: FabricEvent) {
     this.canvas.isDrawingMode = true

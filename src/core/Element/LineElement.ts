@@ -2,10 +2,8 @@ import {fabric} from "fabric";
 import {FabricCanvas, FabricEvent, LineOption} from "../type";
 import {BaseElement} from "./BaseElement";
 
-export class LineElement extends BaseElement {
-  instance: fabric.Line
-  options: Partial<LineOption>
-
+export class LineElement 
+  extends BaseElement<fabric.Line, LineOption> {
   constructor(
     canvas: FabricCanvas,
   ) {
@@ -15,7 +13,7 @@ export class LineElement extends BaseElement {
   create(event: FabricEvent) {
     const pointer = this.canvas.getPointer(event.e);
 
-    this.options = {
+    this.option = {
       left: pointer.x,
       top: pointer.y,
       originX: 'left',
@@ -28,14 +26,14 @@ export class LineElement extends BaseElement {
       opacity: 0.3
     }
 
-    this.instance = new fabric.Line([pointer.x, pointer.y, pointer.x, pointer.y], this.options);
+    this.instance = new fabric.Line([pointer.x, pointer.y, pointer.x, pointer.y], this.option);
 
     this.canvas.add(this.instance);
   }
 
   update(event: FabricEvent) {
     const pointer = this.canvas.getPointer(event.e);
-    const {left, top, originX, originY} = this.options
+    const {left, top, originX, originY} = this.option
 
     this.instance.set({
       x1: left,
