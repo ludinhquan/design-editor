@@ -1,5 +1,5 @@
 import {ShapeType} from "@/constants";
-import {ArrowElement, BaseElement, DiamondElement, EllipseElement, FreeDrawElement, LineElement, RectangleElement, TextElement} from "../Element";
+import {ArrowElement, BaseElement, DiamondElement, EllipseElement, LineElement, RectangleElement, TextElement} from "../Element";
 import {FabricCanvas, FabricEvent} from "../type";
 import {BaseHandler} from "./BaseHandler";
 
@@ -10,11 +10,18 @@ export class ElementHandler extends BaseHandler {
     'ellipse': EllipseElement,
     'arrow': ArrowElement,
     'line': LineElement,
-    'freedraw': FreeDrawElement,
     'text': TextElement,
   }
 
   private drawingElement: BaseElement;
+
+  get isSelectionMode() {
+    return this.appContext.activeTool === 'selection'
+  }
+
+  get activeTool() {
+    return this.appContext.activeTool
+  }
 
   constructor(
     canvas: FabricCanvas
@@ -27,37 +34,32 @@ export class ElementHandler extends BaseHandler {
     this.canvas.on('mouse:down', this.onMouseDown.bind(this));
     this.canvas.on('mouse:move', this.onMouseMove.bind(this));
     this.canvas.on('mouse:up', this.onMouseUp.bind(this));
-    this.canvas.on('selection:created', this.selectionCreated.bind(this));
-    this.canvas.on('selection:updated', this.selectionUpdated.bind(this));
+    this.canvas.on('selection:created', this.onDblclick.bind(this));
+  }
+
+  private onDblclick(event: FabricEvent) {
+    console.log(event.selected.map(item => item.selectable = false))
   }
 
   private onMouseDown(event: FabricEvent) {
-    const {activeTool, setActiveTool} = this.appContext;
-
-    const element = this.elements[activeTool];
+    const element = this.elements[this.activeTool];
     if (!element) return;
-
     this.drawingElement = new element(this.canvas, event);
-    setActiveTool('selection');
   }
 
   private onMouseMove(event: FabricEvent) {
     if (!this.drawingElement) return;
 
-    this.drawingElement.update(event);
+    this.drawingElement.drawing(event);
   }
 
   private onMouseUp() {
-    this.drawingElement = null;
-    // this.drawingElement.delete()
-  }
+    if (!this.drawingElement) return;
+    const endDrawing = this.drawingElement.endDraw();
+    if (!endDrawing) return
 
-  private selectionCreated(objects: any) {
-    console.log(objects)
-    console.log('selectionCreated')
-  }
-
-  private selectionUpdated(){
-    console.log('selectionUpdated')
+    const {setActiveTool} = this.appContext
+    setActiveTool('selection');
+    this.drawingElement = null
   }
 }

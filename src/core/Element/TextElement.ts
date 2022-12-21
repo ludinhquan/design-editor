@@ -2,14 +2,16 @@ import {fabric} from "fabric";
 import {FabricCanvas, FabricEvent, TextOption} from "../type";
 import {BaseElement} from "./BaseElement";
 
-export class TextElement extends BaseElement<fabric.IText, TextOption> {
+export class TextElement
+  extends BaseElement<fabric.IText, TextOption> {
   constructor(
     canvas: FabricCanvas,
+    event: FabricEvent
   ) {
-    super(canvas)
+    super(canvas, event)
   }
 
-  create(event: FabricEvent) {
+  public create(event: FabricEvent) {
     const pointer = this.canvas.getPointer(event.e);
 
     this.option = {
@@ -22,9 +24,13 @@ export class TextElement extends BaseElement<fabric.IText, TextOption> {
 
     this.instance = new fabric.IText('', this.option)
     this.canvas.add(this.instance);
-    this.canvas.setActiveObject(this.instance);
-    this.instance.enterEditing();
   }
 
-  update(event: FabricEvent) {}
+  // do not anything
+  public update() {}
+
+  public endDraw(): boolean {
+    this.instance.enterEditing()
+    return true
+  }
 }

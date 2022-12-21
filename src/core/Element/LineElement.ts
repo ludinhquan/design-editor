@@ -6,8 +6,9 @@ export class LineElement
   extends BaseElement<fabric.Line, LineOption> {
   constructor(
     canvas: FabricCanvas,
+    event: FabricEvent
   ) {
-    super(canvas)
+    super(canvas, event)
   }
 
   create(event: FabricEvent) {

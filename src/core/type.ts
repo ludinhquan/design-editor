@@ -30,7 +30,8 @@ type ElementOption = Readonly<{
   stroke: string,
   angle: number,
   opacity: number
-  selectable: boolean
+  selectable: boolean,
+  selectionColor: string
 }>;
 
 
