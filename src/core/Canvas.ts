@@ -14,6 +14,7 @@ export class CanvasInstance {
     selectionColor: '#6965db1a',
     selectionBorderColor: '#6965db',
     selectionLineWidth: 0.5,
+    selectionFullyContained: true,
   }
 
   constructor(
@@ -43,11 +44,14 @@ export class CanvasInstance {
   }
 
   private initOptions() {
-    this.canvas.setWidth(this.canvasOptions.width)
-    this.canvas.setHeight(this.canvasOptions.height);
-    this.canvas.backgroundColor = this.canvasOptions.backgroundColor;
-    this.canvas.selectionColor = this.canvasOptions.selectionColor;
-    this.canvas.selectionBorderColor = this.canvasOptions.selectionBorderColor;
-    this.canvas.selectionLineWidth = this.canvasOptions.selectionLineWidth;
+    const {width, height, ...options} = this.canvasOptions;
+    this.canvas.setWidth(width)
+    this.canvas.setHeight(height);
+    
+    this.canvas.backgroundColor = options.backgroundColor;
+    this.canvas.selectionColor = options.selectionColor;
+    this.canvas.selectionBorderColor = options.selectionBorderColor;
+    this.canvas.selectionLineWidth = options.selectionLineWidth;
+    this.canvas.selectionFullyContained = options.selectionFullyContained;
   }
 }

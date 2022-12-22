@@ -32,6 +32,8 @@ type ElementOption = Readonly<{
   opacity: number
   selectable: boolean,
   selectionColor: string
+  hasBorders: boolean,
+  hasControls: boolean
 }>;
 
 
