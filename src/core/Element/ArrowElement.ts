@@ -53,7 +53,7 @@ export class ArrowElement
       width: 0,
       height: 0,
       angle: 0,
-      fill: 'black',
+      fill: '#82c91e',
       stroke: 'black',
       opacity: 0.3
     }

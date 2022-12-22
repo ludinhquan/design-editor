@@ -38,7 +38,6 @@ export class ElementHandler extends BaseHandler {
   }
 
   private onDblclick(event: FabricEvent) {
-    console.log(event.selected.map(item => item.selectable = false))
   }
 
   private onMouseDown(event: FabricEvent) {

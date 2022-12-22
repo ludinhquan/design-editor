@@ -19,7 +19,6 @@ export class TextElement
       top: pointer.y,
       originX: 'left',
       originY: 'top',
-      editable: true
     }
 
     this.instance = new fabric.IText('', this.option)

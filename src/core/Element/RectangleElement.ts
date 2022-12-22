@@ -25,7 +25,6 @@ export class RectangleElement
       angle: 0,
       fill: 'black',
       opacity: 0.3,
-      selectable: false
     }
 
     this.instance = new fabric.Rect(this.option);
