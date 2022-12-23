@@ -3,6 +3,7 @@ import {ShapeAction} from "./ShapeAction"
 import {Shapes} from "./Shapes"
 
 export const MainMenu = () => {
+  console.log('MainMenu')
   return (
     <div className="flex flex-col space-y-5">
       <div className="flex justify-between">

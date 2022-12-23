@@ -31,7 +31,6 @@
     },
     "types": [
       "vite/client",
-      "lightdm",
       "node"
     ]
   },

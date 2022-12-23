@@ -1,20 +1,98 @@
-import {FabricObject} from "@/canvas";
+export enum ActionName {
+  copy= 'copy',
+  cut= 'cut',
+  paste= 'paste',
+  copyAsPng= 'copyAsPng',
+  copyAsSvg= 'copyAsSvg',
+  copyText= 'copyText',
+  sendBackward= 'sendBackward',
+  bringForward= 'bringForward',
+  sendToBack= 'sendToBack',
+  bringToFront= 'bringToFront',
+  copyStyles= 'copyStyles',
+  selectAll= 'selectAll',
+  pasteStyles= 'pasteStyles',
+  gridMode= 'gridMode',
+  zenMode= 'zenMode',
+  stats= 'stats',
+  changeStrokeColor= 'changeStrokeColor',
+  changeBackgroundColor= 'changeBackgroundColor',
+  changeFillStyle= 'changeFillStyle',
+  changeStrokeWidth= 'changeStrokeWidth',
+  changeStrokeShape= 'changeStrokeShape',
+  changeSloppiness= 'changeSloppiness',
+  changeStrokeStyle= 'changeStrokeStyle',
+  changeArrowhead= 'changeArrowhead',
+  changeOpacity= 'changeOpacity',
+  changeFontSize= 'changeFontSize',
+  toggleCanvasMenu= 'toggleCanvasMenu',
+  toggleEditMenu= 'toggleEditMenu',
+  undo= 'undo',
+  redo= 'redo',
+  finalize= 'finalize',
+  changeProjectName= 'changeProjectName',
+  changeExportBackground= 'changeExportBackground',
+  changeExportEmbedScene= 'changeExportEmbedScene',
+  changeExportScale= 'changeExportScale',
+  saveToActiveFile= 'saveToActiveFile',
+  saveFileToDisk= 'saveFileToDisk',
+  loadScene= 'loadScene',
+  duplicateSelection= 'duplicateSelection',
+  deleteSelectedElements= 'deleteSelectedElements',
+  changeViewBackgroundColor= 'changeViewBackgroundColor',
+  clearCanvas= 'clearCanvas',
+  zoomIn= 'zoomIn',
+  zoomOut= 'zoomOut',
+  resetZoom= 'resetZoom',
+  zoomToFit= 'zoomToFit',
+  zoomToSelection= 'zoomToSelection',
+  changeFontFamily= 'changeFontFamily',
+  changeTextAlign= 'changeTextAlign',
+  changeVerticalAlign= 'changeVerticalAlign',
+  toggleFullScreen= 'toggleFullScreen',
+  toggleShortcuts= 'toggleShortcuts',
+  group= 'group',
+  ungroup= 'ungroup',
+  goToCollaborator= 'goToCollaborator',
+  addToLibrary= 'addToLibrary',
+  changeRoundness= 'changeRoundness',
+  alignTop= 'alignTop',
+  alignBottom= 'alignBottom',
+  alignLeft= 'alignLeft',
+  alignRight= 'alignRight',
+  alignVerticallyCentered= 'alignVerticallyCentered',
+  alignHorizontallyCentered= 'alignHorizontallyCentered',
+  distributeHorizontally= 'distributeHorizontally',
+  distributeVertically= 'distributeVertically',
+  flipHorizontal= 'flipHorizontal',
+  flipVertical= 'flipVertical',
+  viewMode= 'viewMode',
+  exportWithDarkMode= 'exportWithDarkMode',
+  toggleTheme= 'toggleTheme',
+  increaseFontSize= 'increaseFontSize',
+  decreaseFontSize= 'decreaseFontSize',
+  unbindText= 'unbindText',
+  hyperlink= 'hyperlink',
+  eraser= 'eraser',
+  bindText= 'bindText',
+  toggleLock= 'toggleLock',
+} 
 
 export type FillStyle = "hachure" | "cross-hatch" | "solid";
 export type StrokeStyle = "solid" | "dashed" | "dotted";
+export type EdgeType = string
 
-export type FabricCanvas<T extends any = fabric.Canvas> = T 
-
-export interface FabricEvent<T extends any = Event> extends Omit<fabric.IEvent, 'e'> {
-	e: T;
-	target?: FabricObject;
-	subTargets?: FabricObject[];
-	button?: number;
-	isClick?: boolean;
-	pointer?: fabric.Point;
-	absolutePointer?: fabric.Point;
-	transform?: { corner: string; original: FabricObject; originX: string; originY: string; width: number };
+export type GenericStyles = {
+  stroke: string,
+  background: string,
+  fill: FillStyle,
+  strokeWidth: number,
+  strokeStyle: StrokeStyle,
+  edge: EdgeType,
+  opacity: number
 }
+
+type Origin = 'top' | 'left' | 'right' | 'bottom'
 
 type ElementOption = Readonly<{
   id: string,
@@ -22,19 +100,15 @@ type ElementOption = Readonly<{
   top: number,
   right: number,
   bottom: number,
-  originX: 'top' | 'left' | 'right' | 'bottom',
-  originY: 'top' | 'left' | 'right' | 'bottom',
+  originX: Origin,
+  originY: Origin,
   width: number,
   height: number,
-  fill: string,
-  stroke: string,
-  angle: number,
-  opacity: number
   selectable: boolean,
   selectionColor: string
   hasBorders: boolean,
   hasControls: boolean
-}>;
+} & GenericStyles>;
 
 
 export type SelectionOption = ElementOption & {

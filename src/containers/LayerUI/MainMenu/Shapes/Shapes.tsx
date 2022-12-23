@@ -3,7 +3,9 @@ import {SHAPES} from "@/constants";
 import {useAppContext} from "@/hooks";
 
 export const Shapes = () => {
-  const {activeTool, setActiveTool} = useAppContext();
+  console.log('Shapes')
+  const appContext = useAppContext();
+  const {activeTool, setActiveTool} = appContext
 
   return (
     <div className="flex justify-center" >
