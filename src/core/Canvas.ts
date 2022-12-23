@@ -1,8 +1,7 @@
 import {CURSOR_TYPE} from "@/constants";
 import {IAppContext} from "@/contexts";
-import {FabricCanvas} from "./fabric";
-import {BaseHandler} from "./Handler/BaseHandler";
-import {ElementHandler} from "./Handler/ElementHandler";
+import {FabricCanvas} from "./type";
+import {BaseHandler, ElementHandler} from "./Handler";
 
 export class CanvasInstance {
   private handlers: BaseHandler[]

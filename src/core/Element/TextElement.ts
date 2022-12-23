@@ -2,8 +2,7 @@ import {fabric} from "fabric";
 import {FabricCanvas, FabricEvent, TextOption} from "../type";
 import {BaseElement} from "./BaseElement";
 
-export class TextElement
-  extends BaseElement<fabric.IText, TextOption> {
+export class TextElement extends BaseElement<fabric.IText, TextOption> {
   constructor(
     canvas: FabricCanvas,
     event: FabricEvent

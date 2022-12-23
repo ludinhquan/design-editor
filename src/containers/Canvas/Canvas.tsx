@@ -1,7 +1,7 @@
 import {CANVAS_ID} from "@/constants";
 
 export const Canvas = () => {
-  console.log('Canvas')
+  console.count('Canvas')
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">

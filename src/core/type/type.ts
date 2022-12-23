@@ -84,8 +84,7 @@ export type EdgeType = string
 
 export type GenericStyles = {
   stroke: string,
-  background: string,
-  fill: FillStyle,
+  fill: string,
   strokeWidth: number,
   strokeStyle: StrokeStyle,
   edge: EdgeType,
@@ -104,10 +103,6 @@ type ElementOption = Readonly<{
   originY: Origin,
   width: number,
   height: number,
-  selectable: boolean,
-  selectionColor: string
-  hasBorders: boolean,
-  hasControls: boolean
 } & GenericStyles>;
 
 
@@ -155,3 +150,8 @@ export type GenericOptions =
   | ArrowOption
   | LineOption
   | TextOption
+
+export type IMouseMoveEvent = {
+  x: number,
+  y: number
+}

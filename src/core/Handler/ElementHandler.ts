@@ -1,16 +1,17 @@
 import {ShapeType} from "@/constants";
+import {nanoid} from "nanoid";
 import {ArrowElement, BaseElement, DiamondElement, EllipseElement, LineElement, RectangleElement, TextElement} from "../Element";
-import {FabricCanvas, FabricEvent} from "../type";
+import {FabricCanvas, FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
 import {BaseHandler} from "./BaseHandler";
 
 export class ElementHandler extends BaseHandler {
   private readonly elements: Partial<Record<ShapeType, ClassType<BaseElement>>> = {
     'rectangle': RectangleElement,
-    'diamond': DiamondElement,
-    'ellipse': EllipseElement,
-    'arrow': ArrowElement,
-    'line': LineElement,
-    'text': TextElement,
+    // 'diamond': DiamondElement,
+    // 'ellipse': EllipseElement,
+    // 'arrow': ArrowElement,
+    // 'line': LineElement,
+    // 'text': TextElement,
   }
 
   private drawingElement: BaseElement;
@@ -30,6 +31,27 @@ export class ElementHandler extends BaseHandler {
     this.registerHandlers()
   }
 
+  private getElementOption(event: IMouseMoveEvent) {
+    const {shapeStyles} = this.appContext;
+
+    const options: Partial<GenericOptions> = {
+      id: nanoid(),
+      left: event.x,
+      top: event.y,
+      originX: 'left',
+      originY: 'top',
+      width: 0,
+      height: 0,
+      stroke: shapeStyles.strokeColor,
+      fill: shapeStyles.backgroundColor,
+      strokeWidth: shapeStyles.strokeWidth,
+      opacity: shapeStyles.opacity / 100,
+      rx: shapeStyles.roughness,
+      ry: shapeStyles.roughness
+    }
+    return options
+  }
+
   private registerHandlers = () => {
     this.canvas.on('mouse:down', this.onMouseDown.bind(this));
     this.canvas.on('mouse:move', this.onMouseMove.bind(this));
@@ -41,15 +63,19 @@ export class ElementHandler extends BaseHandler {
   }
 
   private onMouseDown(event: FabricEvent) {
-    const element = this.elements[this.activeTool];
-    if (!element) return;
-    this.drawingElement = new element(this.canvas, event);
+    const Element = this.elements[this.activeTool];
+    if (!Element) return;
+
+    const pointer: IMouseMoveEvent = this.canvas.getPointer(event.e);
+    const options = this.getElementOption(pointer)
+    this.drawingElement = new Element(this.canvas, options);
   }
 
   private onMouseMove(event: FabricEvent) {
     if (!this.drawingElement) return;
+    const pointer: IMouseMoveEvent = this.canvas.getPointer(event.e);
 
-    this.drawingElement.drawing(event);
+    this.drawingElement.drawing(pointer);
   }
 
   private onMouseUp() {

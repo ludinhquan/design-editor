@@ -1,26 +1,23 @@
-import {nanoid} from "nanoid";
-import {FabricCanvas, FabricEvent, GenericOptions} from "../type";
+import {FabricCanvas, GenericOptions, IMouseMoveEvent} from "../type";
 
 export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Option extends GenericOptions = GenericOptions> {
   private readonly MIN_TIME_UPDATED = 3;
 
   protected instance: Type & {id?: string}
-  protected option: Partial<Option>
   private updatedCount: number = 0;
 
-  constructor(protected canvas: FabricCanvas, event: FabricEvent) {
-    this.create(event)
-    this.instance.id = nanoid()
+  constructor(protected canvas: FabricCanvas, protected option: Partial<Option>) {
+    this.startDraw(option)
   }
 
-  abstract create(event: FabricEvent): void
-  abstract update(event: FabricEvent): void
+  abstract create(event: Partial<Option>): void
+  abstract update(event: IMouseMoveEvent): void
 
-  public startDraw(event: FabricEvent) {
+  public startDraw(event: Partial<Option>) {
     this.create(event)
   }
 
-  public drawing(event: FabricEvent) {
+  public drawing(event: IMouseMoveEvent) {
     this.update(event)
     this.updatedCount++;
   }

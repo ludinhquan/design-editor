@@ -1,6 +1,5 @@
-import {ShapeType} from "@/constants"
+import {GenericDefaultOptions, ShapeOptions, ShapeType} from "@/constants"
 import {CanvasInstance} from "@/core"
-import {GenericStyles} from "@/core/type"
 import React, {createContext, useRef, useState} from "react"
 
 export interface IAppContext {
@@ -8,8 +7,8 @@ export interface IAppContext {
   setIsMobile: React.Dispatch<React.SetStateAction<boolean | undefined>>
   activeTool: null | ShapeType,
   setActiveTool: (option: ShapeType) => void
-  shapeStyles: Partial<GenericStyles>,
-  setShapeStyles: (option: GenericStyles) => void,
+  shapeStyles: Partial<ShapeOptions>,
+  setShapeStyles: (option: Partial<ShapeOptions>) => void,
   canvasInstance: React.MutableRefObject<CanvasInstance>
 }
 
@@ -18,7 +17,7 @@ export const AppContext = createContext<IAppContext>({
   setIsMobile: () => {},
   activeTool: null,
   setActiveTool: () => null,
-  shapeStyles: {},
+  shapeStyles: GenericDefaultOptions,
   setShapeStyles: () => null,
   canvasInstance: null
 })
@@ -27,7 +26,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const canvasInstance = useRef<CanvasInstance>();
   const [isMobile, setIsMobile] = useState<IAppContext['isMobile']>(false);
   const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>('selection');
-  const [shapeStyles, setShapeStyles] = useState<IAppContext['shapeStyles']>({})
+  const [shapeStyles, setStyles] = useState<IAppContext['shapeStyles']>(GenericDefaultOptions)
+
+  const setShapeStyles = (styles: IAppContext['shapeStyles']) => {
+    setStyles(s => ({...s, ...styles}))
+  }
 
   const context = {
     isMobile,

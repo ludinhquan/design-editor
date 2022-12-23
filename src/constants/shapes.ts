@@ -1,4 +1,5 @@
 import {ArrowIcon, DiamondIcon, EllipseIcon, EraserIcon, FreedrawIcon, IconButton, ImageIcon, LineIcon, RectangleIcon, SelectionIcon, TextIcon} from "@/components"
+import {Colors} from "./colors";
 
 export type ShapeType = typeof SHAPES[number]['value']
 
@@ -54,3 +55,32 @@ export const SHAPES = [
     fillable: false,
   },
 ] as const;
+
+
+export type ShapeOptions = { 
+  fillStyle: "hachure",
+  fontFamily: '',
+  fontSize: '',
+  opacity: number,
+  roughness: number,
+  strokeColor: string
+  backgroundColor: string
+  roundness: null,
+  strokeStyle: "solid",
+  strokeWidth: number,
+  locked: false,
+}
+
+export const GenericDefaultOptions: ShapeOptions = {
+  fillStyle: "hachure",
+  fontFamily: '',
+  fontSize: '',
+  opacity: 100,
+  roughness: null,
+  strokeColor: Colors.ElementStroke[0],
+  backgroundColor: Colors.ElementBackground[0],
+  roundness: null,
+  strokeStyle: "solid",
+  strokeWidth: 1,
+  locked: false,
+} as const;

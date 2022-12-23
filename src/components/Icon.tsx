@@ -207,3 +207,196 @@ export const HamburgerMenuIcon = createIcon(
   </g>,
   tablerIconProps,
 );
+
+export const StrokeWidthBaseIcon = createIcon(
+  <>
+    <path
+      d="M4.167 10h11.666"
+      stroke="currentColor"
+      strokeWidth="1.25"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const StrokeWidthBoldIcon = createIcon(
+  <path
+    d="M5 10h10"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  />,
+  modifiedTablerIconProps,
+);
+
+export const StrokeWidthExtraBoldIcon = createIcon(
+  <path
+    d="M5 10h10"
+    stroke="currentColor"
+    strokeWidth="3.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  />,
+  modifiedTablerIconProps,
+);
+
+
+export const EdgeSharpIcon = createIcon(
+  <svg strokeWidth="1.5">
+    <path d="M3.33334 9.99998V6.66665C3.33334 6.04326 3.33403 4.9332 3.33539 3.33646C4.95233 3.33436 6.06276 3.33331 6.66668 3.33331H10" />
+    <path d="M13.3333 3.33331V3.34331" />
+    <path d="M16.6667 3.33331V3.34331" />
+    <path d="M16.6667 6.66669V6.67669" />
+    <path d="M16.6667 10V10.01" />
+    <path d="M3.33334 13.3333V13.3433" />
+    <path d="M16.6667 13.3333V13.3433" />
+    <path d="M3.33334 16.6667V16.6767" />
+    <path d="M6.66666 16.6667V16.6767" />
+    <path d="M10 16.6667V16.6767" />
+    <path d="M13.3333 16.6667V16.6767" />
+    <path d="M16.6667 16.6667V16.6767" />
+  </svg>,
+  modifiedTablerIconProps,
+);
+
+// tabler-icons: border-radius
+export const EdgeRoundIcon = createIcon(
+  <g
+    strokeWidth="1.5"
+    stroke="currentColor"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M4 12v-4a4 4 0 0 1 4 -4h4" />
+    <line x1="16" y1="4" x2="16" y2="4.01" />
+    <line x1="20" y1="4" x2="20" y2="4.01" />
+    <line x1="20" y1="8" x2="20" y2="8.01" />
+    <line x1="20" y1="12" x2="20" y2="12.01" />
+    <line x1="4" y1="16" x2="4" y2="16.01" />
+    <line x1="20" y1="16" x2="20" y2="16.01" />
+    <line x1="4" y1="20" x2="4" y2="20.01" />
+    <line x1="8" y1="20" x2="8" y2="20.01" />
+    <line x1="12" y1="20" x2="12" y2="20.01" />
+    <line x1="16" y1="20" x2="16" y2="20.01" />
+    <line x1="20" y1="20" x2="20" y2="20.01" />
+  </g>,
+  tablerIconProps,
+);
+
+export const BringForwardIcon = createIcon(
+  <>
+    <g
+      clipPath="url(#a)"
+      stroke="currentColor"
+      strokeWidth="1.25"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path
+        d="M13.889 4.167H8.333c-.767 0-1.389.622-1.389 1.389v5.555c0 .767.622 1.389 1.39 1.389h5.555c.767 0 1.389-.622 1.389-1.389V5.556c0-.767-.622-1.39-1.39-1.39Z"
+        fill="currentColor"
+      />
+      <path d="M12.5 12.5v1.389a1.389 1.389 0 0 1-1.389 1.389H5.556a1.389 1.389 0 0 1-1.39-1.39V8.334a1.389 1.389 0 0 1 1.39-1.389h1.388" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const SendBackwardIcon = createIcon(
+  <>
+    <g
+      clipPath="url(#a)"
+      stroke="currentColor"
+      strokeWidth="1.25"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M6.944 12.5H12.5v1.389a1.389 1.389 0 0 1-1.389 1.389H5.556a1.389 1.389 0 0 1-1.39-1.39V8.334a1.389 1.389 0 0 1 1.39-1.389h1.388"
+        fill="currentColor"
+      />
+      <path d="M13.889 4.167H8.333c-.767 0-1.389.621-1.389 1.389v5.555c0 .767.622 1.389 1.39 1.389h5.555c.767 0 1.389-.622 1.389-1.389V5.556c0-.768-.622-1.39-1.39-1.39Z" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const BringToFrontIcon = createIcon(
+  <>
+    <g clipPath="url(#a)" stroke="currentColor" strokeWidth="1.25">
+      <path
+        d="M8.775 6.458h2.45a2.316 2.316 0 0 1 2.317 2.316v2.452a2.316 2.316 0 0 1-2.316 2.316H8.774a2.316 2.316 0 0 1-2.317-2.316V8.774a2.316 2.316 0 0 1 2.317-2.316Z"
+        fill="currentColor"
+      />
+      <path d="M5.441 9.792h2.451a2.316 2.316 0 0 1 2.316 2.316v2.45a2.316 2.316 0 0 1-2.316 2.317h-2.45a2.316 2.316 0 0 1-2.317-2.316v-2.451a2.316 2.316 0 0 1 2.316-2.316ZM12.108 3.125h2.45a2.316 2.316 0 0 1 2.317 2.316v2.451a2.316 2.316 0 0 1-2.316 2.316h-2.451a2.316 2.316 0 0 1-2.316-2.316v-2.45a2.316 2.316 0 0 1 2.316-2.317Z" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const SendToBackIcon = createIcon(
+  <>
+    <g clipPath="url(#a)">
+      <path
+        d="M5.441 9.792h2.451a2.316 2.316 0 0 1 2.316 2.316v2.45a2.316 2.316 0 0 1-2.316 2.317h-2.45a2.316 2.316 0 0 1-2.317-2.316v-2.451a2.316 2.316 0 0 1 2.316-2.316Z"
+        stroke="currentColor"
+        strokeWidth="1.25"
+      />
+      <path
+        d="M5.441 9.792h2.451a2.316 2.316 0 0 1 2.316 2.316v2.45a2.316 2.316 0 0 1-2.316 2.317h-2.45a2.316 2.316 0 0 1-2.317-2.316v-2.451a2.316 2.316 0 0 1 2.316-2.316Z"
+        stroke="currentColor"
+        strokeWidth="1.25"
+      />
+      <mask id="SendToBackIcon" fill="#fff">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M9.167 5.833v2.06a2.941 2.941 0 0 0 2.94 2.94h2.06v.393a2.941 2.941 0 0 1-2.941 2.94h-.393v-2.058a2.941 2.941 0 0 0-2.94-2.941h-2.06v-.393a2.941 2.941 0 0 1 2.942-2.94h.392Z"
+        />
+      </mask>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M9.167 5.833v2.06a2.941 2.941 0 0 0 2.94 2.94h2.06v.393a2.941 2.941 0 0 1-2.941 2.94h-.393v-2.058a2.941 2.941 0 0 0-2.94-2.941h-2.06v-.393a2.941 2.941 0 0 1 2.942-2.94h.392Z"
+        fill="currentColor"
+      />
+      <path
+        d="M9.167 5.833h1.25v-1.25h-1.25v1.25Zm5 5h1.25v-1.25h-1.25v1.25Zm-3.334 3.334h-1.25v1.25h1.25v-1.25Zm-5-5h-1.25v1.25h1.25v-1.25Zm2.084-3.334v2.06h2.5v-2.06h-2.5Zm0 2.06a4.191 4.191 0 0 0 4.19 4.19v-2.5a1.691 1.691 0 0 1-1.69-1.69h-2.5Zm4.19 4.19h2.06v-2.5h-2.06v2.5Zm.81-1.25v.393h2.5v-.393h-2.5Zm0 .393c0 .933-.758 1.69-1.691 1.69v2.5a4.191 4.191 0 0 0 4.19-4.19h-2.5Zm-1.691 1.69h-.393v2.5h.393v-2.5Zm.857 1.25v-2.058h-2.5v2.059h2.5Zm0-2.058a4.191 4.191 0 0 0-4.19-4.191v2.5c.933 0 1.69.757 1.69 1.69h2.5Zm-4.19-4.191h-2.06v2.5h2.06v-2.5Zm-.81 1.25v-.393h-2.5v.393h2.5Zm0-.393c0-.934.758-1.69 1.692-1.69v-2.5a4.191 4.191 0 0 0-4.192 4.19h2.5Zm1.692-1.69h.392v-2.5h-.392v2.5Z"
+        fill="currentColor"
+        mask="url(#SendToBackIcon)"
+      />
+      <path
+        d="M12.108 3.125h2.45a2.316 2.316 0 0 1 2.317 2.316v2.451a2.316 2.316 0 0 1-2.316 2.316h-2.451a2.316 2.316 0 0 1-2.316-2.316v-2.45a2.316 2.316 0 0 1 2.316-2.317Z"
+        stroke="currentColor"
+        strokeWidth="1.25"
+      />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);

@@ -1,5 +1,5 @@
 import {IAppContext} from "@/contexts";
-import {FabricCanvas} from "../type";
+import {FabricCanvas} from "../fabric";
 
 export abstract class BaseHandler {
   protected appContext: IAppContext
