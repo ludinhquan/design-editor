@@ -16,10 +16,11 @@ const removeFirstHash = (str: string) => str.replace(/^#/, '')
 
 export const ColorPicker = (props: ColorPickerProps) => {
   const {shapeStyles, setShapeStyles} = useAppContext();
-  const [state, setState] = useState(shapeStyles[props.type]);
+  const [state, setState] = useState(removeFirstHash(shapeStyles[props.type]));
 
   useEffect(() => {
     if (!isValidColor(state)) return
+    if (getColor(state) === getColor(shapeStyles[props.type])) return
     setShapeStyles({[props.type]: getColor(state)})
   }, [state])
 
@@ -43,7 +44,6 @@ export const ShapeAction = () => {
   console.count('ShapeAction')
   const {shapeStyles, setShapeStyles} = useAppContext();
 
-  console.log(shapeStyles.opacity)
   return (
     <div className="flex justify-start w-[202px]" >
       <div className="p-[12px] rounded-[4px] shadow-main space-y-3">

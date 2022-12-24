@@ -1,6 +1,7 @@
-import {GenericDefaultOptions, ShapeOptions, ShapeType} from "@/constants"
+import {CANVAS_ID, GenericDefaultOptions, ShapeOptions, ShapeType} from "@/constants"
 import {CanvasInstance} from "@/core"
-import React, {createContext, useRef, useState} from "react"
+import React, {createContext, useEffect, useRef, useState} from "react"
+import { fabric } from "fabric"
 
 export interface IAppContext {
   isMobile: boolean
@@ -23,7 +24,6 @@ export const AppContext = createContext<IAppContext>({
 })
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const canvasInstance = useRef<CanvasInstance>();
   const [isMobile, setIsMobile] = useState<IAppContext['isMobile']>(false);
   const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>('selection');
   const [shapeStyles, setStyles] = useState<IAppContext['shapeStyles']>(GenericDefaultOptions)
@@ -31,6 +31,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const setShapeStyles = (styles: IAppContext['shapeStyles']) => {
     setStyles(s => ({...s, ...styles}))
   }
+
+  const canvasInstance = useRef<CanvasInstance>();
 
   const context = {
     isMobile,
@@ -41,6 +43,16 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setShapeStyles,
     canvasInstance
   };
+
+  useEffect(() => {
+    if (canvasInstance.current) return;
+    canvasInstance.current = new CanvasInstance(new fabric.Canvas(CANVAS_ID));
+  }, [])
+  
+  useEffect(() => {
+    if (!canvasInstance.current) return;
+    canvasInstance.current.setAppContext(context);
+  }, [activeTool, shapeStyles])
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>
 }

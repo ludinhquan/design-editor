@@ -82,29 +82,9 @@ export type FillStyle = "hachure" | "cross-hatch" | "solid";
 export type StrokeStyle = "solid" | "dashed" | "dotted";
 export type EdgeType = string
 
-export type GenericStyles = {
-  stroke: string,
-  fill: string,
-  strokeWidth: number,
-  strokeStyle: StrokeStyle,
-  edge: EdgeType,
-  opacity: number
-}
+export interface GenericStyles extends fabric.IObjectOptions {}
 
-type Origin = 'top' | 'left' | 'right' | 'bottom'
-
-type ElementOption = Readonly<{
-  id: string,
-  left: number,
-  top: number,
-  right: number,
-  bottom: number,
-  originX: Origin,
-  originY: Origin,
-  width: number,
-  height: number,
-} & GenericStyles>;
-
+type ElementOption = Readonly<{id: string} & GenericStyles>;
 
 export type SelectionOption = ElementOption & {
   type: "selection";

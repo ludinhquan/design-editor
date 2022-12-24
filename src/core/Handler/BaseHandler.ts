@@ -1,12 +1,6 @@
-import {IAppContext} from "@/contexts";
-import {FabricCanvas} from "../fabric";
+import {EditorState} from "../EditorData";
+import {FabricCanvas} from "../type";
 
-export abstract class BaseHandler {
-  protected appContext: IAppContext
-
-  constructor(protected canvas: FabricCanvas) {}
-
-  public setAppContext(appContext: IAppContext) {
-    this.appContext = appContext
-  }
+export abstract class BaseHandler extends EditorState{
+  constructor(protected canvas: FabricCanvas) {super()}
 }

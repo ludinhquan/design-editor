@@ -1,4 +1,5 @@
 import {ShapeType} from "@/constants";
+import {IAppContext} from "@/contexts";
 import {nanoid} from "nanoid";
 import {ArrowElement, BaseElement, DiamondElement, EllipseElement, LineElement, RectangleElement, TextElement} from "../Element";
 import {FabricCanvas, FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
@@ -16,13 +17,6 @@ export class ElementHandler extends BaseHandler {
 
   private drawingElement: BaseElement;
 
-  get isSelectionMode() {
-    return this.appContext.activeTool === 'selection'
-  }
-
-  get activeTool() {
-    return this.appContext.activeTool
-  }
 
   constructor(
     canvas: FabricCanvas
@@ -31,17 +25,11 @@ export class ElementHandler extends BaseHandler {
     this.registerHandlers()
   }
 
-  private getElementOption(event: IMouseMoveEvent) {
-    const {shapeStyles} = this.appContext;
+  setState(appContext: IAppContext): void {
+    super.setState(appContext)
 
-    const options: Partial<GenericOptions> = {
-      id: nanoid(),
-      left: event.x,
-      top: event.y,
-      originX: 'left',
-      originY: 'top',
-      width: 0,
-      height: 0,
+    const {shapeStyles} = appContext;
+    const styles = {
       stroke: shapeStyles.strokeColor,
       fill: shapeStyles.backgroundColor,
       strokeWidth: shapeStyles.strokeWidth,
@@ -49,6 +37,29 @@ export class ElementHandler extends BaseHandler {
       rx: shapeStyles.roughness,
       ry: shapeStyles.roughness
     }
+
+    console.log(styles)
+    this.canvas.getActiveObjects().map(item => {
+      item.set(styles)
+    });
+
+    this.canvas.requestRenderAll()
+  }
+
+  private getElementOption(event: IMouseMoveEvent) {
+    const {shapeStyles} = this.state
+
+    const options: Partial<GenericOptions> = {
+      left: event.x,
+      top: event.y,
+      stroke: shapeStyles.strokeColor,
+      fill: shapeStyles.backgroundColor,
+      strokeWidth: shapeStyles.strokeWidth,
+      opacity: shapeStyles.opacity / 100,
+      rx: shapeStyles.roughness,
+      ry: shapeStyles.roughness
+    }
+
     return options
   }
 
@@ -83,7 +94,7 @@ export class ElementHandler extends BaseHandler {
     const endDrawing = this.drawingElement.endDraw();
     if (!endDrawing) return
 
-    const {setActiveTool} = this.appContext
+    const {setActiveTool} = this.state
     setActiveTool('selection');
     this.drawingElement = null
   }

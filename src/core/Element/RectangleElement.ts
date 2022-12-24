@@ -3,7 +3,6 @@ import {FabricCanvas, IMouseMoveEvent, RectangleOption} from "../type";
 import {BaseElement} from "./BaseElement";
 
 export class RectangleElement extends BaseElement<fabric.Rect, RectangleOption> {
-
   constructor(
     canvas: FabricCanvas,
     option: RectangleOption,
@@ -12,7 +11,8 @@ export class RectangleElement extends BaseElement<fabric.Rect, RectangleOption> 
   }
 
   create(option: RectangleOption) {
-    this.instance = new fabric.Rect(option);
+    const options = Object.assign(option, this.defaultStyles)
+    this.instance = new fabric.Rect(options);
     this.canvas.add(this.instance);
   }
 

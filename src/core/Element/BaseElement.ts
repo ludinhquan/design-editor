@@ -1,7 +1,21 @@
+import {CURSOR_TYPE} from "@/constants";
 import {FabricCanvas, GenericOptions, IMouseMoveEvent} from "../type";
 
 export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Option extends GenericOptions = GenericOptions> {
   private readonly MIN_TIME_UPDATED = 3;
+
+  protected readonly defaultStyles: Partial<GenericOptions> = {
+    width: 0,
+    height: 0,
+    originX: 'left',
+    originY: 'top',
+    padding: 5,
+    cornerSize: 8,
+    cornerStyle: 'circle',
+    cornerColor: '#ffffff',
+    cornerStrokeColor: '#6965db',
+    transparentCorners: false,
+  }
 
   protected instance: Type & {id?: string}
   private updatedCount: number = 0;
@@ -15,6 +29,9 @@ export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Op
 
   public startDraw(event: Partial<Option>) {
     this.create(event)
+    this.instance.controls.mtr.offsetY = -20;
+    this.instance.controls.mtr.cursorStyle = CURSOR_TYPE.GRAB
+    this.instance.controls.mtr.withConnection = false
   }
 
   public drawing(event: IMouseMoveEvent) {

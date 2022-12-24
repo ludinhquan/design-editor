@@ -2,8 +2,9 @@ import {CURSOR_TYPE} from "@/constants";
 import {IAppContext} from "@/contexts";
 import {FabricCanvas} from "./type";
 import {BaseHandler, ElementHandler} from "./Handler";
+import {EditorState} from "./EditorData";
 
-export class CanvasInstance {
+export class CanvasInstance extends EditorState {
   private handlers: BaseHandler[]
 
   private readonly canvasOptions: fabric.ICanvasOptions = {
@@ -16,9 +17,9 @@ export class CanvasInstance {
     selectionFullyContained: true,
   }
 
-  constructor(
-    private canvas: FabricCanvas
-  ) {
+  constructor(private canvas: FabricCanvas) {
+    super()
+
     this.initOptions()
     this.handlers = [
       new ElementHandler(canvas),
@@ -26,20 +27,20 @@ export class CanvasInstance {
   }
 
   public setAppContext(appContext: IAppContext) {
-    this.handlers.map(item => item.setAppContext(appContext));
-    this.setFreeDrawMode(appContext.activeTool === 'freedraw');
-    this.setCursor(appContext)
+    console.log(this.constructor.name, "setAppContext")
+
+    this.setState(appContext);
+    this.handlers.map(item => item.setState(appContext));
+
+    // update canvas style when change active tool
+    this.updateCanvasStyle();
   }
 
-  private setCursor(appContext: IAppContext) {
-    const cursorType = appContext.activeTool === 'selection'
-      ? CURSOR_TYPE.AUTO
-      : CURSOR_TYPE.CROSSHAIR
-    this.canvas.defaultCursor = cursorType;
-  }
-
-  private setFreeDrawMode(active: boolean) {
-    this.canvas.isDrawingMode = active
+  private updateCanvasStyle() {
+    this.canvas.defaultCursor = this.isSelectionMode ? CURSOR_TYPE.AUTO : CURSOR_TYPE.CROSSHAIR;
+    this.canvas.selectionColor = this.isSelectionMode ? this.canvasOptions.selectionColor : 'transparent'
+    this.canvas.selectionBorderColor = this.isSelectionMode ? this.canvasOptions.selectionBorderColor : 'transparent'
+    this.canvas.isDrawingMode = this.isFreeDrawMode
   }
 
   private initOptions() {
