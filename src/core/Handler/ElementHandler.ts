@@ -28,14 +28,14 @@ export class ElementHandler extends BaseHandler {
   setState(appContext: IAppContext): void {
     super.setState(appContext)
 
-    const {shapeStyles} = appContext;
+    const {appState} = appContext;
     const styles = {
-      stroke: shapeStyles.strokeColor,
-      fill: shapeStyles.backgroundColor,
-      strokeWidth: shapeStyles.strokeWidth,
-      opacity: shapeStyles.opacity / 100,
-      rx: shapeStyles.roughness,
-      ry: shapeStyles.roughness
+      stroke: appState.strokeColor,
+      fill: appState.backgroundColor,
+      strokeWidth: appState.strokeWidth,
+      opacity: appState.opacity / 100,
+      rx: appState.roughness,
+      ry: appState.roughness
     }
 
     console.log(styles)
@@ -47,17 +47,17 @@ export class ElementHandler extends BaseHandler {
   }
 
   private getElementOption(event: IMouseMoveEvent) {
-    const {shapeStyles} = this.state
+    const {appState} = this.state
 
     const options: Partial<GenericOptions> = {
       left: event.x,
       top: event.y,
-      stroke: shapeStyles.strokeColor,
-      fill: shapeStyles.backgroundColor,
-      strokeWidth: shapeStyles.strokeWidth,
-      opacity: shapeStyles.opacity / 100,
-      rx: shapeStyles.roughness,
-      ry: shapeStyles.roughness
+      stroke: appState.strokeColor,
+      fill: appState.backgroundColor,
+      strokeWidth: appState.strokeWidth,
+      opacity: appState.opacity / 100,
+      rx: appState.roughness,
+      ry: appState.roughness
     }
 
     return options

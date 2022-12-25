@@ -8,8 +8,8 @@ export interface IAppContext {
   setIsMobile: React.Dispatch<React.SetStateAction<boolean | undefined>>
   activeTool: null | ShapeType,
   setActiveTool: (option: ShapeType) => void
-  shapeStyles: Partial<ShapeOptions>,
-  setShapeStyles: (option: Partial<ShapeOptions>) => void,
+  appState: Partial<ShapeOptions>,
+  setAppState: (option: Partial<ShapeOptions>) => void,
   canvasInstance: React.MutableRefObject<CanvasInstance>
 }
 
@@ -18,18 +18,18 @@ export const AppContext = createContext<IAppContext>({
   setIsMobile: () => {},
   activeTool: null,
   setActiveTool: () => null,
-  shapeStyles: GenericDefaultOptions,
-  setShapeStyles: () => null,
+  appState: GenericDefaultOptions,
+  setAppState: () => null,
   canvasInstance: null
 })
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [isMobile, setIsMobile] = useState<IAppContext['isMobile']>(false);
   const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>('selection');
-  const [shapeStyles, setStyles] = useState<IAppContext['shapeStyles']>(GenericDefaultOptions)
+  const [appState, setState] = useState<IAppContext['appState']>(GenericDefaultOptions)
 
-  const setShapeStyles = (styles: IAppContext['shapeStyles']) => {
-    setStyles(s => ({...s, ...styles}))
+  const setAppState = (state: IAppContext['appState']) => {
+    setState(s => ({...s, ...state}))
   }
 
   const canvasInstance = useRef<CanvasInstance>();
@@ -39,8 +39,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setIsMobile,
     activeTool,
     setActiveTool,
-    shapeStyles, 
-    setShapeStyles,
+    appState, 
+    setAppState,
     canvasInstance
   };
 
@@ -52,7 +52,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!canvasInstance.current) return;
     canvasInstance.current.setAppContext(context);
-  }, [activeTool, shapeStyles])
+  }, [activeTool, appState])
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>
 }

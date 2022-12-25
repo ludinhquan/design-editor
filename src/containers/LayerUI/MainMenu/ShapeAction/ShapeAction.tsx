@@ -15,13 +15,13 @@ type ColorPickerProps = {
 const removeFirstHash = (str: string) => str.replace(/^#/, '')
 
 export const ColorPicker = (props: ColorPickerProps) => {
-  const {shapeStyles, setShapeStyles} = useAppContext();
-  const [state, setState] = useState(removeFirstHash(shapeStyles[props.type]));
+  const {appState, setAppState} = useAppContext();
+  const [state, setState] = useState(removeFirstHash(appState[props.type]));
 
   useEffect(() => {
     if (!isValidColor(state)) return
-    if (getColor(state) === getColor(shapeStyles[props.type])) return
-    setShapeStyles({[props.type]: getColor(state)})
+    if (getColor(state) === getColor(appState[props.type])) return
+    setAppState({[props.type]: getColor(state)})
   }, [state])
 
   const Content = () => (
@@ -33,7 +33,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
   return (
     <div className="flex space-x-2">
       <Popover placement="rightTop" trigger="click" content={<Content />}>
-        <Button size="middle" style={{backgroundColor: shapeStyles[props.type]}} />
+        <Button size="middle" style={{backgroundColor: appState[props.type]}} />
       </Popover>
       <Input size="middle" prefix="#" value={state} onChange={(e) => setState(removeFirstHash(e.target.value))} />
     </div>
@@ -42,7 +42,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
 
 export const ShapeAction = () => {
   console.count('ShapeAction')
-  const {shapeStyles, setShapeStyles} = useAppContext();
+  const {appState, setAppState} = useAppContext();
 
   return (
     <div className="flex justify-start w-[202px]" >
@@ -67,7 +67,7 @@ export const ShapeAction = () => {
               {value: 2, icon: StrokeWidthBoldIcon},
               {value: 3, icon: StrokeWidthExtraBoldIcon},
             ].map(item => {
-              return <IconButton key={item.value} active={shapeStyles.strokeWidth === item.value} border size="middle" icon={item.icon} onClick={() => setShapeStyles({strokeWidth: item.value})} />
+              return <IconButton key={item.value} active={appState.strokeWidth === item.value} border size="middle" icon={item.icon} onClick={() => setAppState({strokeWidth: item.value})} />
             })}
           </div>
         </div>
@@ -78,14 +78,14 @@ export const ShapeAction = () => {
               {value: null, icon: EdgeSharpIcon},
               {value: 10, icon: EdgeRoundIcon},
             ].map(item => {
-              return <IconButton key={item.value} active={shapeStyles.roughness === item.value} border size="middle" icon={item.icon} onClick={() => setShapeStyles({roughness: item.value})} />
+              return <IconButton key={item.value} active={appState.roughness === item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roughness: item.value})} />
             })}
           </div>
         </div>
         <div className="flex flex-col space-y-1">
           <div className="text-xs text-slate-500">Opacity</div>
           <div className="space-x-2">
-            <Slider className="m-0" value={shapeStyles.opacity} disabled={false} onChange={(value: number) => setShapeStyles({opacity: value})} />
+            <Slider className="m-0" value={appState.opacity} disabled={false} onChange={(value: number) => setAppState({opacity: value})} />
           </div>
         </div>
         <div className="flex flex-col space-y-1">
@@ -97,7 +97,7 @@ export const ShapeAction = () => {
               {value: 3, icon: BringToFrontIcon},
               {value: 4, icon: BringForwardIcon},
             ].map(item => {
-              return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setShapeStyles({roughness: item.value})} />
+              return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roughness: item.value})} />
             })}
           </div>
         </div>
