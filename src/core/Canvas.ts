@@ -9,8 +9,8 @@ export class CanvasInstance extends EditorState {
 
   private readonly canvasOptions: fabric.ICanvasOptions = {
     backgroundColor: '#ffffff',
-    width: 412,
-    height: 711,
+    // width: 412,
+    // height: 742,
     selectionColor: '#6965db1a',
     selectionBorderColor: '#6965db',
     selectionLineWidth: 0.5,
@@ -24,6 +24,22 @@ export class CanvasInstance extends EditorState {
     this.handlers = [
       new ElementHandler(canvas),
     ]
+  }
+
+  public loadFromJSON(json: any) {
+    const ratio = json.width / json.height;
+    const height = 742;
+    const width = height * ratio;
+    const zoom = width / json.width;
+    // const zoom = .39
+
+    console.log({width, height, zoom})
+    //
+    // this.canvas.setWidth(width);
+    // this.canvas.setHeight(height);
+    // this.canvas.setZoom(zoom);
+
+    this.canvas.loadFromJSON(json, () => {})
   }
 
   public setAppContext(appContext: IAppContext) {
@@ -45,7 +61,7 @@ export class CanvasInstance extends EditorState {
 
   private initOptions() {
     const {width, height, ...options} = this.canvasOptions;
-    this.canvas.setWidth(width)
+    this.canvas.setWidth(width);
     this.canvas.setHeight(height);
     
     this.canvas.backgroundColor = options.backgroundColor;
@@ -55,3 +71,4 @@ export class CanvasInstance extends EditorState {
     this.canvas.selectionFullyContained = options.selectionFullyContained;
   }
 }
+

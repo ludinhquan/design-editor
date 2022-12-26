@@ -2,6 +2,7 @@ import {CANVAS_ID, GenericDefaultOptions, ShapeOptions, ShapeType} from "@/const
 import {CanvasInstance} from "@/core"
 import React, {createContext, useEffect, useRef, useState} from "react"
 import { fabric } from "fabric"
+import json from '@/data/data.json'
 
 export interface IAppContext {
   isMobile: boolean
@@ -47,6 +48,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (canvasInstance.current) return;
     canvasInstance.current = new CanvasInstance(new fabric.Canvas(CANVAS_ID));
+
+    const jsonData = {
+      ...json,
+      objects: json.objects.map(item => item.type === 'image' ? {...item, src: 'https://edit.org' + item.src} : item)
+    }
+
+    canvasInstance.current.loadFromJSON(jsonData)
   }, [])
   
   useEffect(() => {
