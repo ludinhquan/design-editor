@@ -84,7 +84,7 @@ export type EdgeType = string
 
 export interface GenericStyles extends fabric.IObjectOptions {}
 
-type ElementOption = Readonly<{id: string} & GenericStyles>;
+type ElementOption = Readonly<GenericStyles>;
 
 export type SelectionOption = ElementOption & {
   type: "selection";

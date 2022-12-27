@@ -1,8 +1,10 @@
 import {CURSOR_TYPE} from "@/constants";
+import {nanoid} from "nanoid";
 import {FabricCanvas, GenericOptions, IMouseMoveEvent} from "../type";
 
 export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Option extends GenericOptions = GenericOptions> {
   private readonly MIN_TIME_UPDATED = 3;
+  public readonly id = nanoid()
 
   protected readonly defaultStyles: Partial<GenericOptions> = {
     width: 0,
@@ -17,7 +19,7 @@ export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Op
     transparentCorners: false,
   }
 
-  protected instance: Type & {id?: string}
+  protected instance: Type
   private updatedCount: number = 0;
 
   constructor(protected canvas: FabricCanvas, protected option: Partial<Option>) {
@@ -27,8 +29,13 @@ export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Op
   abstract create(event: Partial<Option>): void
   abstract update(event: IMouseMoveEvent): void
 
+  updateStyles(shapeStyle: Partial<Record<keyof Type, any>>) {
+    this.instance.set(shapeStyle)
+  }
+
   public startDraw(event: Partial<Option>) {
     this.create(event)
+    this.instance.id = this.id;
     this.instance.controls.mtr.offsetY = -20;
     this.instance.controls.mtr.cursorStyle = CURSOR_TYPE.GRAB
     this.instance.controls.mtr.withConnection = false

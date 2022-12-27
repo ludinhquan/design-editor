@@ -1,14 +1,13 @@
 import {fabric} from "fabric";
-import {DiamondOption, FabricCanvas, FabricEvent} from "../type";
+import {DiamondOption, FabricCanvas, IMouseMoveEvent} from "../type";
 import {BaseElement} from "./BaseElement";
 
-export class DiamondElement 
-extends BaseElement<fabric.Polygon, DiamondOption> {
+export class DiamondElement extends BaseElement<fabric.Polygon, DiamondOption> {
   constructor(
     canvas: FabricCanvas,
-    event: FabricEvent
+    option: DiamondOption,
   ) {
-    super(canvas, event)
+    super(canvas, option)
   }
 
   private getPoints(x: number, y: number, width: number, height: number){
@@ -21,34 +20,18 @@ extends BaseElement<fabric.Polygon, DiamondOption> {
     return (points);
   }
 
-  create(event: FabricEvent) {
-    const pointer = this.canvas.getPointer(event.e);
-
-    this.option = {
-      left: pointer.x,
-      top: pointer.y,
-      originX: 'left',
-      originY: 'top',
-      width: 0,
-      height: 0,
-      angle: 0,
-      fill: 'black',
-      opacity: 0.3
-    }
-
-    const points = this.getPoints(pointer.x, pointer.y, 0, 0);
-
-    this.instance = new fabric.Polygon(points, this.option);
-
+  create(option: DiamondOption) {
+    const options = Object.assign(option, this.defaultStyles)
+    const points = this.getPoints(option.left, option.top, 0, 0);
+    this.instance = new fabric.Polygon(points, options);
     this.canvas.add(this.instance);
   }
 
-  update(event: FabricEvent) {
-    const pointer = this.canvas.getPointer(event.e);
+  update(event: IMouseMoveEvent) {
     const {left, top, originX, originY} = this.option
 
-    const width = Math.abs(left - pointer.x);
-    const height = Math.abs(top - pointer.y);
+    const width = Math.abs(left - event.x);
+    const height = Math.abs(top - event.y);
 
     const points = this.getPoints(left, top, width, height);
 
@@ -56,8 +39,8 @@ extends BaseElement<fabric.Polygon, DiamondOption> {
       width,
       height,
       points: points.map(point => new fabric.Point(point.x, point.y)),
-      originX: left < pointer.x ? originX : 'right',
-      originY: top < pointer.y ? originY : 'bottom',
+      originX: left < event.x ? originX : 'right',
+      originY: top < event.y ? originY : 'bottom',
     });
 
     this.canvas.renderAll();

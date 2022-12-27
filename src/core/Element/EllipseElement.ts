@@ -1,48 +1,37 @@
 import {fabric} from "fabric";
-import {EllipseOption, FabricCanvas, FabricEvent} from "../type";
+import {EllipseOption, FabricCanvas, IMouseMoveEvent} from "../type";
 import {BaseElement} from "./BaseElement";
-import { nanoid } from "nanoid";
 
 export class EllipseElement 
   extends BaseElement<fabric.Ellipse, EllipseOption> {
   constructor(
     canvas: FabricCanvas,
-    event: FabricEvent
+    option: EllipseOption
   ) {
-    super(canvas, event)
+    super(canvas, option)
   }
 
-  create(event: FabricEvent) {
-    const pointer = this.canvas.getPointer(event.e);
-
-    this.option = {
-      id: nanoid(),
-      originX: 'left',
-      originY: 'top',
-      left: pointer.x,
-      top: pointer.y,
-      rx: 0,
-      ry: 0,
-      angle: 0,
-      fill: 'black',
-      opacity: 0.3
-    }
-    this.instance = new fabric.Ellipse(this.option);
-
+  create(option: EllipseOption) {
+    const options = Object.assign(option, this.defaultStyles)
+    this.instance = new fabric.Ellipse(options);
     this.canvas.add(this.instance);
   }
 
-  update(event: FabricEvent) {
-    const pointer = this.canvas.getPointer(event.e);
+  updateStyles(shapeStyle: Partial<Record<keyof fabric.Ellipse, any>>): void {
+    const {rx, ry, ...restStyle} = shapeStyle
+    this.instance.set(restStyle)
+  }
+
+  update(event: IMouseMoveEvent) {
     const {left, top, originX, originY} = this.option
 
     this.instance.set({
-      originX: left < pointer.x ? originX : 'right',
-      originY: top < pointer.y ? originY : 'bottom',
-      rx: Math.abs(left - pointer.x) / 2,
-      ry: Math.abs(top - pointer.y) / 2 
+      originX: left < event.x ? originX : 'right',
+      originY: top < event.y ? originY : 'bottom',
+      rx: Math.abs(left - event.x) / 2,
+      ry: Math.abs(top - event.y) / 2,
     })
-
+   
    this.canvas.renderAll();
   }
 }

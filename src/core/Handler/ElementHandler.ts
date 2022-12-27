@@ -1,22 +1,22 @@
 import {ShapeType} from "@/constants";
 import {IAppContext} from "@/contexts";
-import {nanoid} from "nanoid";
-import {ArrowElement, BaseElement, DiamondElement, EllipseElement, LineElement, RectangleElement, TextElement} from "../Element";
+import {BaseElement, DiamondElement, EllipseElement, RectangleElement} from "../Element";
 import {FabricCanvas, FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
 import {BaseHandler} from "./BaseHandler";
 
 export class ElementHandler extends BaseHandler {
-  private readonly elements: Partial<Record<ShapeType, ClassType<BaseElement>>> = {
+  private readonly elements: Map<string, BaseElement> = new Map()
+
+  private readonly shapes: Partial<Record<ShapeType, ClassType<BaseElement>>> = {
     'rectangle': RectangleElement,
-    // 'diamond': DiamondElement,
-    // 'ellipse': EllipseElement,
+    'diamond': DiamondElement,
+    'ellipse': EllipseElement,
     // 'arrow': ArrowElement,
     // 'line': LineElement,
     // 'text': TextElement,
   }
 
   private drawingElement: BaseElement;
-
 
   constructor(
     canvas: FabricCanvas
@@ -28,8 +28,18 @@ export class ElementHandler extends BaseHandler {
   setState(appContext: IAppContext): void {
     super.setState(appContext)
 
-    const {appState} = appContext;
-    const styles = {
+    this.canvas.getActiveObjects().map(item => {
+      const element = this.elements.get(item.id);
+      if (!element) return;
+      element.updateStyles(this.getShapeStyles())
+    });
+
+    this.canvas.requestRenderAll()
+  }
+
+  getShapeStyles() {
+    const {appState} = this.state
+    return {
       stroke: appState.strokeColor,
       fill: appState.backgroundColor,
       strokeWidth: appState.strokeWidth,
@@ -37,27 +47,15 @@ export class ElementHandler extends BaseHandler {
       rx: appState.roughness,
       ry: appState.roughness
     }
-
-    console.log(styles)
-    this.canvas.getActiveObjects().map(item => {
-      item.set(styles)
-    });
-
-    this.canvas.requestRenderAll()
   }
 
   private getElementOption(event: IMouseMoveEvent) {
-    const {appState} = this.state
+    const styles = this.getShapeStyles();
 
     const options: Partial<GenericOptions> = {
       left: event.x,
       top: event.y,
-      stroke: appState.strokeColor,
-      fill: appState.backgroundColor,
-      strokeWidth: appState.strokeWidth,
-      opacity: appState.opacity / 100,
-      rx: appState.roughness,
-      ry: appState.roughness
+      ...styles
     }
 
     return options
@@ -67,14 +65,10 @@ export class ElementHandler extends BaseHandler {
     this.canvas.on('mouse:down', this.onMouseDown.bind(this));
     this.canvas.on('mouse:move', this.onMouseMove.bind(this));
     this.canvas.on('mouse:up', this.onMouseUp.bind(this));
-    this.canvas.on('selection:created', this.onDblclick.bind(this));
-  }
-
-  private onDblclick(event: FabricEvent) {
   }
 
   private onMouseDown(event: FabricEvent) {
-    const Element = this.elements[this.activeTool];
+    const Element = this.shapes[this.activeTool];
     if (!Element) return;
 
     const pointer: IMouseMoveEvent = this.canvas.getPointer(event.e);
@@ -96,6 +90,7 @@ export class ElementHandler extends BaseHandler {
 
     const {setActiveTool} = this.state
     setActiveTool('selection');
+    this.elements.set(this.drawingElement.id, this.drawingElement);
     this.drawingElement = null
   }
 }
