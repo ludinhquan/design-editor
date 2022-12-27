@@ -12,5 +12,5 @@ export const IconButton = (props: IconButtonProps) => {
   const activeClassName = active ? 'bg-[#e3e2fe]' : ''
   const borderClassName = !border ? 'border-0' : ''
 
-  return <Button size="large" {...restProps} className={`flex justify-center items-center ${activeClassName} ${borderClassName}`} />
+  return <Button size="large" {...restProps} className={`flex justify-center items-center ${activeClassName} ${borderClassName}`} style={{outline: 'none'}}/>
 }

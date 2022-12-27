@@ -1,4 +1,4 @@
-import {ShapeType} from "@/constants";
+import {isEscape, Keyboard, ShapeType} from "@/constants";
 import {IAppContext} from "@/contexts";
 import {ArrowElement, BaseElement, DiamondElement, EllipseElement, LineElement, RectangleElement, TextElement} from "../Element";
 import {FabricCanvas, FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
@@ -65,6 +65,12 @@ export class ElementHandler extends BaseHandler {
     this.canvas.on('mouse:down', this.onMouseDown.bind(this));
     this.canvas.on('mouse:move', this.onMouseMove.bind(this));
     this.canvas.on('mouse:up', this.onMouseUp.bind(this));
+
+    document.addEventListener('keydown', (e) => {
+      if (!isEscape(e.key)) return
+      const {setActiveTool} = this.state
+      setActiveTool('selection')
+    })
   }
 
   private onMouseDown(event: FabricEvent) {
