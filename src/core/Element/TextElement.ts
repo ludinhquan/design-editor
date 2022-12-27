@@ -1,21 +1,20 @@
 import {fabric} from "fabric";
-import {FabricCanvas, FabricEvent, TextOption} from "../type";
+import {FabricCanvas, TextOption} from "../type";
 import {BaseElement} from "./BaseElement";
 
 export class TextElement extends BaseElement<fabric.IText, TextOption> {
   constructor(
     canvas: FabricCanvas,
-    event: FabricEvent
+    option: TextOption
   ) {
-    super(canvas, event)
+    super(canvas, option)
   }
 
-  public create(event: FabricEvent) {
-    const pointer = this.canvas.getPointer(event.e);
+  create(option: TextOption) {
 
     this.option = {
-      left: pointer.x,
-      top: pointer.y,
+      left: option.left,
+      top: option.top,
       originX: 'left',
       originY: 'top',
     }

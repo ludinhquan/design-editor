@@ -1,6 +1,6 @@
 import {ShapeType} from "@/constants";
 import {IAppContext} from "@/contexts";
-import {BaseElement, DiamondElement, EllipseElement, RectangleElement} from "../Element";
+import {ArrowElement, BaseElement, DiamondElement, EllipseElement, LineElement, RectangleElement, TextElement} from "../Element";
 import {FabricCanvas, FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
 import {BaseHandler} from "./BaseHandler";
 
@@ -11,9 +11,9 @@ export class ElementHandler extends BaseHandler {
     'rectangle': RectangleElement,
     'diamond': DiamondElement,
     'ellipse': EllipseElement,
-    // 'arrow': ArrowElement,
-    // 'line': LineElement,
-    // 'text': TextElement,
+    'arrow': ArrowElement,
+    'line': LineElement,
+    'text': TextElement,
   }
 
   private drawingElement: BaseElement;

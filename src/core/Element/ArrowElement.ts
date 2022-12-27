@@ -1,5 +1,5 @@
 import {fabric} from "fabric";
-import {ArrowOption, FabricCanvas, FabricEvent} from "../type";
+import {ArrowOption, FabricCanvas, IMouseMoveEvent} from "../type";
 import {BaseElement} from "./BaseElement";
 
 const Arrow = fabric.util.createClass(fabric.Line, {
@@ -37,50 +37,30 @@ export class ArrowElement
   extends BaseElement<typeof Arrow, ArrowOption> {
   constructor(
     canvas: FabricCanvas,
-    event: FabricEvent
+    option: ArrowOption
   ) {
-    super(canvas, event)
+    super(canvas, option)
   }
 
-  create(event: FabricEvent) {
-    const pointer = this.canvas.getPointer(event.e);
+  create(option: ArrowOption) {
+    const options = Object.assign(option, this.defaultStyles)
 
-    this.option = {
-      left: pointer.x,
-      top: pointer.y,
-      originX: 'left',
-      originY: 'top',
-      width: 0,
-      height: 0,
-      angle: 0,
-      fill: '#82c91e',
-      stroke: 'black',
-      opacity: 0.3
-    }
-
-    this.instance = new Arrow([pointer.x, pointer.y, pointer.x, pointer.y], this.option);
-
+    this.instance = new Arrow([option.left, option.top, option.left, option.top], options);
     this.canvas.add(this.instance);
   }
 
-  update(event: FabricEvent) {
-    const pointer = this.canvas.getPointer(event.e);
+  update(event: IMouseMoveEvent) {
     const {left, top, originX, originY} = this.option
 
     this.instance.set({
       x1: left,
       y1: top,
-      x2: pointer.x,
-      y2: pointer.y
-    })
-
-    this.instance.set({
-      originX: left < pointer.x ? originX : 'right',
-      originY: top < pointer.y ? originY : 'bottom',
+      x2: event.x,
+      y2: event.y,
+      originX: left < event.x ? originX : 'right',
+      originY: top < event.y ? originY : 'bottom',
     });
-
     this.canvas.renderAll();
   }
-
 }
 
