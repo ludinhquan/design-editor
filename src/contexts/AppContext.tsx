@@ -3,6 +3,7 @@ import {CanvasInstance} from "@/core"
 import React, {createContext, useEffect, useRef, useState} from "react"
 import { fabric } from "fabric"
 import json from '@/data/data.json'
+import {useCurrentImage} from "@/hooks/useCurrentImage"
 
 export interface IAppContext {
   isMobile: boolean
@@ -11,6 +12,10 @@ export interface IAppContext {
   setActiveTool: (option: ShapeType) => void
   appState: Partial<ShapeOptions>,
   setAppState: (option: Partial<ShapeOptions>) => void,
+  currentImage: HTMLImageElement,
+  setCurrentImage: (image: HTMLImageElement) => void
+
+  // refs
   canvasInstance: React.MutableRefObject<CanvasInstance>
 }
 
@@ -21,7 +26,9 @@ export const AppContext = createContext<IAppContext>({
   setActiveTool: () => null,
   appState: GenericDefaultOptions,
   setAppState: () => null,
-  canvasInstance: null
+  canvasInstance: null,
+  currentImage: null,
+  setCurrentImage: () => {}
 })
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -29,11 +36,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>('selection');
   const [appState, setState] = useState<IAppContext['appState']>(GenericDefaultOptions)
 
+  const [currentImage, setCurrentImage] = useCurrentImage()
+
+  const canvasInstance = useRef<CanvasInstance>();
+
   const setAppState = (state: IAppContext['appState']) => {
     setState(s => ({...s, ...state}))
   }
-
-  const canvasInstance = useRef<CanvasInstance>();
 
   const context = {
     isMobile,
@@ -42,7 +51,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setActiveTool,
     appState, 
     setAppState,
-    canvasInstance
+    currentImage,
+    setCurrentImage,
+    canvasInstance,
   };
 
   useEffect(() => {
@@ -60,7 +71,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!canvasInstance.current) return;
     canvasInstance.current.setAppContext(context);
-  }, [activeTool, appState])
+  }, [activeTool, appState, currentImage])
 
-  return <AppContext.Provider value={context}>{children}</AppContext.Provider>
+  return (
+    <AppContext.Provider value={context}>
+      {children} /
+      <img className="hidden" />
+    </AppContext.Provider>
+  )
 }

@@ -4,25 +4,29 @@ import {IAppContext} from "@/contexts";
 import {useAppContext} from "@/hooks";
 import React, {useRef} from "react";
 
-type ShapeProps = Pick<IAppContext, 'activeTool' | 'setActiveTool'>
+type ShapeProps = Pick<IAppContext, 'activeTool' | 'setActiveTool' | 'setCurrentImage'>
 
 const ShapeComponent = React.memo((props: ShapeProps) => {
   console.count('Shapes')
-  const {activeTool, setActiveTool} = props
-  const fileInputRef = useRef(null);
-  const imageRef = useRef(null);
 
-  const setImage = () => {
-    const reader = new FileReader()
-    const url =reader.readAsDataURL(fileInputRef.current.files[0])
-    imageRef.current.src = fileInputRef.current.files[0];
-  }
+  const {activeTool, setActiveTool, setCurrentImage} = props
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
 
   const hasUploaded = () => fileInputRef.current.files.length > 0;
 
+  const setImage = () => {
+    const reader = new FileReader()
+    reader.readAsDataURL(fileInputRef.current.files[0])
+    reader.onloadend = () => {
+      imageRef.current.src = reader.result as string;
+      setCurrentImage(imageRef.current)
+    }
+  }
+
   const pageRefocused = () => {
     if (!hasUploaded()) setActiveTool('selection');
-    setImage()
+    else setImage()
     window.removeEventListener("focus", pageRefocused);
   };
 
@@ -51,13 +55,13 @@ const ShapeComponent = React.memo((props: ShapeProps) => {
         </div>
       </div>
 
-      <input type="file" ref={fileInputRef} className="hidden" accept="image/png, image/gif, image/jpeg" onChange={e => imageRef.current.src = e.target.value} />
-      <img ref={imageRef} width={100} height={100} />
+      <input ref={fileInputRef} type="file" className="hidden" accept="image/png, image/gif, image/jpeg" />
+      <img ref={imageRef} className="hidden" />
     </div>
   )
 })
 
 export const Shapes = () => {
-  const {activeTool, setActiveTool} = useAppContext()
-  return <ShapeComponent activeTool={activeTool} setActiveTool={setActiveTool} />
+  const {activeTool, setActiveTool, setCurrentImage} = useAppContext()
+  return <ShapeComponent activeTool={activeTool} setActiveTool={setActiveTool} setCurrentImage={setCurrentImage} />
 }

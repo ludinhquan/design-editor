@@ -122,6 +122,12 @@ export type TextOption = ElementOption & {
   editable: boolean
 }
 
+export type ImageOption = ElementOption & {
+  type: "image";
+  image: HTMLImageElement,
+  src: string
+};
+
 export type GenericOptions =
   | SelectionOption
   | RectangleOption
@@ -130,6 +136,7 @@ export type GenericOptions =
   | ArrowOption
   | LineOption
   | TextOption
+  | ImageOption
 
 export type IMouseMoveEvent = {
   x: number,

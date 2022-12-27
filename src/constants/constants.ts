@@ -7,5 +7,6 @@ export const CURSOR_TYPE = {
   GRAB: "grab",
   POINTER: "pointer",
   MOVE: "move",
+  WAIT: "wait",
   AUTO: "",
 };

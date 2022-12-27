@@ -49,11 +49,11 @@ export const SHAPES = [
     value: "image",
     fillable: false,
   },
-  {
-    icon: EraserIcon,
-    value: "eraser",
-    fillable: false,
-  },
+  // {
+  //   icon: EraserIcon,
+  //   value: "eraser",
+  //   fillable: false,
+  // },
 ] as const;
 
 

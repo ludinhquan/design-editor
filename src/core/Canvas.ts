@@ -44,14 +44,25 @@ export class CanvasInstance extends EditorState {
     console.log(this.constructor.name, "setAppContext")
 
     this.setState(appContext);
+    // update canvas style when change active tool
+
     this.handlers.map(item => item.setState(appContext));
 
-    // update canvas style when change active tool
     this.updateCanvasStyle();
   }
 
+  private getCursor(): string {
+    const {activeTool, currentImage} = this.state
+    if(this.isSelectionMode) return CURSOR_TYPE.AUTO;
+    
+    const loadingImage = activeTool === 'image' && !!currentImage
+    if (loadingImage) return CURSOR_TYPE.WAIT
+
+    return CURSOR_TYPE.CROSSHAIR
+  }
+
   private updateCanvasStyle() {
-    this.canvas.defaultCursor = this.isSelectionMode ? CURSOR_TYPE.AUTO : CURSOR_TYPE.CROSSHAIR;
+    this.canvas.defaultCursor = this.getCursor()
     this.canvas.selectionColor = this.isSelectionMode ? this.canvasOptions.selectionColor : 'transparent'
     this.canvas.selectionBorderColor = this.isSelectionMode ? this.canvasOptions.selectionBorderColor : 'transparent'
     this.canvas.isDrawingMode = this.isFreeDrawMode
