@@ -9,16 +9,25 @@ type ShapeProps = Pick<IAppContext, 'activeTool' | 'setActiveTool'>
 const ShapeComponent = React.memo((props: ShapeProps) => {
   console.count('Shapes')
   const {activeTool, setActiveTool} = props
-  const inputRef = useRef(null);
+  const fileInputRef = useRef(null);
+  const imageRef = useRef(null);
 
-    
+  const setImage = () => {
+    const reader = new FileReader()
+    const url =reader.readAsDataURL(fileInputRef.current.files[0])
+    imageRef.current.src = fileInputRef.current.files[0];
+  }
+
+  const hasUploaded = () => fileInputRef.current.files.length > 0;
+
   const pageRefocused = () => {
-    setActiveTool('selection');
+    if (!hasUploaded()) setActiveTool('selection');
+    setImage()
     window.removeEventListener("focus", pageRefocused);
   };
 
   const openFile = () => {
-    inputRef.current.click()
+    fileInputRef.current.click()
     window.addEventListener('focus', pageRefocused)
   }
 
@@ -42,7 +51,8 @@ const ShapeComponent = React.memo((props: ShapeProps) => {
         </div>
       </div>
 
-      <input type="file" ref={inputRef} className="hidden" accept="image/png, image/gif, image/jpeg" />
+      <input type="file" ref={fileInputRef} className="hidden" accept="image/png, image/gif, image/jpeg" onChange={e => imageRef.current.src = e.target.value} />
+      <img ref={imageRef} width={100} height={100} />
     </div>
   )
 })
