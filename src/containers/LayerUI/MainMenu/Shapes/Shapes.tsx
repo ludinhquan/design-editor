@@ -4,14 +4,13 @@ import {IAppContext} from "@/contexts";
 import {useAppContext} from "@/hooks";
 import React, {useRef} from "react";
 
-type ShapeProps = Pick<IAppContext, 'activeTool' | 'setActiveTool' | 'setCurrentImage'>
+type ShapeProps = Pick<IAppContext, 'activeTool' | 'setActiveTool' | 'loadImage'>
 
 const ShapeComponent = React.memo((props: ShapeProps) => {
   console.count('Shapes')
 
-  const {activeTool, setActiveTool, setCurrentImage} = props
+  const {activeTool, setActiveTool, loadImage} = props
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
 
   const hasUploaded = () => fileInputRef.current.files.length > 0;
 
@@ -19,12 +18,13 @@ const ShapeComponent = React.memo((props: ShapeProps) => {
     const reader = new FileReader()
     reader.readAsDataURL(fileInputRef.current.files[0])
     reader.onloadend = () => {
-      imageRef.current.src = reader.result as string;
-      setCurrentImage(imageRef.current)
+      loadImage(reader.result as string)
     }
   }
 
   const pageRefocused = () => {
+    console.log('pageRefocused', hasUploaded())
+    console.log(fileInputRef.current.files)
     if (!hasUploaded()) setActiveTool('selection');
     else setImage()
     window.removeEventListener("focus", pageRefocused);
@@ -56,12 +56,11 @@ const ShapeComponent = React.memo((props: ShapeProps) => {
       </div>
 
       <input ref={fileInputRef} type="file" className="hidden" accept="image/png, image/gif, image/jpeg" />
-      <img ref={imageRef} className="hidden" />
     </div>
   )
 })
 
 export const Shapes = () => {
-  const {activeTool, setActiveTool, setCurrentImage} = useAppContext()
-  return <ShapeComponent activeTool={activeTool} setActiveTool={setActiveTool} setCurrentImage={setCurrentImage} />
+  const {activeTool, setActiveTool, loadImage} = useAppContext()
+  return <ShapeComponent activeTool={activeTool} setActiveTool={setActiveTool} loadImage={loadImage} />
 }

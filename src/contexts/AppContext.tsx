@@ -12,8 +12,8 @@ export interface IAppContext {
   setActiveTool: (option: ShapeType) => void
   appState: Partial<ShapeOptions>,
   setAppState: (option: Partial<ShapeOptions>) => void,
-  currentImage: HTMLImageElement,
-  setCurrentImage: (image: HTMLImageElement) => void
+  image: string,
+  loadImage: (data: string) => void
 
   // refs
   canvasInstance: React.MutableRefObject<CanvasInstance>
@@ -27,8 +27,8 @@ export const AppContext = createContext<IAppContext>({
   appState: GenericDefaultOptions,
   setAppState: () => null,
   canvasInstance: null,
-  currentImage: null,
-  setCurrentImage: () => {}
+  image: null,
+  loadImage: () => {}
 })
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -36,7 +36,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>('selection');
   const [appState, setState] = useState<IAppContext['appState']>(GenericDefaultOptions)
 
-  const [currentImage, setCurrentImage] = useCurrentImage()
+  const [image, loadImage] = useCurrentImage()
 
   const canvasInstance = useRef<CanvasInstance>();
 
@@ -44,15 +44,15 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setState(s => ({...s, ...state}))
   }
 
-  const context = {
+  const context: IAppContext = {
     isMobile,
     setIsMobile,
     activeTool,
     setActiveTool,
     appState, 
     setAppState,
-    currentImage,
-    setCurrentImage,
+    image,
+    loadImage,
     canvasInstance,
   };
 
@@ -71,7 +71,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!canvasInstance.current) return;
     canvasInstance.current.setAppContext(context);
-  }, [activeTool, appState, currentImage])
+  }, [activeTool, appState, image])
 
   return (
     <AppContext.Provider value={context}>

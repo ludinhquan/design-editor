@@ -1,4 +1,4 @@
-import {CURSOR_TYPE, isEscape, ShapeType} from "@/constants";
+import {isEscape, ShapeType} from "@/constants";
 import {IAppContext} from "@/contexts";
 import {ArrowElement, BaseElement, DiamondElement, EllipseElement, ImageElement, LineElement, RectangleElement, TextElement} from "../Element";
 import {FabricCanvas, FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
@@ -51,7 +51,7 @@ export class ElementHandler extends BaseHandler {
   }
 
   private getElementOption(event: IMouseMoveEvent) {
-    const {currentImage} = this.state;
+    const {image: currentImage} = this.state;
     const styles = this.getShapeStyles();
 
     const options: Partial<GenericOptions> = {
@@ -95,7 +95,6 @@ export class ElementHandler extends BaseHandler {
   private onMouseUp() {
     if (!this.drawingElement) return;
     const endDrawing = this.drawingElement.endDraw();
-    console.log(endDrawing)
     if (!endDrawing) return
 
     const {setActiveTool} = this.state

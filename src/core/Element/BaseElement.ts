@@ -26,15 +26,15 @@ export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Op
     this.startDraw(option)
   }
 
-  abstract create(event: Partial<Option>): void
+  abstract create(event: Partial<Option>): void | Promise<void>
   abstract update(event: IMouseMoveEvent): void
 
   updateStyles(shapeStyle: Partial<Record<keyof Type, any>>) {
     this.instance.set(shapeStyle)
   }
 
-  public startDraw(event: Partial<Option>) {
-    this.create(event)
+  public async startDraw(event: Partial<Option>) {
+    await this.create(event)
     this.instance.id = this.id;
     this.instance.controls.mtr.offsetY = -20;
     this.instance.controls.mtr.cursorStyle = CURSOR_TYPE.GRAB

@@ -52,7 +52,7 @@ export class CanvasInstance extends EditorState {
   }
 
   private getCursor(): string {
-    const {activeTool, currentImage} = this.state
+    const {activeTool, image: currentImage} = this.state
     if(this.isSelectionMode) return CURSOR_TYPE.AUTO;
     
     const loadingImage = activeTool === 'image' && !!currentImage

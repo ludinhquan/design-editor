@@ -10,13 +10,20 @@ export class ImageElement extends BaseElement<fabric.Image, ImageOption> {
     super(canvas, option)
   }
 
-  create(option: ImageOption) {
-    const {width, height, ...options} = Object.assign(option, this.defaultStyles)
-    this.instance = new fabric.Image(option.image, options);
-    this.canvas.add(this.instance);
+  async create(option: ImageOption) {
+    console.log('create')
+    await new Promise((res) => {
+      const {width, height, ...options} = Object.assign(option, this.defaultStyles)
+      fabric.Image.fromURL(option.image, (image) => {
+        image.set(options)
+        this.instance = image
+        this.canvas.add(this.instance);
+        res(this.instance)
+      });
+    })
   }
 
-  update(event: IMouseMoveEvent) {}
+  update(_: IMouseMoveEvent) {}
 
   endDraw(): boolean {
     this.canvas.setActiveObject(this.instance)

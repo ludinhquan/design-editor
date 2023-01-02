@@ -124,7 +124,7 @@ export type TextOption = ElementOption & {
 
 export type ImageOption = ElementOption & {
   type: "image";
-  image: HTMLImageElement,
+  image: string,
   src: string
 };
 
