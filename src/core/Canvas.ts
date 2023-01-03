@@ -37,7 +37,7 @@ export class CanvasInstance extends EditorState {
     this.canvas.setHeight(height);
     this.canvas.setZoom(zoom);
 
-    // this.canvas.loadFromJSON(json, () => {})
+    this.canvas.loadFromJSON(json, () => {})
   }
 
   public setAppContext(appContext: IAppContext) {
@@ -52,17 +52,19 @@ export class CanvasInstance extends EditorState {
   }
 
   private getCursor(): string {
-    const {activeTool, image: currentImage} = this.state
+    const {activeTool, image} = this.state
     if(this.isSelectionMode) return CURSOR_TYPE.AUTO;
     
-    const loadingImage = activeTool === 'image' && !!currentImage
+    const loadingImage = activeTool === 'image' && !!image
     if (loadingImage) return CURSOR_TYPE.WAIT
 
     return CURSOR_TYPE.CROSSHAIR
   }
 
   private updateCanvasStyle() {
-    this.canvas.defaultCursor = this.getCursor()
+    const cursor = this.getCursor()
+    this.canvas.defaultCursor = cursor
+    this.canvas.hoverCursor = cursor
     this.canvas.selectionColor = this.isSelectionMode ? this.canvasOptions.selectionColor : 'transparent'
     this.canvas.selectionBorderColor = this.isSelectionMode ? this.canvasOptions.selectionBorderColor : 'transparent'
     this.canvas.isDrawingMode = this.isFreeDrawMode

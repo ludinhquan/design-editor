@@ -3,7 +3,6 @@ import {CanvasInstance} from "@/core"
 import React, {createContext, useEffect, useRef, useState} from "react"
 import { fabric } from "fabric"
 import json from '@/data/data.json'
-import {useCurrentImage} from "@/hooks/useCurrentImage"
 
 export interface IAppContext {
   isMobile: boolean
@@ -13,7 +12,7 @@ export interface IAppContext {
   appState: Partial<ShapeOptions>,
   setAppState: (option: Partial<ShapeOptions>) => void,
   image: string,
-  loadImage: (data: string) => void
+  setImage: (data: string) => void
 
   // refs
   canvasInstance: React.MutableRefObject<CanvasInstance>
@@ -28,15 +27,14 @@ export const AppContext = createContext<IAppContext>({
   setAppState: () => null,
   canvasInstance: null,
   image: null,
-  loadImage: () => {}
+  setImage: () => {}
 })
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [isMobile, setIsMobile] = useState<IAppContext['isMobile']>(false);
   const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>('selection');
   const [appState, setState] = useState<IAppContext['appState']>(GenericDefaultOptions)
-
-  const [image, loadImage] = useCurrentImage()
+  const [image, setImage] = useState<IAppContext['image']>();
 
   const canvasInstance = useRef<CanvasInstance>();
 
@@ -52,7 +50,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     appState, 
     setAppState,
     image,
-    loadImage,
+    setImage,
     canvasInstance,
   };
 
@@ -76,7 +74,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppContext.Provider value={context}>
       {children} /
-      <img className="hidden" />
     </AppContext.Provider>
   )
 }

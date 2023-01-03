@@ -97,7 +97,8 @@ export class ElementHandler extends BaseHandler {
     const endDrawing = this.drawingElement.endDraw();
     if (!endDrawing) return
 
-    const {setActiveTool} = this.state
+    const {setActiveTool, setImage} = this.state
+    setImage(null);
     setActiveTool('selection');
     this.elements.set(this.drawingElement.id, this.drawingElement);
     this.drawingElement = null

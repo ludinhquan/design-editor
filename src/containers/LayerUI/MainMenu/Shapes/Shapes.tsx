@@ -4,12 +4,12 @@ import {IAppContext} from "@/contexts";
 import {useAppContext} from "@/hooks";
 import React, {useRef} from "react";
 
-type ShapeProps = Pick<IAppContext, 'activeTool' | 'setActiveTool' | 'loadImage'>
+type ShapeProps = Pick<IAppContext, 'activeTool' | 'setActiveTool' | 'setImage'>
 
 const ShapeComponent = React.memo((props: ShapeProps) => {
   console.count('Shapes')
 
-  const {activeTool, setActiveTool, loadImage} = props
+  const {activeTool, setActiveTool, setImage: loadImage} = props
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const hasUploaded = () => fileInputRef.current.files.length > 0;
@@ -19,12 +19,11 @@ const ShapeComponent = React.memo((props: ShapeProps) => {
     reader.readAsDataURL(fileInputRef.current.files[0])
     reader.onloadend = () => {
       loadImage(reader.result as string)
+      fileInputRef.current.value = null
     }
   }
 
   const pageRefocused = () => {
-    console.log('pageRefocused', hasUploaded())
-    console.log(fileInputRef.current.files)
     if (!hasUploaded()) setActiveTool('selection');
     else setImage()
     window.removeEventListener("focus", pageRefocused);
@@ -61,6 +60,6 @@ const ShapeComponent = React.memo((props: ShapeProps) => {
 })
 
 export const Shapes = () => {
-  const {activeTool, setActiveTool, loadImage} = useAppContext()
-  return <ShapeComponent activeTool={activeTool} setActiveTool={setActiveTool} loadImage={loadImage} />
+  const {activeTool, setActiveTool, setImage} = useAppContext()
+  return <ShapeComponent activeTool={activeTool} setActiveTool={setActiveTool} setImage={setImage} />
 }

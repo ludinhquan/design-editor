@@ -35,6 +35,7 @@ export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Op
 
   public async startDraw(event: Partial<Option>) {
     await this.create(event)
+    if(!this.instance) return
     this.instance.id = this.id;
     this.instance.controls.mtr.offsetY = -20;
     this.instance.controls.mtr.cursorStyle = CURSOR_TYPE.GRAB
