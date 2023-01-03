@@ -10,24 +10,28 @@ export class TextElement extends BaseElement<fabric.IText, TextOption> {
     super(canvas, option)
   }
 
+  onMouseDown() {
+    if (this.instance && this.instance.text.length > 0) return
+    this.canvas.remove(this.instance)
+    this.canvas.off('mouse:down', this.onMouseDown.bind(this))
+  }
+
   create(option: TextOption) {
+    const customStyles = {cursorWidth: 1, cursorColor: 'black'}
+    const options = Object.assign(customStyles, option, this.defaultStyles)
 
-    this.option = {
-      left: option.left,
-      top: option.top,
-      originX: 'left',
-      originY: 'top',
-    }
-
-    this.instance = new fabric.IText('', this.option)
+    this.instance = new fabric.IText('', options)
     this.canvas.add(this.instance);
+    this.canvas.setActiveObject(this.instance)
+    this.instance.enterEditing()
+
+    this.canvas.on('mouse:down', this.onMouseDown.bind(this))
   }
 
   // do not anything
   public update() {}
 
   public endDraw(): boolean {
-    this.instance.enterEditing()
     return true
   }
 }
