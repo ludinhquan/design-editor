@@ -1,7 +1,7 @@
 import React from "react";
 
 
-type Theme = 'LIGHT'
+type Theme = 'light' | 'dark'
 
 const iconFillColor = (theme: Theme) => "#3d3d3d";
 
@@ -399,4 +399,433 @@ export const SendToBackIcon = createIcon(
     </defs>
   </>,
   modifiedTablerIconProps,
+);
+
+export const FontSizeSmallIcon = createIcon(
+  <>
+    <g clipPath="url(#a)">
+      <path
+        d="M14.167 6.667a3.333 3.333 0 0 0-3.334-3.334H9.167a3.333 3.333 0 0 0 0 6.667h1.666a3.333 3.333 0 0 1 0 6.667H9.167a3.333 3.333 0 0 1-3.334-3.334"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const FontSizeMediumIcon = createIcon(
+  <>
+    <g clipPath="url(#a)">
+      <path
+        d="M5 16.667V3.333L10 15l5-11.667v13.334"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const FontSizeLargeIcon = createIcon(
+  <>
+    <g clipPath="url(#a)">
+      <path
+        d="M5.833 3.333v13.334h8.334"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const FontSizeExtraLargeIcon = createIcon(
+  <>
+    <path
+      d="m1.667 3.333 6.666 13.334M8.333 3.333 1.667 16.667M11.667 3.333v13.334h6.666"
+      stroke="currentColor"
+      strokeWidth="1.25"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const FontFamilyNormalIcon = createIcon(
+  <>
+    <g
+      stroke="currentColor"
+      strokeWidth="1.25"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5.833 16.667v-10a3.333 3.333 0 0 1 3.334-3.334h1.666a3.333 3.333 0 0 1 3.334 3.334v10M5.833 10.833h8.334" />
+    </g>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const FontFamilyCodeIcon = createIcon(
+  <>
+    <g
+      clipPath="url(#a)"
+      stroke="currentColor"
+      strokeWidth="1.25"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5.833 6.667 2.5 10l3.333 3.333M14.167 6.667 17.5 10l-3.333 3.333M11.667 3.333 8.333 16.667" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const TextAlignLeftIcon = createIcon(
+  <g
+    stroke="currentColor"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={2}
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <line x1="4" y1="8" x2="20" y2="8" />
+    <line x1="4" y1="12" x2="12" y2="12" />
+    <line x1="4" y1="16" x2="16" y2="16" />
+  </g>,
+  tablerIconProps,
+);
+
+export const TextAlignCenterIcon = createIcon(
+  <g
+    stroke="currentColor"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <line x1="4" y1="8" x2="20" y2="8" />
+    <line x1="8" y1="12" x2="16" y2="12" />
+    <line x1="6" y1="16" x2="18" y2="16" />
+  </g>,
+  tablerIconProps,
+);
+
+export const TextAlignRightIcon = createIcon(
+  <g
+    stroke="currentColor"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <line x1="4" y1="8" x2="20" y2="8" />
+    <line x1="10" y1="12" x2="20" y2="12" />
+    <line x1="8" y1="16" x2="20" y2="16" />
+  </g>,
+  tablerIconProps,
+);
+
+// tabler-icons: layout-align-top
+export const TextAlignTopIcon = React.memo(({ theme }: { theme: Theme }) =>
+  createIcon(
+    <g
+      strokeWidth="1.5"
+      stroke="currentColor"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <line x1="4" y1="4" x2="20" y2="4" />
+      <rect x="9" y="8" width="6" height="12" rx="2" />
+    </g>,
+    tablerIconProps,
+  ),
+);
+
+// tabler-icons: layout-align-bottom
+export const TextAlignBottomIcon = React.memo(({ theme }: { theme: Theme }) =>
+  createIcon(
+    <g
+      strokeWidth="2"
+      stroke="currentColor"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <line x1="4" y1="20" x2="20" y2="20" />
+      <rect x="9" y="4" width="6" height="12" rx="2"></rect>
+    </g>,
+    tablerIconProps,
+  ),
+);
+
+// tabler-icons: layout-align-middle
+export const TextAlignMiddleIcon = React.memo(({ theme }: { theme: Theme }) =>
+  createIcon(
+    <g
+      strokeWidth="1.5"
+      stroke="currentColor"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <line x1="4" y1="12" x2="9" y2="12" />
+      <line x1="15" y1="12" x2="20" y2="12" />
+      <rect x="9" y="6" width="6" height="12" rx="2" />
+    </g>,
+    tablerIconProps,
+  ),
+);
+
+//
+// Align action icons created from scratch to match those of z-index actions
+// Note: vertical align icons are flipped so the larger item is always the
+// first one the user sees. Horizontal align icons should not be flipped since
+// that would make them lie about their function.
+//
+export const AlignTopIcon = createIcon(
+  <>
+    <g clipPath="url(#a)" stroke="currentColor" strokeWidth="1.25">
+      <path
+        d="M3.333 3.333h13.334"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M13.542 6.458h-.417c-.92 0-1.667.747-1.667 1.667v7.083c0 .92.746 1.667 1.667 1.667h.417c.92 0 1.666-.746 1.666-1.667V8.125c0-.92-.746-1.667-1.666-1.667ZM6.875 6.458h-.417c-.92 0-1.666.747-1.666 1.667v3.75c0 .92.746 1.667 1.666 1.667h.417c.92 0 1.667-.746 1.667-1.667v-3.75c0-.92-.747-1.667-1.667-1.667Z" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const AlignBottomIcon = createIcon(
+  <>
+    <g clipPath="url(#a)" stroke="currentColor" strokeWidth="1.25">
+      <path
+        d="M3.333 16.667h13.334"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M6.875 3.125h-.417c-.92 0-1.666.746-1.666 1.667v7.083c0 .92.746 1.667 1.666 1.667h.417c.92 0 1.667-.746 1.667-1.667V4.792c0-.92-.747-1.667-1.667-1.667ZM13.542 5.817h-.417c-.92 0-1.667.747-1.667 1.667v4.391c0 .92.746 1.667 1.667 1.667h.417c.92 0 1.666-.746 1.666-1.667V7.484c0-.92-.746-1.667-1.666-1.667Z" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const AlignLeftIcon = createIcon(
+  <>
+    <g clipPath="url(#a)" stroke="currentColor" strokeWidth="1.25">
+      <path
+        d="M3.333 3.333v13.334"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M15.208 4.792H8.125c-.92 0-1.667.746-1.667 1.666v.417c0 .92.747 1.667 1.667 1.667h7.083c.92 0 1.667-.747 1.667-1.667v-.417c0-.92-.746-1.666-1.667-1.666ZM12.516 11.458H8.125c-.92 0-1.667.746-1.667 1.667v.417c0 .92.747 1.666 1.667 1.666h4.391c.92 0 1.667-.746 1.667-1.666v-.417c0-.92-.746-1.667-1.667-1.667Z" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const AlignRightIcon = createIcon(
+  <>
+    <g clipPath="url(#a)" stroke="currentColor" strokeWidth="1.25">
+      <path
+        d="M16.667 3.333v13.334"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M11.875 4.792H4.792c-.92 0-1.667.746-1.667 1.666v.417c0 .92.746 1.667 1.667 1.667h7.083c.92 0 1.667-.747 1.667-1.667v-.417c0-.92-.746-1.666-1.667-1.666ZM11.683 11.458H7.292c-.92 0-1.667.746-1.667 1.667v.417c0 .92.746 1.666 1.667 1.666h4.39c.921 0 1.667-.746 1.667-1.666v-.417c0-.92-.746-1.667-1.666-1.667Z" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const DistributeHorizontallyIcon = createIcon(
+  <>
+    <g clipPath="url(#a)" stroke="currentColor" strokeWidth="1.25">
+      <path
+        d="M16.667 3.333v13.334M3.333 3.333v13.334"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M14.375 10.208v-.416c0-.92-.746-1.667-1.667-1.667H7.292c-.92 0-1.667.746-1.667 1.667v.416c0 .92.746 1.667 1.667 1.667h5.416c.92 0 1.667-.746 1.667-1.667Z" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const DistributeVerticallyIcon = createIcon(
+  <>
+    <g clipPath="url(#a)" stroke="currentColor" strokeWidth="1.25">
+      <path
+        d="M3.333 3.333h13.334M3.333 16.667h13.334"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M10.208 5.625h-.416c-.92 0-1.667.746-1.667 1.667v5.416c0 .92.746 1.667 1.667 1.667h.416c.92 0 1.667-.746 1.667-1.667V7.292c0-.92-.746-1.667-1.667-1.667Z" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h20v20H0z" />
+      </clipPath>
+    </defs>
+  </>,
+  modifiedTablerIconProps,
+);
+
+export const CenterVerticallyIcon = createIcon(
+  <g stroke="currentColor" strokeWidth="1.25">
+    <path d="M1.667 10h2.916" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M8.333 10h3.334" strokeLinejoin="round" />
+    <path d="M15.417 10h2.916" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M6.875 4.792h-.417c-.92 0-1.666.746-1.666 1.666v7.084c0 .92.746 1.666 1.666 1.666h.417c.92 0 1.667-.746 1.667-1.666V6.458c0-.92-.747-1.666-1.667-1.666ZM13.542 6.458h-.417c-.92 0-1.667.747-1.667 1.667v3.75c0 .92.746 1.667 1.667 1.667h.417c.92 0 1.666-.746 1.666-1.667v-3.75c0-.92-.746-1.667-1.666-1.667Z" />
+  </g>,
+  modifiedTablerIconProps,
+);
+
+export const CenterHorizontallyIcon = createIcon(
+  <g stroke="currentColor" strokeWidth="1.25">
+    <path d="M10 18.333v-2.916" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M10 11.667V8.333" strokeLinejoin="round" />
+    <path d="M10 4.583V1.667" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M4.792 13.125v.417c0 .92.746 1.666 1.666 1.666h7.084c.92 0 1.666-.746 1.666-1.666v-.417c0-.92-.746-1.667-1.666-1.667H6.458c-.92 0-1.666.746-1.666 1.667ZM6.458 6.458v.417c0 .92.747 1.667 1.667 1.667h3.75c.92 0 1.667-.747 1.667-1.667v-.417c0-.92-.746-1.666-1.667-1.666h-3.75c-.92 0-1.667.746-1.667 1.666Z" />
+  </g>,
+  modifiedTablerIconProps,
+);
+
+export const TrashIcon = createIcon(
+  <path
+    strokeWidth="1.25"
+    d="M3.333 5.833h13.334M8.333 9.167v5M11.667 9.167v5M4.167 5.833l.833 10c0 .92.746 1.667 1.667 1.667h6.666c.92 0 1.667-.746 1.667-1.667l.833-10M7.5 5.833v-2.5c0-.46.373-.833.833-.833h3.334c.46 0 .833.373.833.833v2.5"
+  />,
+  modifiedTablerIconProps,
+);
+
+export const DuplicateIcon = createIcon(
+  <g strokeWidth="1.25">
+    <path d="M14.375 6.458H8.958a2.5 2.5 0 0 0-2.5 2.5v5.417a2.5 2.5 0 0 0 2.5 2.5h5.417a2.5 2.5 0 0 0 2.5-2.5V8.958a2.5 2.5 0 0 0-2.5-2.5Z" />
+    <path
+      clipRule="evenodd"
+      d="M11.667 3.125c.517 0 .986.21 1.325.55.34.338.55.807.55 1.325v1.458H8.333c-.485 0-.927.185-1.26.487-.343.312-.57.75-.609 1.24l-.005 5.357H5a1.87 1.87 0 0 1-1.326-.55 1.87 1.87 0 0 1-.549-1.325V5c0-.518.21-.987.55-1.326.338-.34.807-.549 1.325-.549h6.667Z"
+    />
+  </g>,
+  modifiedTablerIconProps,
+);
+
+export const GroupIcon = React.memo(({ theme }: { theme: Theme }) =>
+  createIcon(
+    <>
+      <path d="M25 26H111V111H25" fill={iconFillColor(theme)} />
+      <path
+        d="M25 111C25 80.2068 25 49.4135 25 26M25 26C48.6174 26 72.2348 26 111 26H25ZM25 26C53.3671 26 81.7343 26 111 26H25ZM111 26C111 52.303 111 78.606 111 111V26ZM111 26C111 51.2947 111 76.5893 111 111V26ZM111 111C87.0792 111 63.1585 111 25 111H111ZM111 111C87.4646 111 63.9293 111 25 111H111ZM25 111C25 81.1514 25 51.3028 25 26V111Z"
+        stroke={iconFillColor(theme)}
+        strokeWidth="2"
+      />
+      <path d="M100 100H160V160H100" fill={iconFillColor(theme)} />
+      <path
+        d="M100 160C100 144.106 100 128.211 100 100M100 100C117.706 100 135.412 100 160 100H100ZM100 100C114.214 100 128.428 100 160 100H100ZM160 100C160 120.184 160 140.369 160 160V100ZM160 100C160 113.219 160 126.437 160 160V100ZM160 160C145.534 160 131.068 160 100 160H160ZM160 160C143.467 160 126.934 160 100 160H160ZM100 160C100 143.661 100 127.321 100 100V160Z"
+        stroke={iconFillColor(theme)}
+        strokeWidth="2"
+      />
+      <g
+        fill={handlerColor(theme)}
+        stroke={iconFillColor(theme)}
+        strokeWidth="6"
+      >
+        <rect x="2.5" y="2.5" width="30" height="30" />
+        <rect x="2.5" y="149.5" width="30" height="30" />
+        <rect x="147.5" y="149.5" width="30" height="30" />
+        <rect x="147.5" y="2.5" width="30" height="30" />
+      </g>
+    </>,
+    { width: 182, height: 182, mirror: true },
+  ),
+);
+
+export const UngroupIcon = React.memo(({ theme }: { theme: Theme }) =>
+  createIcon(
+    <>
+      <path d="M25 26H111V111H25" fill={iconFillColor(theme)} />
+      <path
+        d="M25 111C25 80.2068 25 49.4135 25 26M25 26C48.6174 26 72.2348 26 111 26H25ZM25 26C53.3671 26 81.7343 26 111 26H25ZM111 26C111 52.303 111 78.606 111 111V26ZM111 26C111 51.2947 111 76.5893 111 111V26ZM111 111C87.0792 111 63.1585 111 25 111H111ZM111 111C87.4646 111 63.9293 111 25 111H111ZM25 111C25 81.1514 25 51.3028 25 26V111Z"
+        stroke={iconFillColor(theme)}
+        strokeWidth="2"
+      />
+      <path d="M100 100H160V160H100" fill={iconFillColor(theme)} />
+      <path
+        d="M100 160C100 144.106 100 128.211 100 100M100 100C117.706 100 135.412 100 160 100H100ZM100 100C114.214 100 128.428 100 160 100H100ZM160 100C160 120.184 160 140.369 160 160V100ZM160 100C160 113.219 160 126.437 160 160V100ZM160 160C145.534 160 131.068 160 100 160H160ZM160 160C143.467 160 126.934 160 100 160H160ZM100 160C100 143.661 100 127.321 100 100V160Z"
+        stroke={iconFillColor(theme)}
+        strokeWidth="2"
+      />
+      <g
+        fill={handlerColor(theme)}
+        stroke={iconFillColor(theme)}
+        strokeWidth="6"
+      >
+        <rect x="2.5" y="2.5" width="30" height="30" />
+        <rect x="78.5" y="149.5" width="30" height="30" />
+        <rect x="147.5" y="149.5" width="30" height="30" />
+        <rect x="147.5" y="78.5" width="30" height="30" />
+        <rect x="105.5" y="2.5" width="30" height="30" />
+        <rect x="2.5" y="102.5" width="30" height="30" />
+      </g>
+    </>,
+    { width: 182, height: 182, mirror: true },
+  ),
 );
