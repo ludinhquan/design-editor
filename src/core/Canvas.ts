@@ -1,7 +1,7 @@
 import {CURSOR_TYPE} from "@/constants";
 import {IAppContext} from "@/contexts";
 import {FabricCanvas} from "./type";
-import {BaseHandler, ElementHandler} from "./Handler";
+import {BaseHandler, ElementHandler, SelectionHandler} from "./Handler";
 import {EditorState} from "./EditorData";
 
 export class CanvasInstance extends EditorState {
@@ -10,7 +10,7 @@ export class CanvasInstance extends EditorState {
   private readonly canvasOptions: fabric.ICanvasOptions = {
     backgroundColor: '#ffffff',
     width: 412,
-    height: 742,
+    height: 712,
     selectionColor: '#6965db1a',
     selectionBorderColor: '#6965db',
     selectionLineWidth: 0.5,
@@ -23,6 +23,7 @@ export class CanvasInstance extends EditorState {
     this.initOptions()
     this.handlers = [
       new ElementHandler(canvas),
+      new SelectionHandler(canvas),
     ]
   }
 
@@ -30,13 +31,11 @@ export class CanvasInstance extends EditorState {
     const ratio = json.width / json.height;
     const height = 742;
     const width = height * ratio;
-    // const zoom = width / json.width;
     const zoom = .39
-
+    
     this.canvas.setWidth(width);
     this.canvas.setHeight(height);
     this.canvas.setZoom(zoom);
-
     this.canvas.loadFromJSON(json, () => {})
   }
 

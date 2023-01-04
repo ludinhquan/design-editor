@@ -82,7 +82,7 @@ export type FillStyle = "hachure" | "cross-hatch" | "solid";
 export type StrokeStyle = "solid" | "dashed" | "dotted";
 export type EdgeType = string
 
-export interface GenericStyles extends fabric.IObjectOptions {}
+export interface GenericStyles extends fabric.IObjectOptions, fabric.Object {}
 
 type ElementOption = Readonly<GenericStyles>;
 

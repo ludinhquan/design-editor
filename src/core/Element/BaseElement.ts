@@ -1,6 +1,17 @@
 import {CURSOR_TYPE} from "@/constants";
+import {fabric} from "fabric";
 import {nanoid} from "nanoid";
 import {FabricCanvas, GenericOptions, IMouseMoveEvent} from "../type";
+
+fabric.Object.prototype.padding = 5
+fabric.Object.prototype.cornerSize= 8;
+fabric.Object.prototype.cornerStyle= 'circle';
+fabric.Object.prototype.cornerColor= '#ffffff';
+fabric.Object.prototype.cornerStrokeColor= '#6965db';
+fabric.Object.prototype.transparentCorners= false;
+fabric.Object.prototype.controls.mtr.offsetY = -20;
+fabric.Object.prototype.controls.mtr.cursorStyle = CURSOR_TYPE.GRAB
+fabric.Object.prototype.controls.mtr.withConnection = false
 
 export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Option extends GenericOptions = GenericOptions> {
   private readonly MIN_TIME_UPDATED = 3;
@@ -11,12 +22,6 @@ export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Op
     height: 0,
     originX: 'left',
     originY: 'top',
-    padding: 5,
-    cornerSize: 8,
-    cornerStyle: 'circle',
-    cornerColor: '#ffffff',
-    cornerStrokeColor: '#6965db',
-    transparentCorners: false,
   }
 
   protected instance: Type
@@ -37,9 +42,6 @@ export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Op
     await this.create(event)
     if(!this.instance) return
     this.instance.id = this.id;
-    this.instance.controls.mtr.offsetY = -20;
-    this.instance.controls.mtr.cursorStyle = CURSOR_TYPE.GRAB
-    this.instance.controls.mtr.withConnection = false
   }
 
   public drawing(event: IMouseMoveEvent) {

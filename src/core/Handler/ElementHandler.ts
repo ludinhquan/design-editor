@@ -26,9 +26,7 @@ export class ElementHandler extends BaseHandler {
     this.registerHandlers()
   }
 
-  setState(appContext: IAppContext): void {
-    super.setState(appContext)
-
+  onAppStateChange(): void {
     this.canvas.getActiveObjects().map(item => {
       const element = this.elements.get(item.id);
       if (!element) return;
