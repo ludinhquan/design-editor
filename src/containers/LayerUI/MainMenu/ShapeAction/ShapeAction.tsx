@@ -42,7 +42,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
 
 export const ShapeAction = () => {
   console.count('ShapeAction')
-  const {appState, setAppState} = useAppContext();
+  const {appState, setAppState, activeTool} = useAppContext();
 
   return (
     <div className="flex justify-start w-[202px]" >
@@ -92,12 +92,12 @@ export const ShapeAction = () => {
           <div className="text-xs text-slate-500">Font size</div>
           <div className="flex space-x-2">
             {[
-              {value: 1, icon: FontSizeSmallIcon},
-              {value: 2, icon: FontSizeMediumIcon},
-              {value: 3, icon: FontSizeLargeIcon},
-              {value: 4, icon: FontSizeExtraLargeIcon},
+              {value: 16, icon: FontSizeSmallIcon},
+              {value: 20, icon: FontSizeMediumIcon},
+              {value: 28, icon: FontSizeLargeIcon},
+              {value: 36, icon: FontSizeExtraLargeIcon},
             ].map(item => {
-              return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roughness: item.value})} />
+              return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({fontSize: item.value})} />
             })}
           </div>
         </div>
@@ -105,11 +105,11 @@ export const ShapeAction = () => {
           <div className="text-xs text-slate-500">Font family</div>
           <div className="flex space-x-2">
             {[
-              {value: 1, icon: FreedrawIcon},
-              {value: 2, icon: FontFamilyNormalIcon},
-              {value: 3, icon: FontFamilyCodeIcon},
+              {value: 'Virgil', icon: FreedrawIcon},
+              {value: '', icon: FontFamilyNormalIcon},
+              {value: 'Cascadia', icon: FontFamilyCodeIcon},
             ].map(item => {
-              return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roughness: item.value})} />
+              return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({fontFamily: item.value})} />
             })}
           </div>
         </div>

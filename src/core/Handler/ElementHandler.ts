@@ -46,7 +46,9 @@ export class ElementHandler extends BaseHandler {
       strokeWidth: appState.strokeWidth,
       opacity: appState.opacity / 100,
       rx: appState.roughness,
-      ry: appState.roughness
+      ry: appState.roughness,
+      fontSize: appState.fontSize,
+      fontFamily: appState.fontFamily,
     }
   }
 

@@ -59,8 +59,8 @@ export const SHAPES = [
 
 export type ShapeOptions = { 
   fillStyle: "hachure",
-  fontFamily: '',
-  fontSize: '',
+  fontFamily: string,
+  fontSize: number,
   opacity: number,
   roughness: number,
   strokeColor: string
@@ -74,7 +74,7 @@ export type ShapeOptions = {
 export const GenericDefaultOptions: ShapeOptions = {
   fillStyle: "hachure",
   fontFamily: '',
-  fontSize: '',
+  fontSize: 20,
   opacity: 100,
   roughness: null,
   strokeColor: Colors.ElementStroke[0],
