@@ -1,5 +1,5 @@
 import {AlignBottomIcon, AlignLeftIcon, AlignRightIcon, AlignTopIcon, BringForwardIcon, BringToFrontIcon, CenterHorizontallyIcon, CenterVerticallyIcon, DistributeHorizontallyIcon, DistributeVerticallyIcon, DuplicateIcon, EdgeRoundIcon, EdgeSharpIcon, FontFamilyCodeIcon, FontFamilyNormalIcon, FontSizeExtraLargeIcon, FontSizeLargeIcon, FontSizeMediumIcon, FontSizeSmallIcon, FreedrawIcon, GroupIcon, IconButton, SendBackwardIcon, SendToBackIcon, StrokeWidthBaseIcon, StrokeWidthBoldIcon, StrokeWidthExtraBoldIcon, TextAlignCenterIcon, TextAlignLeftIcon, TextAlignRightIcon, TrashIcon, UngroupIcon} from "@/components"
-import {Colors} from "@/constants"
+import {Actions, Colors} from "@/constants"
 import {useAppContext} from "@/hooks"
 import {getColor, isValidColor} from "@/utils"
 import {Button, Popover, Slider} from "antd"
@@ -22,7 +22,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
     if (!isValidColor(state)) return
     if (getColor(state) === getColor(appState[props.type])) return
     setAppState({[props.type]: getColor(state)})
-  }, [state])
+  }, [state]);
 
   const Content = () => (
     <div className="grid grid-cols-5 gap-2">
@@ -42,7 +42,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
 
 export const ShapeAction = () => {
   console.count('ShapeAction')
-  const {appState, setAppState, activeTool} = useAppContext();
+  const {appState, setAppState, executeAction} = useAppContext();
 
   return (
     <div className="flex justify-start w-[202px]" >
@@ -129,12 +129,12 @@ export const ShapeAction = () => {
           <div className="text-xs text-slate-500">Layers</div>
           <div className="flex space-x-2">
             {[
-              {value: 1, icon: SendToBackIcon},
-              {value: 2, icon: SendBackwardIcon},
-              {value: 3, icon: BringToFrontIcon},
-              {value: 4, icon: BringForwardIcon},
+              {value: Actions.SendToBack, icon: SendToBackIcon},
+              {value: Actions.SendBackward, icon: SendBackwardIcon},
+              {value: Actions.BringToFront, icon: BringToFrontIcon},
+              {value: Actions.BringForward, icon: BringForwardIcon},
             ].map(item => {
-              return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roughness: item.value})} />
+              return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => executeAction(item.value)} />
             })}
           </div>
         </div>
@@ -143,22 +143,22 @@ export const ShapeAction = () => {
           <div className="space-y-2">
             <div className="flex space-x-2">
               {[
-                {value: 1, icon: AlignLeftIcon},
-                {value: 2, icon: CenterHorizontallyIcon},
-                {value: 3, icon: AlignRightIcon},
-                {value: 4, icon: DistributeHorizontallyIcon},
+                {value: Actions.AlignLeft, icon: AlignLeftIcon},
+                {value: Actions.CenterHorizontally, icon: CenterHorizontallyIcon},
+                {value: Actions.AlignRight, icon: AlignRightIcon},
+                {value: Actions.DistributeHorizontally, icon: DistributeHorizontallyIcon},
               ].map(item => {
-                return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roughness: item.value})} />
+                return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => executeAction(item.value)} />
               })}
             </div>
             <div className="flex space-x-2">
               {[
-                {value: 1, icon: AlignTopIcon},
-                {value: 2, icon: CenterVerticallyIcon},
-                {value: 3, icon: AlignBottomIcon},
-                {value: 4, icon: DistributeVerticallyIcon},
+                {value: Actions.AlignTop, icon: AlignTopIcon},
+                {value: Actions.CenterVertically, icon: CenterVerticallyIcon},
+                {value: Actions.AlignBottom, icon: AlignBottomIcon},
+                {value: Actions.DistributeVertically, icon: DistributeVerticallyIcon},
               ].map(item => {
-                return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roughness: item.value})} />
+                return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => executeAction(item.value)} />
               })}
             </div>
           </div>
@@ -167,10 +167,12 @@ export const ShapeAction = () => {
           <div className="text-xs text-slate-500">Actions</div>
           <div className="flex space-x-2">
             {[
-              {value: 1, icon: DuplicateIcon},
-              {value: 2, icon: TrashIcon},
+              {value: Actions.Duplicate, icon: DuplicateIcon},
+              {value: Actions.Trash, icon: TrashIcon},
+              {value: Actions.Group, icon: GroupIcon},
+              {value: Actions.UnGroup, icon: UngroupIcon},
             ].map(item => {
-              return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roughness: item.value})} />
+              return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => executeAction(item.value)} />
             })}
           </div>
         </div>

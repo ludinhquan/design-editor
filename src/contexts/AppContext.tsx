@@ -1,4 +1,4 @@
-import {CANVAS_ID, GenericDefaultOptions, ShapeOptions, ShapeType} from "@/constants"
+import {Actions, CANVAS_ID, DefaultShapeOptions, ShapeOptions, ShapeType} from "@/constants"
 import {CanvasInstance} from "@/core"
 import React, {createContext, useEffect, useRef, useState} from "react"
 import { fabric } from "fabric"
@@ -14,6 +14,8 @@ export interface IAppContext {
   image: string,
   setImage: (data: string) => void
 
+  executeAction: (action: Actions) => void
+
   // refs
   canvasInstance: React.MutableRefObject<CanvasInstance>
 }
@@ -23,23 +25,28 @@ export const AppContext = createContext<IAppContext>({
   setIsMobile: () => {},
   activeTool: null,
   setActiveTool: () => null,
-  appState: GenericDefaultOptions,
+  appState: DefaultShapeOptions,
   setAppState: () => null,
   canvasInstance: null,
   image: null,
-  setImage: () => {}
+  setImage: () => {},
+  executeAction: () => {}
 })
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [isMobile, setIsMobile] = useState<IAppContext['isMobile']>(false);
   const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>('selection');
-  const [appState, setState] = useState<IAppContext['appState']>(GenericDefaultOptions)
+  const [appState, setState] = useState<IAppContext['appState']>(DefaultShapeOptions)
   const [image, setImage] = useState<IAppContext['image']>();
 
   const canvasInstance = useRef<CanvasInstance>();
 
   const setAppState = (state: IAppContext['appState']) => {
     setState(s => ({...s, ...state}))
+  }
+
+  const executeAction = (action: Actions) => {
+    canvasInstance.current.executeAction(action);
   }
 
   const context: IAppContext = {
@@ -51,12 +58,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setAppState,
     image,
     setImage,
+    executeAction,
     canvasInstance,
   };
 
   useEffect(() => {
     if (canvasInstance.current) return;
-    canvasInstance.current = new CanvasInstance(new fabric.Canvas(CANVAS_ID));
+    canvasInstance.current = new CanvasInstance(new fabric.Canvas(CANVAS_ID, {preserveObjectStacking: true}));
 
     const jsonData = {
       ...json,

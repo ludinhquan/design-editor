@@ -71,7 +71,7 @@ export type ShapeOptions = {
   locked: false,
 }
 
-export const GenericDefaultOptions: ShapeOptions = {
+export const DefaultShapeOptions: ShapeOptions = {
   fillStyle: "hachure",
   fontFamily: '',
   fontSize: 20,
@@ -84,3 +84,22 @@ export const GenericDefaultOptions: ShapeOptions = {
   strokeWidth: 1,
   locked: false,
 } as const;
+
+export enum Actions {
+  SendToBack = 'SendToBack',
+  SendBackward = 'SendBackward',
+  BringToFront = 'BringToFront',
+  BringForward = 'BringForward',
+  AlignLeft = 'AlignLeft',
+  CenterHorizontally = 'CenterHorizontally',
+  AlignRight = 'AlignRight',
+  DistributeHorizontally = 'DistributeHorizontally',
+  AlignTop = 'AlignTop',
+  CenterVertically = 'CenterVertically',
+  AlignBottom = 'AlignBottom',
+  DistributeVertically = 'DistributeVertically',
+  Duplicate = 'Duplicate',
+  Trash = 'Trash',
+  Group = 'Group',
+  UnGroup = 'UnGroup'
+}

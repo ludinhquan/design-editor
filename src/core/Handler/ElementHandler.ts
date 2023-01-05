@@ -1,5 +1,4 @@
 import {isEscape, ShapeType} from "@/constants";
-import {IAppContext} from "@/contexts";
 import {ArrowElement, BaseElement, DiamondElement, EllipseElement, ImageElement, LineElement, RectangleElement, TextElement} from "../Element";
 import {FabricCanvas, FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
 import {BaseHandler} from "./BaseHandler";

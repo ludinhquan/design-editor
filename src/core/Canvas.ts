@@ -1,7 +1,7 @@
-import {CURSOR_TYPE} from "@/constants";
+import {Actions, CURSOR_TYPE} from "@/constants";
 import {IAppContext} from "@/contexts";
 import {FabricCanvas} from "./type";
-import {BaseHandler, ElementHandler, SelectionHandler} from "./Handler";
+import {ActionHandler, BaseHandler, ElementHandler, SelectionHandler} from "./Handler";
 import {EditorState} from "./EditorData";
 
 export class CanvasInstance extends EditorState {
@@ -24,6 +24,7 @@ export class CanvasInstance extends EditorState {
     this.handlers = [
       new ElementHandler(canvas),
       new SelectionHandler(canvas),
+      new ActionHandler(canvas),
     ]
   }
 
@@ -48,6 +49,10 @@ export class CanvasInstance extends EditorState {
     this.handlers.map(item => item.setState(appContext));
 
     this.updateCanvasStyle();
+  }
+
+  public executeAction(action: Actions) {
+    this.handlers.map(item => item.executeAction(action));
   }
 
   private getCursor(): string {
