@@ -1,9 +1,14 @@
-import {isEscape, ShapeType} from "@/constants";
+import {isEscape, ShapeType, StrokeStyle} from "@/constants";
 import {ArrowElement, BaseElement, DiamondElement, EllipseElement, ImageElement, LineElement, RectangleElement, TextElement} from "../Element";
 import {FabricCanvas, FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
 import {BaseHandler} from "./BaseHandler";
 
 export class ElementHandler extends BaseHandler {
+  private readonly borderDashArray: Record<StrokeStyle, [number, number]> = {
+    solid: [0,0],
+    dashed: [20, 10],
+    dotted: [8, 10],
+  }
   private readonly elements: Map<string, BaseElement> = new Map()
 
   private readonly shapes: Partial<Record<ShapeType, ClassType<BaseElement>>> = {
@@ -41,6 +46,7 @@ export class ElementHandler extends BaseHandler {
       stroke: appState.strokeColor,
       fill: appState.backgroundColor,
       strokeWidth: appState.strokeWidth,
+      strokeDashArray: this.borderDashArray[appState.strokeStyle],
       opacity: appState.opacity / 100,
       rx: appState.roughness,
       ry: appState.roughness,

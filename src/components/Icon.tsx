@@ -243,6 +243,42 @@ export const StrokeWidthExtraBoldIcon = createIcon(
   modifiedTablerIconProps,
 );
 
+export const StrokeStyleSolidIcon = createIcon(
+  <path
+    d="M6 10H34"
+    stroke={iconFillColor()}
+    strokeWidth={2}
+    fill="none"
+    strokeLinecap="round"
+  />,
+  {
+    width: 40,
+    height: 20,
+  },
+)
+
+export const StrokeStyleDashedIcon = createIcon(
+  <g strokeWidth="2">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M5 12h2" />
+    <path d="M17 12h2" />
+    <path d="M11 12h2" />
+  </g>,
+  tablerIconProps,
+);
+
+// tabler-icons: line-dotted
+export const StrokeStyleDottedIcon = createIcon(
+  <g strokeWidth="2">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M4 12v.01" />
+    <path d="M8 12v.01" />
+    <path d="M12 12v.01" />
+    <path d="M16 12v.01" />
+    <path d="M20 12v.01" />
+  </g>,
+  tablerIconProps,
+);
 
 export const EdgeSharpIcon = createIcon(
   <svg strokeWidth="1.5">

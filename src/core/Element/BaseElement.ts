@@ -36,6 +36,7 @@ export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Op
 
   updateStyles(shapeStyle: Partial<Record<keyof Type, any>>) {
     this.instance.set(shapeStyle)
+    // this.instance.set(, value)
   }
 
   public async startDraw(event: Partial<Option>) {

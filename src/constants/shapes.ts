@@ -1,4 +1,4 @@
-import {ArrowIcon, DiamondIcon, EllipseIcon, EraserIcon, FreedrawIcon, IconButton, ImageIcon, LineIcon, RectangleIcon, SelectionIcon, TextIcon} from "@/components"
+import {ArrowIcon, DiamondIcon, EllipseIcon, FreedrawIcon, ImageIcon, LineIcon, RectangleIcon, SelectionIcon, TextIcon} from "@/components";
 import {Colors} from "./colors";
 
 export type ShapeType = typeof SHAPES[number]['value']
@@ -56,6 +56,11 @@ export const SHAPES = [
   // },
 ] as const;
 
+export enum StrokeStyle {
+  Solid = 'solid',
+  Dashed = 'dashed',
+  Dotted = 'dotted',
+}
 
 export type ShapeOptions = { 
   fillStyle: "hachure",
@@ -66,7 +71,7 @@ export type ShapeOptions = {
   strokeColor: string
   backgroundColor: string
   roundness: null,
-  strokeStyle: "solid",
+  strokeStyle: StrokeStyle,
   strokeWidth: number,
   locked: false,
 }
@@ -80,7 +85,7 @@ export const DefaultShapeOptions: ShapeOptions = {
   strokeColor: Colors.ElementStroke[0],
   backgroundColor: Colors.ElementBackground[0],
   roundness: null,
-  strokeStyle: "solid",
+  strokeStyle: StrokeStyle.Solid,
   strokeWidth: 1,
   locked: false,
 } as const;
