@@ -85,7 +85,9 @@ export class ActionHandler extends BaseHandler {
     const activeObject = this.canvas.getActiveObject() as fabric.ActiveSelection;
     if (!activeObject || activeObject.type !== 'activeSelection') return;
 
-    activeObject.toGroup();
+    const group = activeObject.toGroup();
+    group.borderDashArray = [8, 4]
+    group.borderColor = '#3d3d3d'
     this.canvas.requestRenderAll();
   }
 

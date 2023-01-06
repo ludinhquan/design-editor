@@ -21,8 +21,8 @@ export class SelectionHandler extends BaseHandler {
     const activeObjects = this.canvas.getActiveObjects();
 
     activeObjects.map(item => {
-      if (item.group) item.group.borderDashArray = [3, 3];
-      if (item.type === 'group') item.borderDashArray = [3, 3];
+      if (item.group && !item.group.borderDashArray) item.group.borderDashArray = [3, 3];
+      if (item.type === 'group' && !item.borderDashArray) item.borderDashArray = [3, 3];
     });
 
     this.canvas.renderAll()
