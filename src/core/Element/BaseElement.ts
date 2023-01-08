@@ -1,4 +1,4 @@
-import {CURSOR_TYPE} from "@/constants";
+import {CURSOR_TYPE, ShapeOptions} from "@/constants";
 import {fabric} from "fabric";
 import {nanoid} from "nanoid";
 import {FabricCanvas, GenericOptions, IMouseMoveEvent} from "../type";
@@ -27,12 +27,26 @@ export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Op
   protected instance: Type
   private updatedCount: number = 0;
 
+  abstract create(event: Partial<Option>): void | Promise<void>
+  abstract update(event: IMouseMoveEvent): void
+
   constructor(protected canvas: FabricCanvas, protected option: Partial<Option>) {
     this.startDraw(option)
   }
 
-  abstract create(event: Partial<Option>): void | Promise<void>
-  abstract update(event: IMouseMoveEvent): void
+  getStyles(appState: Partial<ShapeOptions>) {
+    return {
+      stroke: appState.strokeColor,
+      fill: appState.backgroundColor,
+      strokeWidth: appState.strokeWidth,
+      // strokeDashArray: this.borderDashArray[appState.strokeStyle],
+      opacity: appState.opacity / 100,
+      rx: appState.roughness,
+      ry: appState.roughness,
+      fontSize: appState.fontSize,
+      fontFamily: appState.fontFamily,
+    }
+  }
 
   updateStyles(shapeStyle: Partial<Record<keyof Type, any>>) {
     this.instance.set(shapeStyle)

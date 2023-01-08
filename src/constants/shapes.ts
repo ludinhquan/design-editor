@@ -62,32 +62,32 @@ export enum StrokeStyle {
   Dotted = 'dotted',
 }
 
-export type ShapeOptions = { 
-  fillStyle: "hachure",
-  fontFamily: string,
-  fontSize: number,
-  opacity: number,
-  roughness: number,
-  strokeColor: string
-  backgroundColor: string
-  roundness: null,
-  strokeStyle: StrokeStyle,
-  strokeWidth: number,
-  locked: false,
+export enum FontFamily {
+  Virgil = 'Virgil',
+  Normal = 'Normal',
+  Cascadia = 'Cascadia',
+}
+
+export type ShapeOptions = {
+  strokeColor: null | string
+  backgroundColor: null | string
+  strokeWidth: null | number,
+  strokeStyle: null | StrokeStyle,
+  roundness: null | number,
+  fontSize: null | number,
+  fontFamily: null | string,
+  opacity: null | number,
 }
 
 export const DefaultShapeOptions: ShapeOptions = {
-  fillStyle: "hachure",
-  fontFamily: '',
+  fontFamily: FontFamily.Virgil,
   fontSize: 20,
   opacity: 100,
-  roughness: null,
   strokeColor: Colors.ElementStroke[0],
   backgroundColor: Colors.ElementBackground[0],
-  roundness: null,
+  roundness: 0,
   strokeStyle: StrokeStyle.Solid,
   strokeWidth: 1,
-  locked: false,
 } as const;
 
 export enum Actions {

@@ -1,5 +1,5 @@
 import {AlignBottomIcon, AlignLeftIcon, AlignRightIcon, AlignTopIcon, BringForwardIcon, BringToFrontIcon, CenterHorizontallyIcon, CenterVerticallyIcon, DistributeHorizontallyIcon, DistributeVerticallyIcon, DuplicateIcon, EdgeRoundIcon, EdgeSharpIcon, FontFamilyCodeIcon, FontFamilyNormalIcon, FontSizeExtraLargeIcon, FontSizeLargeIcon, FontSizeMediumIcon, FontSizeSmallIcon, FreedrawIcon, GroupIcon, IconButton, SendBackwardIcon, SendToBackIcon, StrokeStyleDashedIcon, StrokeStyleDottedIcon, StrokeStyleSolidIcon, StrokeWidthBaseIcon, StrokeWidthBoldIcon, StrokeWidthExtraBoldIcon, TextAlignCenterIcon, TextAlignLeftIcon, TextAlignRightIcon, TrashIcon, UngroupIcon} from "@/components"
-import {Actions, Colors, StrokeStyle} from "@/constants"
+import {Actions, Colors, FontFamily, StrokeStyle} from "@/constants"
 import {useAppContext} from "@/hooks"
 import {getColor, isValidColor} from "@/utils"
 import {Button, Popover, Slider} from "antd"
@@ -45,7 +45,9 @@ type WrapperConfigProps = {type: ConfigKey, children: React.ReactChild}
 const WrapperConfig = (props: WrapperConfigProps) => {
 
   const {type, children} = props
-  const {activeTool, canvasInstance} = useAppContext();
+  const {activeTool, activeObjects} = useAppContext();
+
+  if (activeObjects.length !== 0) return <>{children}</>
 
   if (!Config[type].has(activeTool)) return 
 
@@ -58,7 +60,11 @@ const WrapperConfig = (props: WrapperConfigProps) => {
 
 export const ShapeAction = () => {
   console.count('ShapeAction')
-  const {activeTool, appState, setAppState, executeAction} = useAppContext();
+  const {activeTool, appState, setAppState, executeAction, activeObjects} = useAppContext();
+
+  useEffect(() => {
+    console.log(activeObjects)
+  }, [activeObjects])
 
   if (activeTool === 'selection') return;
  
@@ -121,7 +127,7 @@ export const ShapeAction = () => {
                 {value: null, icon: EdgeSharpIcon},
                 {value: 10, icon: EdgeRoundIcon},
               ].map(item => {
-                return <IconButton key={item.value} active={appState.roughness === item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roughness: item.value})} />
+                return <IconButton key={item.value} active={appState.roundness === item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roundness: item.value})} />
               })}
             </div>
           </div>
@@ -154,9 +160,9 @@ export const ShapeAction = () => {
             <div className="text-xs text-slate-500">Font family</div>
             <div className="flex space-x-2">
               {[
-                {value: 'Virgil', icon: FreedrawIcon},
-                {value: '', icon: FontFamilyNormalIcon},
-                {value: 'Cascadia', icon: FontFamilyCodeIcon},
+                {value: FontFamily.Virgil, icon: FreedrawIcon},
+                {value: FontFamily.Normal, icon: FontFamilyNormalIcon},
+                {value: FontFamily.Cascadia, icon: FontFamilyCodeIcon},
               ].map(item => {
                 return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({fontFamily: item.value})} />
               })}
@@ -172,7 +178,7 @@ export const ShapeAction = () => {
                 {value: 2, icon: TextAlignCenterIcon},
                 {value: 3, icon: TextAlignRightIcon},
               ].map(item => {
-                return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roughness: item.value})} />
+                return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roundness: item.value})} />
               })}
             </div>
           </div>
