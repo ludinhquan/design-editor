@@ -79,6 +79,11 @@ export type ShapeOptions = {
   opacity: null | number,
 }
 
+export type ActiveObjects = {
+  type: ShapeType[]
+  options: Partial<ShapeOptions>
+}
+
 export const DefaultShapeOptions: ShapeOptions = {
   fontFamily: FontFamily.Virgil,
   fontSize: 20,

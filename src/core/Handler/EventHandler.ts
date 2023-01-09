@@ -1,9 +1,15 @@
-import {ShapeOptions} from "@/constants";
+import {ActiveObjects, ShapeOptions, ShapeType} from "@/constants";
 import {fabric} from "fabric";
 import {FabricCanvas} from "../type";
 import {BaseHandler} from "./BaseHandler";
 
 export class SelectionHandler extends BaseHandler {
+  private shapeTypes: Record<string, ShapeType> = {
+    'i-text': 'text',
+    'textbox': 'text',
+    'rect': 'rectangle',
+    'path': 'ellipse',
+  }
 
   constructor(
     canvas: FabricCanvas
@@ -15,14 +21,12 @@ export class SelectionHandler extends BaseHandler {
   onAppStateChange(): void {}
 
   private registerHandlers = () => {
-    this.canvas.on('selection:created', this.onSelection.bind(this));
-    this.canvas.on('selection:updated', this.onSelection.bind(this));
+    this.canvas.on('selection:created', this.onSelectionUpdated.bind(this));
+    this.canvas.on('selection:updated', this.onSelectionUpdated.bind(this));
+    this.canvas.on('selection:cleared', this.onSelectionCleared.bind(this));
   }
 
   private getActiveObjectTypes(activeObjects: fabric.Object[]) {
-    console.log('=============================================')
-    console.log(this.canvas.getActiveObject().type)
-    
     const emptyValue = new Set<string | number>([undefined, null, '']);
 
     function getValue<T extends keyof ShapeOptions>(
@@ -38,7 +42,9 @@ export class SelectionHandler extends BaseHandler {
       [K in keyof ShapeOptions]: Set<ShapeOptions[K]>
     }>
 
-    const activeOptions = activeObjects.reduce(
+    const type = activeObjects.map(item => this.shapeTypes[item.type] ?? item.type) as unknown as ShapeType[];
+
+    const activeOptionSet = activeObjects.reduce(
       (prev: Options, item) => ({
         fontFamily: getValue<'fontFamily'>(prev.fontFamily, (item as fabric.IText).fontFamily),
         fontSize: getValue<'fontSize'>(prev.fontSize, (item as fabric.IText).fontSize),
@@ -49,24 +55,21 @@ export class SelectionHandler extends BaseHandler {
         strokeWidth: getValue<'strokeWidth'>(prev.strokeWidth, item.strokeWidth),
       }), {});
 
-    const activeOption = Object.keys(activeOptions)
+    const activeOption = Object.keys(activeOptionSet)
       .reduce(
         (prev: Partial<ShapeOptions>, key) => {
-          const tmpKey = key as keyof ShapeOptions
-          const current = activeOptions[tmpKey];
+          const current = activeOptionSet[key as keyof ShapeOptions];
           if (!current || current.size !== 1) return prev
-          // @ts-ignore
-          prev[tmpKey] = [...current][0]
-          return prev
+          const [value] = current;
+          return Object.assign(prev, {[key]: value})
         },
         {}
       );
 
-    // @ts-ignore
-    this.state.setActiveObjects(activeOption)
+    this.state.setActiveObjects({type, options: activeOption})
   }
 
-  private onSelection() {
+  private onSelectionUpdated() {
     const activeObjects = this.canvas.getActiveObjects();
     this.getActiveObjectTypes(activeObjects)
 
@@ -76,5 +79,9 @@ export class SelectionHandler extends BaseHandler {
     });
 
     this.canvas.renderAll()
+  }
+
+  private onSelectionCleared() {
+    this.state.setActiveObjects({type: [], options: {}})
   }
 }

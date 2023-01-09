@@ -1,9 +1,8 @@
-import {Actions, CANVAS_ID, DefaultShapeOptions, ShapeOptions, ShapeType} from "@/constants"
+import {Actions, ActiveObjects, CANVAS_ID, DefaultShapeOptions, ShapeOptions, ShapeType} from "@/constants"
 import {CanvasInstance} from "@/core"
 import React, {createContext, useEffect, useRef, useState} from "react"
 import { fabric } from "fabric"
 import json from '@/data/data.json'
-import {GenericStyles} from "@/core/type"
 
 export interface IAppContext {
   isMobile: boolean
@@ -14,8 +13,8 @@ export interface IAppContext {
   setAppState: (option: Partial<ShapeOptions>) => void
   image: string
   setImage: (data: string) => void
-  activeObjects: GenericStyles[]
-  setActiveObjects: (activeObjects: GenericStyles[]) => void
+  activeObjects: ActiveObjects
+  setActiveObjects: (activeObjects: ActiveObjects) => void
   executeAction: (action: Actions) => void
 
   // refs
@@ -34,7 +33,7 @@ export const AppContext = createContext<IAppContext>({
   canvasInstance: null,
   image: null,
   setImage: emptyFunc,
-  activeObjects: [],
+  activeObjects: {type: [], options: {}},
   setActiveObjects: emptyFunc,
   executeAction:emptyFunc 
 })
@@ -44,7 +43,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>('selection');
   const [appState, setState] = useState<IAppContext['appState']>(DefaultShapeOptions)
   const [image, setImage] = useState<IAppContext['image']>();
-  const [activeObjects, setActiveObjects] = useState<GenericStyles[]>([]);
+  const [activeObjects, setActiveObjects] = useState<ActiveObjects>({type: [], options: {}});
 
   const canvasInstance = useRef<CanvasInstance>();
 

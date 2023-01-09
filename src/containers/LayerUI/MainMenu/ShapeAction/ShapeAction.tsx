@@ -46,27 +46,25 @@ const WrapperConfig = (props: WrapperConfigProps) => {
 
   const {type, children} = props
   const {activeTool, activeObjects} = useAppContext();
+  const childrenTag = <>{children}</>
 
-  if (activeObjects.length !== 0) return <>{children}</>
+  if ([ConfigKey.Action, ConfigKey.Layer].includes(type)) {
+    if (activeObjects.type.length > 0) return childrenTag
+  }
 
-  if (!Config[type].has(activeTool)) return 
+  const show = activeObjects.type.filter(key => Config[type].has(key)).length > 0
+  if (show) return childrenTag
 
-  return (
-    <>
-      {children}
-    </>
-  )
+  if (!Config[type].has(activeTool)) return
+
+  return childrenTag
 }
 
 export const ShapeAction = () => {
   console.count('ShapeAction')
   const {activeTool, appState, setAppState, executeAction, activeObjects} = useAppContext();
 
-  useEffect(() => {
-    console.log(activeObjects)
-  }, [activeObjects])
-
-  if (activeTool === 'selection') return;
+  if (activeTool === 'selection' && activeObjects.type.length === 0) return;
  
   return (
     <div className="flex justify-start w-[202px]" >
