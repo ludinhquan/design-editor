@@ -41,7 +41,8 @@ export const ColorPicker = (props: ColorPickerProps) => {
   )
 }
 
-type WrapperConfigProps = {type: ConfigKey, children: React.ReactChild}
+type WrapperConfigProps = {type: ConfigKey, children: React.ReactElement}
+
 const WrapperConfig = (props: WrapperConfigProps) => {
 
   const {type, children} = props
@@ -65,6 +66,9 @@ export const ShapeAction = () => {
   const {activeTool, appState, setAppState, executeAction, activeObjects} = useAppContext();
 
   if (activeTool === 'selection' && activeObjects.type.length === 0) return;
+
+  const group = activeObjects.type.length > 1;
+  const ungroup = activeObjects.hasGroup;
  
   return (
     <div className="flex justify-start w-[202px]" >
@@ -230,11 +234,13 @@ export const ShapeAction = () => {
               {[
                 {value: Actions.Duplicate, icon: DuplicateIcon},
                 {value: Actions.Trash, icon: TrashIcon},
-                {value: Actions.Group, icon: GroupIcon},
-                {value: Actions.UnGroup, icon: UngroupIcon},
-              ].map(item => {
-                return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => executeAction(item.value)} />
-              })}
+                group ? {value: Actions.Group, icon: GroupIcon} : null,
+                ungroup ? {value: Actions.UnGroup, icon: UngroupIcon} : null,
+              ]
+                .filter(Boolean)
+                .map(item => {
+                  return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => executeAction(item.value)} />
+                })}
             </div>
           </div>
         </WrapperConfig>

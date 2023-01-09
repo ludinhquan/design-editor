@@ -88,6 +88,8 @@ export class ActionHandler extends BaseHandler {
     const group = activeObject.toGroup();
     group.borderDashArray = [8, 4]
     group.borderColor = '#3d3d3d'
+    const {type, options} = this.state.activeObjects
+    this.state.setActiveObjects({type, hasGroup: true, options});
     this.canvas.requestRenderAll();
   }
 

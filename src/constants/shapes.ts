@@ -80,6 +80,7 @@ export type ShapeOptions = {
 }
 
 export type ActiveObjects = {
+  hasGroup: boolean,
   type: ShapeType[]
   options: Partial<ShapeOptions>
 }

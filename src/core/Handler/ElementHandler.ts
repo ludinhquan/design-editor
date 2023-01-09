@@ -30,13 +30,20 @@ export class ElementHandler extends BaseHandler {
     this.registerHandlers()
   }
 
-  onAppStateChange(): void {
-    this.canvas.getActiveObjects().map(item => {
-      const element = this.elements.get(item.id);
-      if (!element) return;
-      element.updateStyles(this.getShapeStyles())
-    });
+  updateObjectStyles(objects: fabric.Object[], styles: object) {
+    objects.map(object => {
+      if (object.type === 'group') {
+        (object as fabric.Group).getObjects().map(ele => ele.set(styles));
+        return;
+      }
+      object.set(styles)
+    })
+  }
 
+  onAppStateChange(): void {
+    const styles = this.getShapeStyles()
+    const objects = this.canvas.getActiveObjects();
+    this.updateObjectStyles(objects, styles);
     this.canvas.requestRenderAll()
   }
 
@@ -48,8 +55,8 @@ export class ElementHandler extends BaseHandler {
       strokeWidth: appState.strokeWidth,
       strokeDashArray: this.borderDashArray[appState.strokeStyle],
       opacity: appState.opacity / 100,
-      rx: appState.roughness,
-      ry: appState.roughness,
+      rx: appState.roundness,
+      ry: appState.roundness,
       fontSize: appState.fontSize,
       fontFamily: appState.fontFamily,
     }

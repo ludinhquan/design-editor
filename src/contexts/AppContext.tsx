@@ -33,7 +33,7 @@ export const AppContext = createContext<IAppContext>({
   canvasInstance: null,
   image: null,
   setImage: emptyFunc,
-  activeObjects: {type: [], options: {}},
+  activeObjects: {type: [], hasGroup: false, options: {}},
   setActiveObjects: emptyFunc,
   executeAction:emptyFunc 
 })
@@ -43,7 +43,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>('selection');
   const [appState, setState] = useState<IAppContext['appState']>(DefaultShapeOptions)
   const [image, setImage] = useState<IAppContext['image']>();
-  const [activeObjects, setActiveObjects] = useState<ActiveObjects>({type: [], options: {}});
+  const [activeObjects, setActiveObjects] = useState<ActiveObjects>({type: [], hasGroup: false, options: {}});
 
   const canvasInstance = useRef<CanvasInstance>();
 
@@ -85,7 +85,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!canvasInstance.current) return;
     canvasInstance.current.setAppContext(context);
-  }, [activeTool, appState, image])
+  }, [activeTool, appState, image, activeObjects])
 
   return (
     <AppContext.Provider value={context}>

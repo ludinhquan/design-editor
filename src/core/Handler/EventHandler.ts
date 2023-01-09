@@ -1,4 +1,4 @@
-import {ActiveObjects, ShapeOptions, ShapeType} from "@/constants";
+import {ShapeOptions, ShapeType} from "@/constants";
 import {fabric} from "fabric";
 import {FabricCanvas} from "../type";
 import {BaseHandler} from "./BaseHandler";
@@ -8,7 +8,8 @@ export class SelectionHandler extends BaseHandler {
     'i-text': 'text',
     'textbox': 'text',
     'rect': 'rectangle',
-    'path': 'ellipse',
+    'path': 'rectangle',
+    'group': 'rectangle',
   }
 
   constructor(
@@ -24,6 +25,13 @@ export class SelectionHandler extends BaseHandler {
     this.canvas.on('selection:created', this.onSelectionUpdated.bind(this));
     this.canvas.on('selection:updated', this.onSelectionUpdated.bind(this));
     this.canvas.on('selection:cleared', this.onSelectionCleared.bind(this));
+  }
+
+  private checkHasGroup(activeObjects: fabric.Object[]) {
+    const hasGroup = activeObjects.find(object => {
+      return object.type === 'group'
+    })
+    return !!hasGroup;
   }
 
   private getActiveObjectTypes(activeObjects: fabric.Object[]) {
@@ -42,7 +50,9 @@ export class SelectionHandler extends BaseHandler {
       [K in keyof ShapeOptions]: Set<ShapeOptions[K]>
     }>
 
+
     const type = activeObjects.map(item => this.shapeTypes[item.type] ?? item.type) as unknown as ShapeType[];
+    const hasGroup = this.checkHasGroup(activeObjects);
 
     const activeOptionSet = activeObjects.reduce(
       (prev: Options, item) => ({
@@ -66,10 +76,11 @@ export class SelectionHandler extends BaseHandler {
         {}
       );
 
-    this.state.setActiveObjects({type, options: activeOption})
+    this.state.setActiveObjects({type, hasGroup, options: activeOption})
   }
 
   private onSelectionUpdated() {
+    console.log('onSelectionUpdated')
     const activeObjects = this.canvas.getActiveObjects();
     this.getActiveObjectTypes(activeObjects)
 
@@ -82,6 +93,10 @@ export class SelectionHandler extends BaseHandler {
   }
 
   private onSelectionCleared() {
-    this.state.setActiveObjects({type: [], options: {}})
+    console.log('onSelectionCleared')
+    setTimeout(() => {
+      const activeObjects = this.canvas.getActiveObjects()
+      this.getActiveObjectTypes(activeObjects)
+    });
   }
 }
