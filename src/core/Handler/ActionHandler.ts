@@ -1,5 +1,6 @@
 import {Actions} from "@/constants";
 import {IAppContext} from "@/contexts";
+import {fabric} from "fabric";
 import {FabricCanvas} from "../type";
 import {BaseHandler} from "./BaseHandler";
 
@@ -99,10 +100,25 @@ export class ActionHandler extends BaseHandler {
   }
 
   private ungroup() {
-    const activeObject = this.canvas.getActiveObject() as fabric.ActiveSelection;
-    if (!activeObject || activeObject.type !== 'group') return;
+    const objects: fabric.Object[] = [];
 
-    activeObject.toActiveSelection();
+    const activeObjects = this.canvas.getActiveObjects();
+    this.canvas.discardActiveObject();
+
+    let activeSelection: fabric.ActiveSelection
+
+    activeObjects.map(object => {
+      if (object.type === 'group') {
+        const group = object as fabric.Group
+        group.getObjects().map(item => item.setCoords())
+        activeSelection = group.toActiveSelection()
+      } else {
+        objects.push(object)
+      }
+    })
+
+    objects.map(item => activeSelection.addWithUpdate(item))
+
     this.canvas.requestRenderAll();
   }
 }

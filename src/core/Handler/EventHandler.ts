@@ -99,6 +99,7 @@ export class SelectionHandler extends BaseHandler {
   private onSelectionCleared() {
     setTimeout(() => {
       const activeObjects = this.canvas.getActiveObjects()
+      if (activeObjects.length === 0) return
       this.getActiveObjectTypes(activeObjects)
     });
   }
