@@ -1,4 +1,4 @@
-import {IAppContext} from "@/contexts";
+import {IAppContext, StateChangedKey} from "@/contexts";
 
 export class EditorState {
   private appContext: IAppContext
@@ -19,7 +19,7 @@ export class EditorState {
     return this.appContext.activeTool === 'freedraw'
   }
 
-  setState(appContext: IAppContext) {
+  setState(appContext: IAppContext, state: StateChangedKey[]) {
     this.appContext = appContext
   }
 }

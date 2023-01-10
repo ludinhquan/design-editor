@@ -50,7 +50,6 @@ export class SelectionHandler extends BaseHandler {
       [K in keyof ShapeOptions]: Set<ShapeOptions[K]>
     }>
 
-
     const type = activeObjects.map(item => this.shapeTypes[item.type] ?? item.type) as unknown as ShapeType[];
     const hasGroup = this.checkHasGroup(activeObjects);
 
@@ -76,11 +75,16 @@ export class SelectionHandler extends BaseHandler {
         {}
       );
 
-    this.state.setActiveObjects({type, hasGroup, options: activeOption})
+
+    this.state.setActiveObjects({
+      isActiveSelection: this.canvas.getActiveObject().type === 'activeSelection',
+      type,
+      hasGroup,
+      options: activeOption
+    })
   }
 
   private onSelectionUpdated() {
-    console.log('onSelectionUpdated')
     const activeObjects = this.canvas.getActiveObjects();
     this.getActiveObjectTypes(activeObjects)
 
@@ -93,7 +97,6 @@ export class SelectionHandler extends BaseHandler {
   }
 
   private onSelectionCleared() {
-    console.log('onSelectionCleared')
     setTimeout(() => {
       const activeObjects = this.canvas.getActiveObjects()
       this.getActiveObjectTypes(activeObjects)

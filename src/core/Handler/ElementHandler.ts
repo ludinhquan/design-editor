@@ -1,4 +1,5 @@
 import {isEscape, ShapeType, StrokeStyle} from "@/constants";
+import {IAppContext, StateChangedKey} from "@/contexts";
 import {ArrowElement, BaseElement, DiamondElement, EllipseElement, ImageElement, LineElement, RectangleElement, TextElement} from "../Element";
 import {FabricCanvas, FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
 import {BaseHandler} from "./BaseHandler";
@@ -40,7 +41,9 @@ export class ElementHandler extends BaseHandler {
     })
   }
 
-  onAppStateChange(): void {
+  onAppStateChange(_: IAppContext, __: IAppContext, keys: StateChangedKey[]): void {
+    if (!keys.includes('shapeOptions')) return
+
     const styles = this.getShapeStyles()
     const objects = this.canvas.getActiveObjects();
     this.updateObjectStyles(objects, styles);
@@ -48,17 +51,17 @@ export class ElementHandler extends BaseHandler {
   }
 
   getShapeStyles() {
-    const {appState} = this.state
+    const {shapeOptions} = this.state
     return {
-      stroke: appState.strokeColor,
-      fill: appState.backgroundColor,
-      strokeWidth: appState.strokeWidth,
-      strokeDashArray: this.borderDashArray[appState.strokeStyle],
-      opacity: appState.opacity / 100,
-      rx: appState.roundness,
-      ry: appState.roundness,
-      fontSize: appState.fontSize,
-      fontFamily: appState.fontFamily,
+      stroke: shapeOptions.strokeColor,
+      fill: shapeOptions.backgroundColor,
+      strokeWidth: shapeOptions.strokeWidth,
+      strokeDashArray: this.borderDashArray[shapeOptions.strokeStyle],
+      opacity: shapeOptions.opacity / 100,
+      rx: shapeOptions.roundness,
+      ry: shapeOptions.roundness,
+      fontSize: shapeOptions.fontSize,
+      fontFamily: shapeOptions.fontFamily,
     }
   }
 

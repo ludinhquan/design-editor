@@ -1,5 +1,5 @@
 import {Actions, CURSOR_TYPE} from "@/constants";
-import {IAppContext} from "@/contexts";
+import {IAppContext, StateChangedKey} from "@/contexts";
 import {FabricCanvas} from "./type";
 import {ActionHandler, BaseHandler, ElementHandler, SelectionHandler} from "./Handler";
 import {EditorState} from "./EditorData";
@@ -40,15 +40,28 @@ export class CanvasInstance extends EditorState {
     this.canvas.loadFromJSON(json, () => {})
   }
 
-  public setAppContext(appContext: IAppContext) {
-    console.log(this.constructor.name, "setAppContext")
 
-    this.setState(appContext);
-    // update canvas style when change active tool
+  private timeOut: NodeJS.Timeout = null
+  private stateChangedKeys: StateChangedKey[] = []
 
-    this.handlers.map(item => item.setState(appContext));
+  public setAppContext(appContext: IAppContext, state: StateChangedKey) {
+    if (this.timeOut) {
+      this.stateChangedKeys.push(state)
+      clearTimeout(this.timeOut)
+    }
 
-    this.updateCanvasStyle();
+    this.timeOut = setTimeout(() => {
+      console.log("On State Change", this.stateChangedKeys)
+
+      this.setState(appContext, this.stateChangedKeys);
+
+      // update canvas style when change active tool
+      this.handlers.map(item => item.setState(appContext, this.stateChangedKeys));
+
+      if (state === 'activeTool') this.updateCanvasStyle();
+
+      this.stateChangedKeys = [];
+    })
   }
 
   public executeAction(action: Actions) {

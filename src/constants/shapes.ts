@@ -82,6 +82,7 @@ export type ShapeOptions = {
 export type ActiveObjects = {
   hasGroup: boolean,
   type: ShapeType[]
+  isActiveSelection: boolean,
   options: Partial<ShapeOptions>
 }
 

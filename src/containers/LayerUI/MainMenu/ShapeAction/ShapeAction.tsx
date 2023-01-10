@@ -4,7 +4,7 @@ import {useAppContext} from "@/hooks"
 import {getColor, isValidColor} from "@/utils"
 import {Button, Popover, Slider} from "antd"
 import Input from "antd/es/input/Input"
-import React, {ReactPropTypes, useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 import {Config, ConfigKey} from "./config"
 
 type ColorPickerProps = {
@@ -16,13 +16,13 @@ type ColorPickerProps = {
 const removeFirstHash = (str: string) => str.replace(/^#/, '')
 
 export const ColorPicker = (props: ColorPickerProps) => {
-  const {appState, setAppState} = useAppContext();
-  const [state, setState] = useState(removeFirstHash(appState[props.type]));
+  const {shapeOptions, setShapeOptions} = useAppContext();
+  const [state, setState] = useState(removeFirstHash(shapeOptions[props.type]));
 
   useEffect(() => {
     if (!isValidColor(state)) return
-    if (getColor(state) === getColor(appState[props.type])) return
-    setAppState({[props.type]: getColor(state)})
+    if (getColor(state) === getColor(shapeOptions[props.type])) return
+    setShapeOptions({[props.type]: getColor(state)})
   }, [state]);
 
   const Content = () => (
@@ -34,7 +34,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
   return (
     <div className="flex space-x-2">
       <Popover placement="rightTop" trigger="click" content={<Content />}>
-        <Button size="middle" style={{backgroundColor: appState[props.type]}} />
+        <Button size="middle" style={{backgroundColor: shapeOptions[props.type]}} />
       </Popover>
       <Input size="middle" prefix="#" value={state} onChange={(e) => setState(removeFirstHash(e.target.value))} />
     </div>
@@ -63,11 +63,11 @@ const WrapperConfig = (props: WrapperConfigProps) => {
 
 export const ShapeAction = () => {
   console.count('ShapeAction')
-  const {activeTool, appState, setAppState, executeAction, activeObjects} = useAppContext();
+  const {activeTool, shapeOptions: appState, setShapeOptions: setAppState, executeAction, activeObjects} = useAppContext();
 
-  if (activeTool === 'selection' && activeObjects.type.length === 0) return;
+  if (activeTool === 'selection' && activeObjects.type.length === 0 && activeObjects.hasGroup === false) return;
 
-  const group = activeObjects.type.length > 1;
+  const group = activeObjects.isActiveSelection;
   const ungroup = activeObjects.hasGroup;
  
   return (

@@ -89,7 +89,12 @@ export class ActionHandler extends BaseHandler {
     group.borderDashArray = [8, 4]
     group.borderColor = '#3d3d3d'
     const {type, options} = this.state.activeObjects
-    this.state.setActiveObjects({type, hasGroup: true, options});
+    this.state.setActiveObjects({
+      isActiveSelection: false,
+      type,
+      hasGroup: true,
+      options
+    });
     this.canvas.requestRenderAll();
   }
 

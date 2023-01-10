@@ -5,12 +5,10 @@ import { fabric } from "fabric"
 import json from '@/data/data.json'
 
 export interface IAppContext {
-  isMobile: boolean
-  setIsMobile: React.Dispatch<React.SetStateAction<boolean | undefined>>
   activeTool: null | ShapeType
   setActiveTool: (option: ShapeType) => void
-  appState: Partial<ShapeOptions>
-  setAppState: (option: Partial<ShapeOptions>) => void
+  shapeOptions: Partial<ShapeOptions>
+  setShapeOptions: (option: Partial<ShapeOptions>) => void
   image: string
   setImage: (data: string) => void
   activeObjects: ActiveObjects
@@ -23,31 +21,33 @@ export interface IAppContext {
 
 const emptyFunc = () => {}
 
+export type StateChangedKey = 'image' | 'activeTool' | 'shapeOptions' | 'activeObjects'
+
 export const AppContext = createContext<IAppContext>({
-  isMobile: false,
-  setIsMobile: emptyFunc,
-  activeTool: null,
-  setActiveTool: () => null,
-  appState: DefaultShapeOptions,
-  setAppState: () => null,
-  canvasInstance: null,
   image: null,
-  setImage: emptyFunc,
+  activeTool: null,
+  shapeOptions: DefaultShapeOptions,
   activeObjects: {type: [], hasGroup: false, options: {}},
+
+  setActiveTool: () => null,
+  setImage: emptyFunc,
+  setShapeOptions: () => null,
   setActiveObjects: emptyFunc,
-  executeAction:emptyFunc 
+
+  canvasInstance: null,
+  executeAction: emptyFunc
 })
 
+
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isMobile, setIsMobile] = useState<IAppContext['isMobile']>(false);
   const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>('selection');
-  const [appState, setState] = useState<IAppContext['appState']>(DefaultShapeOptions)
+  const [shapeOptions, setState] = useState<IAppContext['shapeOptions']>(DefaultShapeOptions)
   const [image, setImage] = useState<IAppContext['image']>();
   const [activeObjects, setActiveObjects] = useState<ActiveObjects>({type: [], hasGroup: false, options: {}});
 
   const canvasInstance = useRef<CanvasInstance>();
 
-  const setAppState = (state: IAppContext['appState']) => {
+  const setShapeOptions = (state: IAppContext['shapeOptions']) => {
     setState(s => ({...s, ...state}))
   }
 
@@ -56,12 +56,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const context: IAppContext = {
-    isMobile,
-    setIsMobile,
     activeTool,
     setActiveTool,
-    appState, 
-    setAppState,
+    shapeOptions,
+    setShapeOptions,
     image,
     setImage,
     activeObjects,
@@ -84,8 +82,23 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   
   useEffect(() => {
     if (!canvasInstance.current) return;
-    canvasInstance.current.setAppContext(context);
-  }, [activeTool, appState, image, activeObjects])
+    canvasInstance.current.setAppContext(context, 'activeTool');
+  }, [activeTool])
+
+  useEffect(() => {
+    if (!canvasInstance.current) return;
+    canvasInstance.current.setAppContext(context, 'image');
+  }, [image])
+
+  useEffect(() => {
+    if (!canvasInstance.current) return;
+    canvasInstance.current.setAppContext(context, 'shapeOptions');
+  }, [shapeOptions])
+
+  useEffect(() => {
+    if (!canvasInstance.current) return;
+    canvasInstance.current.setAppContext(context, 'activeObjects');
+  }, [activeObjects])
 
   return (
     <AppContext.Provider value={context}>
