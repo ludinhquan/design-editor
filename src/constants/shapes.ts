@@ -68,15 +68,26 @@ export enum FontFamily {
   Cascadia = 'Cascadia',
 }
 
+export enum TextAlign {
+  Left = "left",
+  Center = "center",
+  Right = "right",
+  Justify = "justify",
+  JustifyLeft = "justify-left",
+  JustifyCenter = "justify-center",
+  JustifyRight = "justify-right"
+}
+
 export type ShapeOptions = {
   strokeColor: null | string
   backgroundColor: null | string
   strokeWidth: null | number,
   strokeStyle: null | StrokeStyle,
   roundness: null | number,
+  opacity: null | number,
   fontSize: null | number,
   fontFamily: null | string,
-  opacity: null | number,
+  textAlign: null | TextAlign,
 }
 
 export type ActiveObjects = {
@@ -89,6 +100,7 @@ export type ActiveObjects = {
 export const DefaultShapeOptions: ShapeOptions = {
   fontFamily: FontFamily.Virgil,
   fontSize: 20,
+  textAlign: TextAlign.Left,
   opacity: 100,
   strokeColor: Colors.ElementStroke[0],
   backgroundColor: Colors.ElementBackground[0],

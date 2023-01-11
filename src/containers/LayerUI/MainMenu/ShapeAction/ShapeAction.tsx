@@ -1,5 +1,5 @@
 import {AlignBottomIcon, AlignLeftIcon, AlignRightIcon, AlignTopIcon, BringForwardIcon, BringToFrontIcon, CenterHorizontallyIcon, CenterVerticallyIcon, DistributeHorizontallyIcon, DistributeVerticallyIcon, DuplicateIcon, EdgeRoundIcon, EdgeSharpIcon, FontFamilyCodeIcon, FontFamilyNormalIcon, FontSizeExtraLargeIcon, FontSizeLargeIcon, FontSizeMediumIcon, FontSizeSmallIcon, FreedrawIcon, GroupIcon, IconButton, SendBackwardIcon, SendToBackIcon, StrokeStyleDashedIcon, StrokeStyleDottedIcon, StrokeStyleSolidIcon, StrokeWidthBaseIcon, StrokeWidthBoldIcon, StrokeWidthExtraBoldIcon, TextAlignCenterIcon, TextAlignLeftIcon, TextAlignRightIcon, TrashIcon, UngroupIcon} from "@/components"
-import {Actions, Colors, FontFamily, StrokeStyle} from "@/constants"
+import {Actions, Colors, FontFamily, StrokeStyle, TextAlign} from "@/constants"
 import {useAppContext} from "@/hooks"
 import {getColor, isValidColor} from "@/utils"
 import {Button, Popover, Slider} from "antd"
@@ -176,11 +176,11 @@ export const ShapeAction = () => {
             <div className="text-xs text-slate-500">Text align</div>
             <div className="flex space-x-2">
               {[
-                {value: 1, icon: TextAlignLeftIcon},
-                {value: 2, icon: TextAlignCenterIcon},
-                {value: 3, icon: TextAlignRightIcon},
+                {value: TextAlign.Left, icon: TextAlignLeftIcon},
+                {value: TextAlign.Center, icon: TextAlignCenterIcon},
+                {value: TextAlign.Right, icon: TextAlignRightIcon},
               ].map(item => {
-                return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roundness: item.value})} />
+                return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({textAlign: item.value})} />
               })}
             </div>
           </div>

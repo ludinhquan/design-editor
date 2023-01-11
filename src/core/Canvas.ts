@@ -51,7 +51,7 @@ export class CanvasInstance extends EditorState {
     }
 
     this.timeOut = setTimeout(() => {
-      console.log("On State Change", this.stateChangedKeys)
+      console.log("StateChangedEvent", this.stateChangedKeys)
 
       this.setState(appContext, this.stateChangedKeys);
 

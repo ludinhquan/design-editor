@@ -62,6 +62,7 @@ export class ElementHandler extends BaseHandler {
       ry: shapeOptions.roundness,
       fontSize: shapeOptions.fontSize,
       fontFamily: shapeOptions.fontFamily,
+      textAlign: shapeOptions.textAlign,
     }
   }
 
