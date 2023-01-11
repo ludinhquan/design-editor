@@ -1,5 +1,6 @@
-import {isEscape, ShapeType, StrokeStyle} from "@/constants";
+import {ShapeType, StrokeStyle} from "@/constants";
 import {IAppContext, StateChangedKey} from "@/contexts";
+import {fabric} from "fabric";
 import {ArrowElement, BaseElement, DiamondElement, EllipseElement, ImageElement, LineElement, RectangleElement, TextElement} from "../Element";
 import {FabricCanvas, FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
 import {BaseHandler} from "./BaseHandler";
@@ -23,6 +24,7 @@ export class ElementHandler extends BaseHandler {
   }
 
   private drawingElement: BaseElement;
+  private targetElement: fabric.Object;
 
   constructor(
     canvas: FabricCanvas
@@ -84,17 +86,20 @@ export class ElementHandler extends BaseHandler {
     this.canvas.on('mouse:down', this.onMouseDown.bind(this));
     this.canvas.on('mouse:move', this.onMouseMove.bind(this));
     this.canvas.on('mouse:up', this.onMouseUp.bind(this));
+  }
 
-    document.addEventListener('keydown', (e) => {
-      if (!isEscape(e.key)) return
-      const {setActiveTool} = this.state
-      setActiveTool('selection')
-    })
+  private lockMovement(lock: boolean){
+    this.targetElement.lockMovementX = lock;
+    this.targetElement.lockMovementY = lock;
   }
 
   private onMouseDown(event: FabricEvent) {
     const Element = this.shapes[this.activeTool];
     if (!Element) return;
+
+    this.targetElement = event.target;
+    if (!this.isSelectionMode) this.canvas.discardActiveObject()
+    this.lockMovement(true)
 
     const pointer: IMouseMoveEvent = this.canvas.getPointer(event.e);
     const options = this.getElementOption(pointer)
@@ -109,13 +114,16 @@ export class ElementHandler extends BaseHandler {
   }
 
   private onMouseUp() {
+    this.lockMovement(false)
     if (!this.drawingElement) return;
     const endDrawing = this.drawingElement.endDraw();
     if (!endDrawing) return
 
     const {activeTool, setActiveTool, setImage} = this.state
-    if (activeTool === 'image') setImage(null);
-    setActiveTool('selection');
+    if (activeTool === 'image') {
+      setImage(null);
+      setActiveTool('selection');
+    }
     this.elements.set(this.drawingElement.id, this.drawingElement);
     this.drawingElement = null
   }
