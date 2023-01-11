@@ -861,3 +861,11 @@ export const UngroupIcon = createIcon(
   </>,
   {width: 182, height: 182, mirror: true},
 );
+
+export const SaveIcon = createIcon(
+  <path
+    strokeWidth="1.25"
+    d="M3.333 14.167v1.666c0 .92.747 1.667 1.667 1.667h10c.92 0 1.667-.746 1.667-1.667v-1.666M5.833 9.167 10 13.333l4.167-4.166M10 3.333v10"
+  />,
+  modifiedTablerIconProps,
+);

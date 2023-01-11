@@ -1,4 +1,4 @@
-import {HamburgerMenuIcon, IconButton} from "@/components"
+import {HamburgerMenuIcon, IconButton, SaveIcon} from "@/components"
 import {ShapeAction} from "./ShapeAction"
 import {Shapes} from "./Shapes"
 
@@ -14,6 +14,7 @@ export const MainMenu = () => {
           <Shapes />
         </div>
         <div>
+          <IconButton border icon={SaveIcon} />
         </div>
       </div>
       <ShapeAction />

@@ -62,6 +62,13 @@ export enum StrokeStyle {
   Dotted = 'dotted',
 }
 
+export enum FontSize {
+  Small = 56,
+  Medium = 80,
+  Large = 100,
+  ExtraLarge = 156,
+}
+
 export enum FontFamily {
   Virgil = 'Virgil',
   Normal = 'Normal',
@@ -99,7 +106,7 @@ export type ActiveObjects = {
 
 export const DefaultShapeOptions: ShapeOptions = {
   fontFamily: FontFamily.Virgil,
-  fontSize: 20,
+  fontSize: FontSize.Small,
   textAlign: TextAlign.Left,
   opacity: 100,
   strokeColor: Colors.ElementStroke[0],

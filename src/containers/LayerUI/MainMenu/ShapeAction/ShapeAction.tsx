@@ -1,5 +1,5 @@
 import {AlignBottomIcon, AlignLeftIcon, AlignRightIcon, AlignTopIcon, BringForwardIcon, BringToFrontIcon, CenterHorizontallyIcon, CenterVerticallyIcon, DistributeHorizontallyIcon, DistributeVerticallyIcon, DuplicateIcon, EdgeRoundIcon, EdgeSharpIcon, FontFamilyCodeIcon, FontFamilyNormalIcon, FontSizeExtraLargeIcon, FontSizeLargeIcon, FontSizeMediumIcon, FontSizeSmallIcon, FreedrawIcon, GroupIcon, IconButton, SendBackwardIcon, SendToBackIcon, StrokeStyleDashedIcon, StrokeStyleDottedIcon, StrokeStyleSolidIcon, StrokeWidthBaseIcon, StrokeWidthBoldIcon, StrokeWidthExtraBoldIcon, TextAlignCenterIcon, TextAlignLeftIcon, TextAlignRightIcon, TrashIcon, UngroupIcon} from "@/components"
-import {Actions, Colors, FontFamily, StrokeStyle, TextAlign} from "@/constants"
+import {Actions, Colors, FontFamily, FontSize, StrokeStyle, TextAlign} from "@/constants"
 import {useAppContext} from "@/hooks"
 import {getColor, isValidColor} from "@/utils"
 import {Button, Popover, Slider} from "antd"
@@ -126,7 +126,7 @@ export const ShapeAction = () => {
             <div className="text-xs text-slate-500">Edges</div>
             <div className="flex space-x-2">
               {[
-                {value: null, icon: EdgeSharpIcon},
+                {value: 0, icon: EdgeSharpIcon},
                 {value: 10, icon: EdgeRoundIcon},
               ].map(item => {
                 return <IconButton key={item.value} active={appState.roundness === item.value} border size="middle" icon={item.icon} onClick={() => setAppState({roundness: item.value})} />
@@ -147,10 +147,10 @@ export const ShapeAction = () => {
             <div className="text-xs text-slate-500">Font size</div>
             <div className="flex space-x-2">
               {[
-                {value: 16, icon: FontSizeSmallIcon},
-                {value: 20, icon: FontSizeMediumIcon},
-                {value: 28, icon: FontSizeLargeIcon},
-                {value: 36, icon: FontSizeExtraLargeIcon},
+                {value: FontSize.Small, icon: FontSizeSmallIcon},
+                {value: FontSize.Medium, icon: FontSizeMediumIcon},
+                {value: FontSize.Large, icon: FontSizeLargeIcon},
+                {value: FontSize.ExtraLarge, icon: FontSizeExtraLargeIcon},
               ].map(item => {
                 return <IconButton key={item.value} border size="middle" icon={item.icon} onClick={() => setAppState({fontSize: item.value})} />
               })}
