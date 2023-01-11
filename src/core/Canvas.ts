@@ -3,6 +3,7 @@ import {IAppContext, StateChangedKey} from "@/contexts";
 import {FabricCanvas} from "./type";
 import {ActionHandler, BaseHandler, ElementHandler, SelectionHandler} from "./Handler";
 import {EditorState} from "./EditorData";
+import {KeyboardHandler} from "./Handler/KeyboardHandler";
 
 export class CanvasInstance extends EditorState {
   private handlers: BaseHandler[]
@@ -25,6 +26,7 @@ export class CanvasInstance extends EditorState {
       new ElementHandler(canvas),
       new SelectionHandler(canvas),
       new ActionHandler(canvas),
+      new KeyboardHandler(canvas),
     ]
   }
 
@@ -58,7 +60,7 @@ export class CanvasInstance extends EditorState {
       // update canvas style when change active tool
       this.handlers.map(item => item.setState(appContext, this.stateChangedKeys));
 
-      if (state === 'activeTool') this.updateCanvasStyle();
+      if (this.stateChangedKeys.includes("activeTool")) this.updateCanvasStyle();
 
       this.stateChangedKeys = [];
     })

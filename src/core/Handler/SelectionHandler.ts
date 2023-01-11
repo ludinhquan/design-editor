@@ -22,7 +22,7 @@ export class SelectionHandler extends BaseHandler {
   onAppStateChange(): void {}
 
   private registerHandlers = () => {
-    this.canvas.on('selection:created', this.onSelectionUpdated.bind(this));
+    this.canvas.on('selection:created', this.onSelectionCreated.bind(this));
     this.canvas.on('selection:updated', this.onSelectionUpdated.bind(this));
     this.canvas.on('selection:cleared', this.onSelectionCleared.bind(this));
   }
@@ -82,6 +82,18 @@ export class SelectionHandler extends BaseHandler {
       hasGroup,
       options: activeOption
     })
+  }
+
+  private onSelectionCreated() {
+    const activeObjects = this.canvas.getActiveObjects();
+    this.getActiveObjectTypes(activeObjects)
+
+    activeObjects.map(item => {
+      if (item.group && !item.group.borderDashArray) item.group.borderDashArray = [3, 3];
+      if (item.type === 'group' && !item.borderDashArray) item.borderDashArray = [3, 3];
+    });
+
+    this.canvas.renderAll()
   }
 
   private onSelectionUpdated() {

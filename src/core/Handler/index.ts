@@ -1,5 +1,6 @@
 export * from './BaseHandler'
 
-export * from './ElementHandler'
-export * from './EventHandler'
 export * from './ActionHandler'
+export * from './ElementHandler'
+export * from './KeyboardHandler'
+export * from './SelectionHandler'

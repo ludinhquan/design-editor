@@ -41,8 +41,8 @@ export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Op
       strokeWidth: appState.strokeWidth,
       // strokeDashArray: this.borderDashArray[appState.strokeStyle],
       opacity: appState.opacity / 100,
-      rx: appState.roughness,
-      ry: appState.roughness,
+      rx: appState.roundness,
+      ry: appState.roundness,
       fontSize: appState.fontSize,
       fontFamily: appState.fontFamily,
     }
