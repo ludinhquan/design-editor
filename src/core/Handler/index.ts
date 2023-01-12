@@ -1,4 +1,5 @@
 export * from './BaseHandler'
+export * from './Handler'
 
 export * from './ActionHandler'
 export * from './ElementHandler'

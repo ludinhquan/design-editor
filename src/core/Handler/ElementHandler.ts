@@ -26,30 +26,27 @@ export class ElementHandler extends BaseHandler {
   private drawingElement: BaseElement;
   private targetElement: fabric.Object;
 
-  constructor(
-    canvas: FabricCanvas
-  ) {
+  constructor(canvas: FabricCanvas) {
     super(canvas)
     this.registerHandlers()
   }
 
-  updateObjectStyles(objects: fabric.Object[], styles: object) {
+  updateObjectStyles() {
+    const styles = this.getShapeStyles()
+    const objects = this.canvas.getActiveObjects();
     objects.map(object => {
       if (object.type === 'group') {
         (object as fabric.Group).getObjects().map(ele => ele.set(styles));
         return;
       }
       object.set(styles)
-    })
+    });
+    this.canvas.requestRenderAll()
   }
 
   onAppStateChange(_: IAppContext, __: IAppContext, keys: StateChangedKey[]): void {
     if (!keys.includes('shapeOptions')) return
-
-    const styles = this.getShapeStyles()
-    const objects = this.canvas.getActiveObjects();
-    this.updateObjectStyles(objects, styles);
-    this.canvas.requestRenderAll()
+    this.updateObjectStyles();
   }
 
   getShapeStyles() {

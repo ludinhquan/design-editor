@@ -19,7 +19,7 @@ export class EditorState {
     return this.appContext.activeTool === 'freedraw'
   }
 
-  setState(appContext: IAppContext, state: StateChangedKey[]) {
+  setAppState(appContext: IAppContext, state: StateChangedKey[]) {
     this.appContext = appContext
   }
 }

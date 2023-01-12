@@ -1,12 +1,11 @@
 import {Actions, CURSOR_TYPE} from "@/constants";
 import {IAppContext, StateChangedKey} from "@/contexts";
-import {FabricCanvas} from "./type";
-import {ActionHandler, BaseHandler, ElementHandler, SelectionHandler} from "./Handler";
 import {EditorState} from "./EditorData";
-import {KeyboardHandler} from "./Handler/KeyboardHandler";
+import {Handler} from "./Handler";
+import {FabricCanvas} from "./type";
 
 export class CanvasInstance extends EditorState {
-  private handlers: BaseHandler[]
+  private readonly handler: Handler;
 
   private readonly canvasOptions: fabric.ICanvasOptions = {
     backgroundColor: '#ffffff',
@@ -22,12 +21,7 @@ export class CanvasInstance extends EditorState {
     super()
 
     this.initOptions()
-    this.handlers = [
-      new ElementHandler(canvas),
-      new SelectionHandler(canvas),
-      new ActionHandler(canvas),
-      new KeyboardHandler(canvas),
-    ]
+    this.handler = new Handler(canvas);
   }
 
   public loadFromJSON(json: any) {
@@ -44,30 +38,29 @@ export class CanvasInstance extends EditorState {
 
 
   private timeOut: NodeJS.Timeout = null
-  private stateChangedKeys: StateChangedKey[] = []
+  private changedKeys: StateChangedKey[] = []
 
-  public setAppContext(appContext: IAppContext, state: StateChangedKey) {
+  public setAppContext(appContext: IAppContext, changedKey: StateChangedKey) {
     if (this.timeOut) {
-      this.stateChangedKeys.push(state)
+      this.changedKeys.push(changedKey)
       clearTimeout(this.timeOut)
     }
 
     this.timeOut = setTimeout(() => {
-      console.log("StateChangedEvent", this.stateChangedKeys)
+      console.log("StateChangedEvent", this.changedKeys)
 
-      this.setState(appContext, this.stateChangedKeys);
+      this.setAppState(appContext, this.changedKeys);
 
-      // update canvas style when change active tool
-      this.handlers.map(item => item.setState(appContext, this.stateChangedKeys));
+      this.handler.changeAppState(appContext, this.changedKeys);
 
-      if (this.stateChangedKeys.includes("activeTool")) this.updateCanvasStyle();
+      if (this.changedKeys.includes("activeTool")) this.updateCanvasStyle();
 
-      this.stateChangedKeys = [];
+      this.changedKeys = [];
     })
   }
 
   public executeAction(action: Actions) {
-    this.handlers.map(item => item.executeAction(action));
+    this.handler.executeAction(action);
   }
 
   private getCursor(): string {

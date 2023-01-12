@@ -12,9 +12,7 @@ export class SelectionHandler extends BaseHandler {
     'group': 'rectangle',
   }
 
-  constructor(
-    canvas: FabricCanvas
-  ) {
+  constructor(canvas: FabricCanvas) {
     super(canvas)
     this.registerHandlers()
   }

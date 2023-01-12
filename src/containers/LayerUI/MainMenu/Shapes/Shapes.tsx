@@ -2,12 +2,21 @@ import {IconButton} from "@/components";
 import {SHAPES} from "@/constants";
 import {IAppContext} from "@/contexts";
 import {useAppContext} from "@/hooks";
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 
 type ShapeProps = Pick<IAppContext, 'activeTool' | 'setActiveTool' | 'setImage'>
 
 const ShapeComponent = React.memo((props: ShapeProps) => {
   console.count('Shapes')
+
+  useEffect(() => {
+    const onKeydown = (e: KeyboardEvent) => {
+      if (['i', '9'].includes(e.key)) openFile()
+    }
+
+    document.addEventListener('keydown', onKeydown)
+    return () => document.removeEventListener('keydown', onKeydown)
+  }, [])
 
   const {activeTool, setActiveTool, setImage: loadImage} = props
   const fileInputRef = useRef<HTMLInputElement>(null);
