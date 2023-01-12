@@ -48,9 +48,6 @@ export class KeyboardHandler extends BaseHandler {
 
   private registerHandlers = () => {
     document.addEventListener('keydown', (e) => {
-      const {disableKeyboard} = this.handlerState;
-      if (disableKeyboard) return;
-
       const keys = this.combineKeys.reduce(
         (prev: string[], key: string) => (e as any)[`${key}Key`] ? prev.concat(key) : prev,
         []
