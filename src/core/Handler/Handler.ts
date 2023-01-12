@@ -8,7 +8,12 @@ import {KeyboardHandler} from "./KeyboardHandler";
 import {SelectionHandler} from "./SelectionHandler";
 
 export type HandlerState = {
-  disableKeyboard: boolean
+  disableKeyboard: boolean,
+}
+
+export type HandlerAction = {
+  enableKeyboardEvent: Function,
+  disableKeyboardEvent: Function,
 }
 
 export class Handler {
@@ -24,10 +29,14 @@ export class Handler {
   }
 
   constructor(canvas: FabricCanvas) {
-    this.elementHandler = new ElementHandler(canvas);
-    this.selectionHandler = new SelectionHandler(canvas);
-    this.actionHandler = new ActionHandler(canvas);
-    this.keyboardHandler = new KeyboardHandler(canvas);
+    const actions: HandlerAction = {
+      enableKeyboardEvent: this.enableKeyboardEvent.bind(this),
+      disableKeyboardEvent: this.disableKeyboardEvent.bind(this),
+    }
+    this.elementHandler = new ElementHandler(canvas, actions);
+    this.selectionHandler = new SelectionHandler(canvas, actions);
+    this.actionHandler = new ActionHandler(canvas, actions);
+    this.keyboardHandler = new KeyboardHandler(canvas, actions);
 
     this.handlers = [
       this.elementHandler,
@@ -36,7 +45,7 @@ export class Handler {
       this.keyboardHandler
     ]
 
-    this.handlers.map(handler => handler.setHandlerState(this.state));
+    // this.handlers.map(handler => handler.setHandlerState(this.state));
   }
 
   public enableKeyboardEvent = () => {
@@ -45,8 +54,7 @@ export class Handler {
 
   public disableKeyboardEvent = () => {
     this.state.disableKeyboard = true
-
-    this.handlers.map(handler => handler.setHandlerState(this.state));
+    // this.handlers.map(handler => handler.setHandlerState(this.state));
   }
 
   public changeAppState(state: IAppContext, keys: StateChangedKey[]) {

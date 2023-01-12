@@ -4,6 +4,7 @@ import {fabric} from "fabric";
 import {ArrowElement, BaseElement, DiamondElement, EllipseElement, ImageElement, LineElement, RectangleElement, TextElement} from "../Element";
 import {FabricCanvas, FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
 import {BaseHandler} from "./BaseHandler";
+import {HandlerAction} from "./Handler";
 
 export class ElementHandler extends BaseHandler {
   private readonly borderDashArray: Record<StrokeStyle, [number, number]> = {
@@ -26,8 +27,11 @@ export class ElementHandler extends BaseHandler {
   private drawingElement: BaseElement;
   private targetElement: fabric.Object;
 
-  constructor(canvas: FabricCanvas) {
-    super(canvas)
+  constructor(
+    canvas: FabricCanvas,
+    actions: HandlerAction
+  ) {
+    super(canvas,actions)
     this.registerHandlers()
   }
 
@@ -99,6 +103,7 @@ export class ElementHandler extends BaseHandler {
     this.canvas.discardActiveObject();
     this.targetElement = event.target;
     this.lockMovement(true)
+    this.handlerAction.disableKeyboardEvent()
 
     const pointer: IMouseMoveEvent = this.canvas.getPointer(event.e);
     const options = this.getElementOption(pointer)
@@ -114,6 +119,7 @@ export class ElementHandler extends BaseHandler {
 
   private onMouseUp() {
     this.lockMovement(false)
+    this.handlerAction.enableKeyboardEvent()
     if (!this.drawingElement) return;
     const endDrawing = this.drawingElement.endDraw();
     if (!endDrawing) return

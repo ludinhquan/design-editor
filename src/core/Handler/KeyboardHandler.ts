@@ -1,6 +1,7 @@
 import {ShapeType} from "@/constants";
 import {FabricCanvas} from "../type";
 import {BaseHandler} from "./BaseHandler";
+import {HandlerAction} from "./Handler";
 
 const tools: [string[], ShapeType][] = [
   [['v', '1'], 'selection'],
@@ -16,8 +17,11 @@ const tools: [string[], ShapeType][] = [
 
 export class KeyboardHandler extends BaseHandler {
 
-  constructor(canvas: FabricCanvas) {
-    super(canvas)
+  constructor(
+    canvas: FabricCanvas,
+    actions: HandlerAction
+  ) {
+    super(canvas,actions)
     this.registerHandlers()
   }
 

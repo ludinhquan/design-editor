@@ -3,9 +3,10 @@ import {IAppContext} from "@/contexts";
 import {fabric} from "fabric";
 import {FabricCanvas} from "../type";
 import {BaseHandler} from "./BaseHandler";
+import {HandlerAction} from "./Handler";
 
 export class ActionHandler extends BaseHandler {
-  private actions: Partial<Record<Actions, Function>> = {
+  private commands: Partial<Record<Actions, Function>> = {
     [Actions.SendToBack]: this.sendToBack.bind(this),
     [Actions.SendBackward]: this.sendBackward.bind(this),
     [Actions.BringToFront]: this.bringToFront.bind(this),
@@ -16,12 +17,17 @@ export class ActionHandler extends BaseHandler {
     [Actions.UnGroup]: this.ungroup.bind(this),
   }
 
-  constructor(canvas: FabricCanvas) {super(canvas)}
+  constructor(
+    canvas: FabricCanvas,
+    handlerActions: HandlerAction
+  ) {
+    super(canvas, handlerActions)
+  }
 
   onAppStateChange(_: IAppContext, __: IAppContext): void {}
 
   executeAction(action: Actions) {
-    const hanlder = this.actions[action]
+    const hanlder = this.commands[action]
     if (typeof hanlder === 'function') hanlder();
   }
 

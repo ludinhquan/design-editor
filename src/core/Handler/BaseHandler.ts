@@ -2,11 +2,12 @@ import {Actions} from "@/constants";
 import {IAppContext, StateChangedKey} from "@/contexts";
 import {EditorState} from "../EditorData";
 import {FabricCanvas} from "../type";
+import {HandlerAction} from "./Handler";
 
 export abstract class BaseHandler extends EditorState {
   abstract onAppStateChange(appContext: IAppContext, oldContext: IAppContext, states: StateChangedKey[]): void
   
-  constructor(protected canvas: FabricCanvas) {super()}
+  constructor(protected canvas: FabricCanvas, protected handlerAction: HandlerAction) {super()}
 
   executeAction(action: Actions){}
 
