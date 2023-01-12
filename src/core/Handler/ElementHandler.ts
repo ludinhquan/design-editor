@@ -89,16 +89,18 @@ export class ElementHandler extends BaseHandler {
   }
 
   private lockMovement(lock: boolean){
+    if (!this.targetElement) return;
     this.targetElement.lockMovementX = lock;
     this.targetElement.lockMovementY = lock;
   }
 
   private onMouseDown(event: FabricEvent) {
     const Element = this.shapes[this.activeTool];
+
     if (!Element) return;
 
+    this.canvas.discardActiveObject();
     this.targetElement = event.target;
-    if (!this.isSelectionMode) this.canvas.discardActiveObject()
     this.lockMovement(true)
 
     const pointer: IMouseMoveEvent = this.canvas.getPointer(event.e);
