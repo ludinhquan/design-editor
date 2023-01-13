@@ -27,7 +27,7 @@ export const AppContext = createContext<IAppContext>({
   image: null,
   activeTool: null,
   shapeOptions: DefaultShapeOptions,
-  activeObjects: {type: [], hasGroup: false, options: {}},
+  activeObjects: {isActiveSelection: false, type: [], hasGroup: false, options: {}},
 
   setActiveTool: () => null,
   setImage: emptyFunc,
@@ -43,7 +43,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>('selection');
   const [shapeOptions, setState] = useState<IAppContext['shapeOptions']>(DefaultShapeOptions)
   const [image, setImage] = useState<IAppContext['image']>();
-  const [activeObjects, setActiveObjects] = useState<ActiveObjects>({type: [], hasGroup: false, options: {}});
+  const [activeObjects, setActiveObjects] = useState<ActiveObjects>({isActiveSelection: false, type: [], hasGroup: false, options: {}});
 
   const canvasInstance = useRef<CanvasInstance>();
 

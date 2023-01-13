@@ -3,6 +3,8 @@ import {FabricCanvas} from "../type";
 import {BaseHandler} from "./BaseHandler";
 import {HandlerAction} from "./Handler";
 
+const combineKeys = ["alt", "ctrl", "meta", "shift"];
+
 const tools: [string[], ShapeType][] = [
   [['v', '1'], 'selection'],
   [['r', '2'], 'rectangle'],
@@ -16,7 +18,6 @@ const tools: [string[], ShapeType][] = [
 ];
 
 export class KeyboardHandler extends BaseHandler {
-
   constructor(
     canvas: FabricCanvas,
     actions: HandlerAction
@@ -27,12 +28,9 @@ export class KeyboardHandler extends BaseHandler {
 
   onAppStateChange(): void {}
 
-  private readonly combineKeys = [
-    "alt",
-    "ctrl",
-    "meta",
-    "shift",
-  ]
+  private registerHandlers = () => {
+    document.addEventListener('keydown', this.handleKeyboardEvent);
+  }
 
   private readonly tools: Record<string, ShapeType> = tools.reduce(
     (prev: Record<string, ShapeType>, item) => {
@@ -50,19 +48,15 @@ export class KeyboardHandler extends BaseHandler {
     if (activeTool) this.state.setActiveTool(activeTool);
   }
 
-  private registerHandlers = () => {
-    document.addEventListener('keydown', (e) => {
-      const keys = this.combineKeys.reduce(
-        (prev: string[], key: string) => (e as any)[`${key}Key`] ? prev.concat(key) : prev,
-        []
-      );
+  private handleKeyboardEvent(e: KeyboardEvent) {
+    const keys = combineKeys.reduce(
+      (prev: string[], key: string) => (e as any)[`${key}Key`] ? prev.concat(key) : prev,
+      []
+    );
 
-      const combineKey = keys.concat(e.key).join('-').toLowerCase();
+    const combineKey = keys.concat(e.key).join('-').toLowerCase();
+    this.changeActiveTool(combineKey);
 
-      this.changeActiveTool(combineKey);
-
-      if (this.preventCombinedKeys.has(combineKey))
-        e.preventDefault()
-    });
+    if (this.preventCombinedKeys.has(combineKey)) e.preventDefault()
   }
 }
