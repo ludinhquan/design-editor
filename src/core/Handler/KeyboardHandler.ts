@@ -1,4 +1,5 @@
 import {ShapeType} from "@/constants";
+import {fabric} from "fabric";
 import {BaseHandler} from "./BaseHandler";
 import {Handler} from "./Handler";
 
@@ -42,13 +43,30 @@ export class KeyboardHandler extends BaseHandler {
     if (activeTool) this.appContext.setActiveTool(activeTool);
   }
 
+  private selectAll(){
+    const objects = this.canvas.getObjects();
+    const activeSelection = new fabric.ActiveSelection()
+    objects.map(object => activeSelection.addWithUpdate(object));
+    this.canvas.add(activeSelection)
+    this.canvas.setActiveObject(activeSelection);
+    this.canvas.requestRenderAll()
+  }
+
   private handleKeyboardEvent(e: KeyboardEvent) {
+    const combineActions: Record<string, Function> = {
+      'ctrl-a': this.selectAll.bind(this),
+    }
+
     const keys = combineKeys.reduce(
       (prev: string[], key: string) => (e as any)[`${key}Key`] ? prev.concat(key) : prev,
       []
     );
 
     const combineKey = keys.concat(e.key).join('-').toLowerCase();
+    if (combineKey in combineActions) {
+      combineActions[combineKey]()
+      e.preventDefault()
+    }
     this.changeActiveTool(combineKey);
 
     if (this.preventCombinedKeys.has(combineKey)) e.preventDefault()
