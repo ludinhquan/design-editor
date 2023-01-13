@@ -19,7 +19,7 @@ export const Config: Record<ConfigKey, Set<ShapeType>> = {
   StrokeColor: new Set(['rectangle', 'diamond', 'ellipse', 'arrow', 'line', 'freedraw', 'text']),
   StrokeWidth: new Set(['rectangle', 'diamond', 'ellipse', 'arrow', 'line', 'freedraw']),
   StrokeStyle: new Set(['rectangle', 'diamond', 'ellipse', 'arrow', 'line']),
-  Background: new Set(['rectangle', 'diamond', 'ellipse']),
+  Background: new Set(['rectangle', 'diamond', 'ellipse', 'text']),
   Edge: new Set(['rectangle', 'diamond']),
 
   Opacity: new Set(['rectangle', 'diamond', 'ellipse', 'arrow', 'line', 'freedraw', 'text', 'image']),
