@@ -1,7 +1,6 @@
 import {ShapeType} from "@/constants";
-import {FabricCanvas} from "../type";
 import {BaseHandler} from "./BaseHandler";
-import {HandlerAction} from "./Handler";
+import {Handler} from "./Handler";
 
 const combineKeys = ["alt", "ctrl", "meta", "shift"];
 
@@ -18,18 +17,13 @@ const tools: [string[], ShapeType][] = [
 ];
 
 export class KeyboardHandler extends BaseHandler {
-  constructor(
-    canvas: FabricCanvas,
-    actions: HandlerAction
-  ) {
-    super(canvas,actions)
+  constructor(handler: Handler) {
+    super(handler)
     this.registerHandlers()
   }
 
-  onAppStateChange(): void {}
-
   private registerHandlers = () => {
-    document.addEventListener('keydown', this.handleKeyboardEvent);
+    document.addEventListener('keydown', this.handleKeyboardEvent.bind(this));
   }
 
   private readonly tools: Record<string, ShapeType> = tools.reduce(
@@ -45,7 +39,7 @@ export class KeyboardHandler extends BaseHandler {
 
   private changeActiveTool(combineKey: string) {
     const activeTool = this.tools[combineKey];
-    if (activeTool) this.state.setActiveTool(activeTool);
+    if (activeTool) this.appContext.setActiveTool(activeTool);
   }
 
   private handleKeyboardEvent(e: KeyboardEvent) {

@@ -1,8 +1,7 @@
 import {ShapeOptions, ShapeType} from "@/constants";
 import {fabric} from "fabric";
-import {FabricCanvas} from "../type";
 import {BaseHandler} from "./BaseHandler";
-import {HandlerAction} from "./Handler";
+import {Handler} from "./Handler";
 
 export class SelectionHandler extends BaseHandler {
   private shapeTypes: Record<string, ShapeType> = {
@@ -13,15 +12,10 @@ export class SelectionHandler extends BaseHandler {
     'group': 'rectangle',
   }
 
-  constructor(
-    canvas: FabricCanvas,
-    actions: HandlerAction
-  ) {
-    super(canvas,actions)
+  constructor(handler: Handler) {
+    super(handler)
     this.registerHandlers()
   }
-
-  onAppStateChange(): void {}
 
   private registerHandlers = () => {
     this.canvas.on('selection:created', this.onSelectionCreated.bind(this));
@@ -78,7 +72,7 @@ export class SelectionHandler extends BaseHandler {
       );
 
 
-    this.state.setActiveObjects({
+    this.appContext.setActiveObjects({
       isActiveSelection: this.canvas.getActiveObject().type === 'activeSelection',
       type,
       hasGroup,

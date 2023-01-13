@@ -2,9 +2,9 @@ import {ShapeType, StrokeStyle} from "@/constants";
 import {IAppContext, StateChangedKey} from "@/contexts";
 import {fabric} from "fabric";
 import {ArrowElement, BaseElement, DiamondElement, EllipseElement, ImageElement, LineElement, RectangleElement, TextElement} from "../Element";
-import {FabricCanvas, FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
+import {FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
 import {BaseHandler} from "./BaseHandler";
-import {HandlerAction} from "./Handler";
+import {Handler} from "./Handler";
 
 export class ElementHandler extends BaseHandler {
   private readonly borderDashArray: Record<StrokeStyle, [number, number]> = {
@@ -27,11 +27,8 @@ export class ElementHandler extends BaseHandler {
   private drawingElement: BaseElement;
   private targetElement: fabric.Object;
 
-  constructor(
-    canvas: FabricCanvas,
-    actions: HandlerAction
-  ) {
-    super(canvas,actions)
+  constructor(handler: Handler) {
+    super(handler)
     this.registerHandlers()
   }
 
@@ -48,13 +45,13 @@ export class ElementHandler extends BaseHandler {
     this.canvas.requestRenderAll()
   }
 
-  onAppStateChange(_: IAppContext, __: IAppContext, keys: StateChangedKey[]): void {
+  onUpdateAppContext(keys: StateChangedKey[]): void {
     if (!keys.includes('shapeOptions')) return
     this.updateObjectStyles();
   }
 
   getShapeStyles() {
-    const {shapeOptions} = this.state
+    const {shapeOptions} = this.appContext
     return {
       stroke: shapeOptions.strokeColor,
       fill: shapeOptions.backgroundColor,
@@ -70,11 +67,11 @@ export class ElementHandler extends BaseHandler {
   }
 
   private getElementOption(event: IMouseMoveEvent) {
-    const {image: currentImage} = this.state;
+    const {image} = this.appContext;
     const styles = this.getShapeStyles();
 
     const options: Partial<GenericOptions> = {
-      image: currentImage,
+      image,
       left: event.x,
       top: event.y,
       ...styles
@@ -96,14 +93,16 @@ export class ElementHandler extends BaseHandler {
   }
 
   private onMouseDown(event: FabricEvent) {
-    const Element = this.shapes[this.activeTool];
+    const {activeTool} = this.appContext
+    const Element = this.shapes[activeTool];
 
     if (!Element) return;
 
     this.canvas.discardActiveObject();
     this.targetElement = event.target;
     this.lockMovement(true)
-    this.handlerAction.disableKeyboardEvent()
+
+    this.handler.disableKeyboardEvent()
 
     const pointer: IMouseMoveEvent = this.canvas.getPointer(event.e);
     const options = this.getElementOption(pointer)
@@ -119,12 +118,12 @@ export class ElementHandler extends BaseHandler {
 
   private onMouseUp() {
     this.lockMovement(false)
-    this.handlerAction.enableKeyboardEvent()
+    this.handler.enableKeyboardEvent()
     if (!this.drawingElement) return;
     const endDrawing = this.drawingElement.endDraw();
     if (!endDrawing) return
 
-    const {activeTool, setActiveTool, setImage} = this.state
+    const {activeTool, setActiveTool, setImage} = this.appContext
     if (activeTool === 'image') {
       setImage(null);
       setActiveTool('selection');

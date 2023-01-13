@@ -1,9 +1,7 @@
 import {Actions} from "@/constants";
-import {IAppContext} from "@/contexts";
 import {fabric} from "fabric";
-import {FabricCanvas} from "../type";
 import {BaseHandler} from "./BaseHandler";
-import {HandlerAction} from "./Handler";
+import {Handler} from "./Handler";
 
 export class ActionHandler extends BaseHandler {
   private commands: Partial<Record<Actions, Function>> = {
@@ -17,18 +15,11 @@ export class ActionHandler extends BaseHandler {
     [Actions.UnGroup]: this.ungroup.bind(this),
   }
 
-  constructor(
-    canvas: FabricCanvas,
-    handlerActions: HandlerAction
-  ) {
-    super(canvas, handlerActions)
-  }
+  constructor(handler: Handler) {super(handler)}
 
-  onAppStateChange(_: IAppContext, __: IAppContext): void {}
-
-  executeAction(action: Actions) {
-    const hanlder = this.commands[action]
-    if (typeof hanlder === 'function') hanlder();
+  public executeAction(action: Actions) {
+    const handler = this.commands[action]
+    if (typeof handler === 'function') handler();
   }
 
   private sendToBack() {
@@ -95,8 +86,8 @@ export class ActionHandler extends BaseHandler {
     const group = activeObject.toGroup();
     group.borderDashArray = [8, 4]
     group.borderColor = '#3d3d3d'
-    const {type, options} = this.state.activeObjects
-    this.state.setActiveObjects({
+    const {type, options} = this.appContext.activeObjects
+    this.appContext.setActiveObjects({
       isActiveSelection: false,
       type,
       hasGroup: true,

@@ -1,6 +1,6 @@
 import {Actions} from "@/constants";
 import {IAppContext, StateChangedKey} from "@/contexts";
-import {FabricCanvas} from "../type";
+import {CanvasInstance} from "../Canvas";
 import {ActionHandler} from "./ActionHandler";
 import {BaseHandler} from "./BaseHandler";
 import {ElementHandler} from "./ElementHandler";
@@ -9,11 +9,6 @@ import {SelectionHandler} from "./SelectionHandler";
 
 export type HandlerState = {
   disableKeyboard: boolean,
-}
-
-export type HandlerAction = {
-  enableKeyboardEvent: Function,
-  disableKeyboardEvent: Function,
 }
 
 export class Handler {
@@ -28,15 +23,11 @@ export class Handler {
     disableKeyboard: false
   }
 
-  constructor(canvas: FabricCanvas) {
-    const actions: HandlerAction = {
-      enableKeyboardEvent: this.enableKeyboardEvent.bind(this),
-      disableKeyboardEvent: this.disableKeyboardEvent.bind(this),
-    }
-    this.elementHandler = new ElementHandler(canvas, actions);
-    this.selectionHandler = new SelectionHandler(canvas, actions);
-    this.actionHandler = new ActionHandler(canvas, actions);
-    this.keyboardHandler = new KeyboardHandler(canvas, actions);
+  constructor(public canvasInstance: CanvasInstance) {
+    this.elementHandler = new ElementHandler(this);
+    this.selectionHandler = new SelectionHandler(this);
+    this.actionHandler = new ActionHandler(this);
+    this.keyboardHandler = new KeyboardHandler(this);
 
     this.handlers = [
       this.elementHandler,
@@ -44,8 +35,6 @@ export class Handler {
       this.actionHandler,
       this.keyboardHandler
     ]
-
-    // this.handlers.map(handler => handler.setHandlerState(this.state));
   }
 
   public enableKeyboardEvent = () => {
@@ -54,11 +43,10 @@ export class Handler {
 
   public disableKeyboardEvent = () => {
     this.state.disableKeyboard = true
-    // this.handlers.map(handler => handler.setHandlerState(this.state));
   }
 
-  public changeAppState(state: IAppContext, keys: StateChangedKey[]) {
-    this.handlers.map(handler => handler.setAppState(state, keys));
+  public onUpdateAppContext(keys: StateChangedKey[], oldContext: IAppContext) {
+    this.handlers.map(handler => handler.onUpdateAppContext(keys, oldContext));
   }
 
   public executeAction(action: Actions) {
