@@ -53,6 +53,8 @@ export class KeyboardHandler extends BaseHandler {
   }
 
   private handleKeyboardEvent(e: KeyboardEvent) {
+    if (!this.isSelectionMode || this.isTyping) return
+
     const combineActions: Record<string, Function> = {
       'ctrl-a': this.selectAll.bind(this),
     }

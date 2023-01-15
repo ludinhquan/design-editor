@@ -4,21 +4,23 @@ import {IAppContext} from "@/contexts";
 import {useAppContext} from "@/hooks";
 import React, {useEffect, useRef} from "react";
 
-type ShapeProps = Pick<IAppContext, 'activeTool' | 'setActiveTool' | 'setImage'>
+type ShapeProps = Pick<IAppContext, 'activeTool' | 'setActiveTool' | 'setImage' | 'canvasInstance'>
 
 const ShapeComponent = React.memo((props: ShapeProps) => {
   console.count('Shapes')
+  const {activeTool, setActiveTool, canvasInstance, setImage: loadImage} = props
 
   useEffect(() => {
     const onKeydown = (e: KeyboardEvent) => {
+      const {canvasInstance} = props;
+      if (!canvasInstance.current.isSelectionMode || canvasInstance.current.isTyping) return;
       if (['i', '9'].includes(e.key)) openFile()
     }
 
     document.addEventListener('keydown', onKeydown)
     return () => document.removeEventListener('keydown', onKeydown)
-  }, [])
+  }, [canvasInstance])
 
-  const {activeTool, setActiveTool, setImage: loadImage} = props
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const hasUploaded = () => fileInputRef.current.files.length > 0;
@@ -69,6 +71,6 @@ const ShapeComponent = React.memo((props: ShapeProps) => {
 })
 
 export const Shapes = () => {
-  const {activeTool, setActiveTool, setImage} = useAppContext()
-  return <ShapeComponent activeTool={activeTool} setActiveTool={setActiveTool} setImage={setImage} />
+  const {activeTool, setActiveTool, setImage, canvasInstance} = useAppContext()
+  return <ShapeComponent activeTool={activeTool} setActiveTool={setActiveTool} setImage={setImage} canvasInstance={canvasInstance}/>
 }

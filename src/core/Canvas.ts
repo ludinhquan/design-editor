@@ -27,6 +27,12 @@ export class CanvasInstance {
 
   get isFreeDrawMode() {return this.#appContext.activeTool === 'freedraw'}
 
+  get isTyping() {
+    const activeObject = this.canvas.getActiveObject() as fabric.IText;
+    if(!activeObject) return false
+    return /text/.test(activeObject.type) && activeObject.isEditing
+  }
+
   constructor(canvas: FabricCanvas) {
     this.#canvas = canvas;
     this.#handler = new Handler(this);

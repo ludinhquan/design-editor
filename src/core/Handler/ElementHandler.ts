@@ -1,5 +1,5 @@
 import {ShapeType, StrokeStyle} from "@/constants";
-import {IAppContext, StateChangedKey} from "@/contexts";
+import {StateChangedKey} from "@/contexts";
 import {fabric} from "fabric";
 import {ArrowElement, BaseElement, DiamondElement, EllipseElement, ImageElement, LineElement, RectangleElement, TextElement} from "../Element";
 import {FabricEvent, GenericOptions, IMouseMoveEvent} from "../type";
@@ -84,12 +84,22 @@ export class ElementHandler extends BaseHandler {
     this.canvas.on('mouse:down', this.onMouseDown.bind(this));
     this.canvas.on('mouse:move', this.onMouseMove.bind(this));
     this.canvas.on('mouse:up', this.onMouseUp.bind(this));
+    this.canvas.on('mouse:dblclick', this.onDbclick.bind(this));
   }
 
   private lockMovement(lock: boolean){
     if (!this.targetElement) return;
     this.targetElement.lockMovementX = lock;
     this.targetElement.lockMovementY = lock;
+  }
+
+  private onDbclick(event: FabricEvent) {
+    if (!this.isSelectionMode) return;
+    const Element = this.shapes['text'];
+
+    const pointer: IMouseMoveEvent = this.canvas.getPointer(event.e);
+    const options = this.getElementOption(pointer)
+    this.drawingElement = new Element(this.canvas, options);
   }
 
   private onMouseDown(event: FabricEvent) {

@@ -7,6 +7,10 @@ export class BaseHandler {
 
   get appContext() {return this.handler.canvasInstance.appContext}
 
+  get isSelectionMode() {return this.handler.canvasInstance.isSelectionMode}
+
+  get isTyping() {return this.handler.canvasInstance.isTyping}
+
   constructor(protected handler: Handler) {}
 
   public executeAction(_: Actions) {}
