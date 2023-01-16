@@ -3,13 +3,13 @@ import {IAppContext, StateChangedKey} from "@/contexts";
 import {Handler} from "./Handler";
 
 export class BaseHandler {
-  get canvas() {return this.handler.canvasInstance.canvas}
+  get canvas() {return this.handler.canvasInstance?.canvas}
 
-  get appContext() {return this.handler.canvasInstance.appContext}
+  get appContext() {return this.handler.canvasInstance?.appContext}
 
-  get isSelectionMode() {return this.handler.canvasInstance.isSelectionMode}
+  get isSelectionMode() {return this.handler.canvasInstance?.isSelectionMode}
 
-  get isTyping() {return this.handler.canvasInstance.isTyping}
+  get isTyping() {return this.handler.canvasInstance?.isTyping}
 
   constructor(protected handler: Handler) {}
 

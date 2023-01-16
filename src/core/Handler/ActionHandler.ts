@@ -1,8 +1,8 @@
 import {Actions} from "@/constants";
 import {fabric} from "fabric";
+import {IMouseMoveEvent} from "../type";
 import {BaseHandler} from "./BaseHandler";
 import {Handler} from "./Handler";
-
 export class ActionHandler extends BaseHandler {
   private readonly DISTANCE_MOVE = 30;
   private readonly INITIAL_PASTE_TIMES = 0;
@@ -23,7 +23,7 @@ export class ActionHandler extends BaseHandler {
   }
 
   private clipboard: fabric.Object
-  private lastPointerPosition: {x: number, y: number}
+  private latestPointerPosition: {x: number, y: number}
   private pasteTimes = this.INITIAL_PASTE_TIMES;
 
   constructor(handler: Handler) {
@@ -36,10 +36,11 @@ export class ActionHandler extends BaseHandler {
     if (typeof handler === 'function') handler();
   }
 
-  private oMouseDown(e: fabric.IEvent) {
+  private oMouseDown(event: fabric.IEvent) {
     // cache latest pointer position
-    this.lastPointerPosition = {x: e.pointer.x, y: e.pointer.y}
-    console.log(this.lastPointerPosition)
+    if (!this.clipboard) return
+    const pointer: IMouseMoveEvent = this.canvas.getPointer(event.e);
+    this.latestPointerPosition = {x: pointer.x, y: pointer.y}
   }
 
   private sendToBack() {
@@ -152,19 +153,21 @@ export class ActionHandler extends BaseHandler {
   private paste() {
     if (!this.clipboard) return
     this.canvas.discardActiveObject();
+    const latestPointerPosition = this.latestPointerPosition;
+
     this.clipboard.clone((object: fabric.Object) => {
-      // const position = !this.lastPointerPosition
-      //   ? {left: object.left, top: object.top}
-      //   : {left: this.lastPointerPosition.x, top: this.lastPointerPosition.y, originX: 'left', originY: 'top'}
-      // 
-      // object.set(position);
-      // console.log({left: object.left, top: object.top})
+
+      const position = !latestPointerPosition
+        ? {left: object.left, top: object.top}
+        : {left: latestPointerPosition.x, top: latestPointerPosition.y, originX: 'center', originY: 'center'}
+
+      object.set(position);
       this.pasteTimes++;
       this.clone(object, this.pasteTimes * this.DISTANCE_MOVE);
     });
   }
 
-  private clone(object: fabric.Object, distance = this.DISTANCE_MOVE){
+  private clone(object: fabric.Object, distance = this.DISTANCE_MOVE) {
     object.set({
       left: object.left + distance,
       top: object.top + distance,
