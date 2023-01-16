@@ -4,7 +4,10 @@ import {BaseHandler} from "./BaseHandler";
 import {Handler} from "./Handler";
 
 export class ActionHandler extends BaseHandler {
-  private commands: Partial<Record<Actions, Function>> = {
+  private readonly DISTANCE_MOVE = 30;
+  private readonly INITIAL_PASTE_TIMES = 0;
+
+  private readonly commands: Partial<Record<Actions, Function>> = {
     [Actions.SendToBack]: this.sendToBack.bind(this),
     [Actions.SendBackward]: this.sendBackward.bind(this),
     [Actions.BringToFront]: this.bringToFront.bind(this),
@@ -14,13 +17,29 @@ export class ActionHandler extends BaseHandler {
     [Actions.Group]: this.group.bind(this),
     [Actions.UnGroup]: this.ungroup.bind(this),
     [Actions.SelectAll]: this.selectAll.bind(this),
+    [Actions.Copy]: this.copy.bind(this),
+    [Actions.Cut]: this.cut.bind(this),
+    [Actions.Paste]: this.paste.bind(this),
   }
 
-  constructor(handler: Handler) {super(handler)}
+  private clipboard: fabric.Object
+  private lastPointerPosition: {x: number, y: number}
+  private pasteTimes = this.INITIAL_PASTE_TIMES;
+
+  constructor(handler: Handler) {
+    super(handler);
+    this.canvas.on('mouse:down', this.oMouseDown.bind(this))
+  }
 
   public executeAction(action: Actions) {
     const handler = this.commands[action]
     if (typeof handler === 'function') handler();
+  }
+
+  private oMouseDown(e: fabric.IEvent) {
+    // cache latest pointer position
+    this.lastPointerPosition = {x: e.pointer.x, y: e.pointer.y}
+    console.log(this.lastPointerPosition)
   }
 
   private sendToBack() {
@@ -52,23 +71,8 @@ export class ActionHandler extends BaseHandler {
     if (!activeObject) return
 
     this.canvas.discardActiveObject();
-    activeObject.clone((clonedObj: fabric.Object) => {
-      clonedObj.set({
-        left: clonedObj.left + 20,
-        top: clonedObj.top + 20,
-        evented: true
-      });
-
-      if (clonedObj.type === 'activeSelection') {
-        clonedObj.canvas = this.canvas;
-        (clonedObj as fabric.ActiveSelection).forEachObject((obj: fabric.Object) => {
-          this.canvas.add(obj);
-        });
-        clonedObj.setCoords();
-      } else this.canvas.add(clonedObj);
-
-      this.canvas.setActiveObject(clonedObj);
-      this.canvas.requestRenderAll();
+    activeObject.clone((object: fabric.Object) => {
+      this.clone(object)
     });
   }
 
@@ -127,6 +131,55 @@ export class ActionHandler extends BaseHandler {
 
     const activeSelection: fabric.ActiveSelection = new fabric.ActiveSelection(objects, {canvas: this.canvas});
     this.canvas.setActiveObject(activeSelection);
+    this.canvas.requestRenderAll();
+  }
+
+  private copy() {
+    this.canvas.getActiveObject().clone((object: fabric.Object) => {
+      this.clipboard = object;
+      this.pasteTimes = this.INITIAL_PASTE_TIMES;
+    })
+  }
+
+  private cut() {
+    this.canvas.getActiveObject().clone((object: fabric.Object) => {
+      this.clipboard = object;
+      this.pasteTimes = this.INITIAL_PASTE_TIMES;
+      this.canvas.remove(this.canvas.getActiveObject())
+    })
+  }
+
+  private paste() {
+    if (!this.clipboard) return
+    this.canvas.discardActiveObject();
+    this.clipboard.clone((object: fabric.Object) => {
+      // const position = !this.lastPointerPosition
+      //   ? {left: object.left, top: object.top}
+      //   : {left: this.lastPointerPosition.x, top: this.lastPointerPosition.y, originX: 'left', originY: 'top'}
+      // 
+      // object.set(position);
+      // console.log({left: object.left, top: object.top})
+      this.pasteTimes++;
+      this.clone(object, this.pasteTimes * this.DISTANCE_MOVE);
+    });
+  }
+
+  private clone(object: fabric.Object, distance = this.DISTANCE_MOVE){
+    object.set({
+      left: object.left + distance,
+      top: object.top + distance,
+      evented: true
+    });
+
+    if (object.type === 'activeSelection') {
+      object.canvas = this.canvas;
+      (object as fabric.ActiveSelection).forEachObject((obj: fabric.Object) => {
+        this.canvas.add(obj);
+      });
+      object.setCoords();
+    } else this.canvas.add(object);
+
+    this.canvas.setActiveObject(object);
     this.canvas.requestRenderAll();
   }
 }

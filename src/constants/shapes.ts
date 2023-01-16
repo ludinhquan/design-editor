@@ -133,5 +133,8 @@ export enum Actions {
   Trash = 'Trash',
   Group = 'Group',
   UnGroup = 'UnGroup',
-  SelectAll = 'SelectAll'
+  SelectAll = 'SelectAll',
+  Copy = 'Copy',
+  Cut = 'Cut',
+  Paste = 'Paste',
 }
