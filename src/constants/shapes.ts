@@ -132,5 +132,6 @@ export enum Actions {
   Duplicate = 'Duplicate',
   Trash = 'Trash',
   Group = 'Group',
-  UnGroup = 'UnGroup'
+  UnGroup = 'UnGroup',
+  SelectAll = 'SelectAll'
 }

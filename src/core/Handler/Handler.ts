@@ -7,21 +7,13 @@ import {ElementHandler} from "./ElementHandler";
 import {KeyboardHandler} from "./KeyboardHandler";
 import {SelectionHandler} from "./SelectionHandler";
 
-export type HandlerState = {
-  disableKeyboard: boolean,
-}
-
 export class Handler {
-  private readonly elementHandler: ElementHandler;
-  private readonly selectionHandler: SelectionHandler;
-  private readonly actionHandler: ActionHandler;
-  private readonly keyboardHandler: KeyboardHandler;
+  public readonly elementHandler: ElementHandler;
+  public readonly selectionHandler: SelectionHandler;
+  public readonly actionHandler: ActionHandler;
+  public readonly keyboardHandler: KeyboardHandler;
 
   private readonly handlers: BaseHandler[]
-
-  private state: HandlerState = {
-    disableKeyboard: false
-  }
 
   constructor(public canvasInstance: CanvasInstance) {
     this.elementHandler = new ElementHandler(this);
@@ -37,15 +29,7 @@ export class Handler {
     ]
   }
 
-  public enableKeyboardEvent = () => {
-    this.state.disableKeyboard = false
-  }
-
-  public disableKeyboardEvent = () => {
-    this.state.disableKeyboard = true
-  }
-
-  public onUpdateAppContext(keys: StateChangedKey[], oldContext: IAppContext) {
+  public onAppContextUpdated(keys: StateChangedKey[], oldContext: IAppContext) {
     this.handlers.map(handler => handler.onUpdateAppContext(keys, oldContext));
   }
 

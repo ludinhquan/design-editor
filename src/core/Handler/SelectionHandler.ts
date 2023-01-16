@@ -71,7 +71,6 @@ export class SelectionHandler extends BaseHandler {
         {}
       );
 
-
     this.appContext.setActiveObjects({
       isActiveSelection: this.canvas.getActiveObject().type === 'activeSelection',
       type,

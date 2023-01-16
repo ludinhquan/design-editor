@@ -67,7 +67,7 @@ export class CanvasInstance {
       const oldState = {...this.#appContext};
 
       this.#appContext = appContext;
-      this.#handler.onUpdateAppContext(this.changedKeys, oldState)
+      this.#handler.onAppContextUpdated(this.changedKeys, oldState)
 
       if (this.changedKeys.includes("activeTool")) this.updateCanvasStyle();
 

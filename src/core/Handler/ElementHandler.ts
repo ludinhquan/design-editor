@@ -112,8 +112,6 @@ export class ElementHandler extends BaseHandler {
     this.targetElement = event.target;
     this.lockMovement(true)
 
-    this.handler.disableKeyboardEvent()
-
     const pointer: IMouseMoveEvent = this.canvas.getPointer(event.e);
     const options = this.getElementOption(pointer)
     this.drawingElement = new Element(this.canvas, options);
@@ -128,7 +126,6 @@ export class ElementHandler extends BaseHandler {
 
   private onMouseUp() {
     this.lockMovement(false)
-    this.handler.enableKeyboardEvent()
     if (!this.drawingElement) return;
     const endDrawing = this.drawingElement.endDraw();
     if (!endDrawing) return

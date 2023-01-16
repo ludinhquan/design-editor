@@ -13,6 +13,7 @@ export class ActionHandler extends BaseHandler {
     [Actions.Duplicate]: this.duplicate.bind(this),
     [Actions.Group]: this.group.bind(this),
     [Actions.UnGroup]: this.ungroup.bind(this),
+    [Actions.SelectAll]: this.selectAll.bind(this),
   }
 
   constructor(handler: Handler) {super(handler)}
@@ -47,34 +48,34 @@ export class ActionHandler extends BaseHandler {
   }
 
   private duplicate() {
-    let clonedObj: fabric.Object;
     const activeObject = this.canvas.getActiveObject()
     if (!activeObject) return
 
-    activeObject.clone((obj: fabric.Object) => clonedObj = obj);
-
     this.canvas.discardActiveObject();
-
-    clonedObj.set({
-      left: clonedObj.left + 20,
-      top: clonedObj.top + 20,
-      evented: true
-    });
-
-    if (clonedObj.type === 'activeSelection') {
-      clonedObj.canvas = this.canvas;
-      (clonedObj as fabric.ActiveSelection).forEachObject((obj: fabric.Object) => {
-        this.canvas.add(obj);
+    activeObject.clone((clonedObj: fabric.Object) => {
+      clonedObj.set({
+        left: clonedObj.left + 20,
+        top: clonedObj.top + 20,
+        evented: true
       });
-      clonedObj.setCoords();
-    } else this.canvas.add(clonedObj);
 
-    this.canvas.setActiveObject(clonedObj);
-    this.canvas.requestRenderAll();
+      if (clonedObj.type === 'activeSelection') {
+        clonedObj.canvas = this.canvas;
+        (clonedObj as fabric.ActiveSelection).forEachObject((obj: fabric.Object) => {
+          this.canvas.add(obj);
+        });
+        clonedObj.setCoords();
+      } else this.canvas.add(clonedObj);
+
+      this.canvas.setActiveObject(clonedObj);
+      this.canvas.requestRenderAll();
+    });
   }
 
   private delete() {
-    this.canvas.remove(...this.canvas.getActiveObjects())
+    this.canvas.getActiveObjects().map(object => {
+      this.canvas.remove(object);
+    });
     this.canvas.discardActiveObject()
     this.canvas.requestRenderAll()
   }
@@ -116,6 +117,16 @@ export class ActionHandler extends BaseHandler {
 
     objects.map(item => activeSelection.addWithUpdate(item))
 
+    this.canvas.requestRenderAll();
+  }
+
+
+  private selectAll(){
+    const objects = this.canvas.getObjects();
+    this.canvas.discardActiveObject();
+
+    const activeSelection: fabric.ActiveSelection = new fabric.ActiveSelection(objects, {canvas: this.canvas});
+    this.canvas.setActiveObject(activeSelection);
     this.canvas.requestRenderAll();
   }
 }
