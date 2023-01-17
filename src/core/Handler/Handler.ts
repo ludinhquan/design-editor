@@ -5,11 +5,11 @@ import {ActionHandler} from "./ActionHandler";
 import {BaseHandler} from "./BaseHandler";
 import {ElementHandler} from "./ElementHandler";
 import {KeyboardHandler} from "./KeyboardHandler";
-import {SelectionHandler} from "./SelectionHandler";
+import {EventHandler} from "./EventHandler";
 
 export class Handler {
   public readonly elementHandler: ElementHandler;
-  public readonly selectionHandler: SelectionHandler;
+  public readonly eventHandler: EventHandler;
   public readonly actionHandler: ActionHandler;
   public readonly keyboardHandler: KeyboardHandler;
 
@@ -17,13 +17,13 @@ export class Handler {
 
   constructor(public canvasInstance: CanvasInstance) {
     this.elementHandler = new ElementHandler(this);
-    this.selectionHandler = new SelectionHandler(this);
+    this.eventHandler = new EventHandler(this);
     this.actionHandler = new ActionHandler(this);
     this.keyboardHandler = new KeyboardHandler(this);
 
     this.handlers = [
       this.elementHandler,
-      this.selectionHandler,
+      this.eventHandler,
       this.actionHandler,
       this.keyboardHandler
     ]

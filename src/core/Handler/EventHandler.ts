@@ -3,7 +3,7 @@ import {fabric} from "fabric";
 import {BaseHandler} from "./BaseHandler";
 import {Handler} from "./Handler";
 
-export class SelectionHandler extends BaseHandler {
+export class EventHandler extends BaseHandler {
   private shapeTypes: Record<string, ShapeType> = {
     'i-text': 'text',
     'textbox': 'text',
@@ -21,6 +21,7 @@ export class SelectionHandler extends BaseHandler {
     this.canvas.on('selection:created', this.onSelectionCreated.bind(this));
     this.canvas.on('selection:updated', this.onSelectionUpdated.bind(this));
     this.canvas.on('selection:cleared', this.onSelectionCleared.bind(this));
+    this.canvas.on('object:removed', this.onObjectRemoved.bind(this));
   }
 
   private checkHasGroup(activeObjects: fabric.Object[]) {
@@ -72,10 +73,19 @@ export class SelectionHandler extends BaseHandler {
       );
 
     this.appContext.setActiveObjects({
-      isActiveSelection: this.canvas.getActiveObject().type === 'activeSelection',
+      isActiveSelection: this.canvas.getActiveObject()?.type === 'activeSelection',
       type,
       hasGroup,
       options: activeOption
+    })
+  }
+
+  public removeTimeOut: NodeJS.Timeout = null
+  private onObjectRemoved(){
+    if(this.removeTimeOut) clearTimeout(this.removeTimeOut);
+    this.removeTimeOut = setTimeout(() => {
+      const activeObjects = this.canvas.getActiveObjects();
+      this.getActiveObjectTypes(activeObjects)
     })
   }
 
