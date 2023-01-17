@@ -4,11 +4,11 @@ import {IAppContext} from "@/contexts";
 import {useAppContext} from "@/hooks";
 import React, {useEffect, useRef} from "react";
 
-type ShapeProps = Pick<IAppContext, 'activeTool' | 'setActiveTool' | 'setImage' | 'canvasInstance'>
+type ShapeProps = Pick<IAppContext, 'activeTool' | 'setActiveTool' | 'setImage' | 'canvasInstance' | 'isLocked' | 'lockMode'>
 
 const ShapeComponent = React.memo((props: ShapeProps) => {
   console.count('Shapes')
-  const {activeTool, setActiveTool, canvasInstance, setImage: loadImage} = props
+  const {activeTool, setActiveTool, canvasInstance, isLocked, lockMode, setImage: loadImage} = props
 
   useEffect(() => {
     const onKeydown = (e: KeyboardEvent) => {
@@ -57,7 +57,8 @@ const ShapeComponent = React.memo((props: ShapeProps) => {
           <div className="pr-[12px] mr-[8px] border-r">
             <IconButton
               icon={LockedIcon}
-              active={true}
+              active={isLocked}
+              onClick={() => lockMode(!isLocked)}
             />
           </div>
           {SHAPES.map(shape => (
@@ -77,6 +78,15 @@ const ShapeComponent = React.memo((props: ShapeProps) => {
 })
 
 export const Shapes = () => {
-  const {activeTool, setActiveTool, setImage, canvasInstance} = useAppContext()
-  return <ShapeComponent activeTool={activeTool} setActiveTool={setActiveTool} setImage={setImage} canvasInstance={canvasInstance}/>
+  const {activeTool, setActiveTool, setImage, canvasInstance, isLocked, lockMode} = useAppContext()
+  return (
+    <ShapeComponent
+      activeTool={activeTool}
+      setActiveTool={setActiveTool}
+      setImage={setImage}
+      canvasInstance={canvasInstance}
+      isLocked={isLocked}
+      lockMode={lockMode}
+    />
+  )
 }

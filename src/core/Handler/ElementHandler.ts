@@ -131,11 +131,10 @@ export class ElementHandler extends BaseHandler {
     const endDrawing = this.drawingElement.endDraw();
     if (!endDrawing) return
 
-    const {activeTool, setActiveTool, setImage} = this.appContext
-    if (activeTool === 'image') {
-      setImage(null);
-      setActiveTool('selection');
-    }
+    const {activeTool, isLocked, setActiveTool, setImage} = this.appContext
+    if (activeTool === 'image') setImage(null);
+    if (!isLocked) setActiveTool('selection')
+
     this.elements.set(this.drawingElement.id, this.drawingElement);
     this.drawingElement = null
   }

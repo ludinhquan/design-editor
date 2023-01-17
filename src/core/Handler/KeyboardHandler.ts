@@ -49,9 +49,14 @@ export class KeyboardHandler extends BaseHandler {
     this.canvas.requestRenderAll()
   }
 
+  private lockMode(){
+    this.appContext.lockMode(!this.appContext.isLocked)
+  }
+
   private handleKeyboardEvent(e: KeyboardEvent) {
 
     const combineActions: Record<string, Function> = {
+      'q': this.lockMode.bind(this),
       'escape': this.discard.bind(this),
       'delete': () => this.handler.actionHandler.executeAction(Actions.Trash),
       'ctrl-a': () => this.handler.actionHandler.executeAction(Actions.SelectAll),
