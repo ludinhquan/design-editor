@@ -21,7 +21,6 @@ export class EventHandler extends BaseHandler {
     this.canvas.on('selection:created', this.onSelectionCreated.bind(this));
     this.canvas.on('selection:updated', this.onSelectionUpdated.bind(this));
     this.canvas.on('selection:cleared', this.onSelectionCleared.bind(this));
-    this.canvas.on('object:removed', this.onObjectRemoved.bind(this));
   }
 
   private checkHasGroup(activeObjects: fabric.Object[]) {
@@ -47,7 +46,7 @@ export class EventHandler extends BaseHandler {
       [K in keyof ShapeOptions]: Set<ShapeOptions[K]>
     }>
 
-    const type = activeObjects.map(item => this.shapeTypes[item.type] ?? item.type) as unknown as ShapeType[];
+    const type = activeObjects.map(item => this.shapeTypes[item.type] ?? item.itemType) as unknown as ShapeType[];
     const hasGroup = this.checkHasGroup(activeObjects);
 
     const activeOptionSet = activeObjects.reduce(
@@ -80,15 +79,6 @@ export class EventHandler extends BaseHandler {
     })
   }
 
-  public removeTimeOut: NodeJS.Timeout = null
-  private onObjectRemoved(){
-    if(this.removeTimeOut) clearTimeout(this.removeTimeOut);
-    this.removeTimeOut = setTimeout(() => {
-      const activeObjects = this.canvas.getActiveObjects();
-      this.getActiveObjectTypes(activeObjects)
-    })
-  }
-
   private onSelectionCreated() {
     const activeObjects = this.canvas.getActiveObjects();
     this.getActiveObjectTypes(activeObjects)
@@ -116,7 +106,6 @@ export class EventHandler extends BaseHandler {
   private onSelectionCleared() {
     setTimeout(() => {
       const activeObjects = this.canvas.getActiveObjects()
-      if (activeObjects.length === 0) return
       this.getActiveObjectTypes(activeObjects)
     });
   }

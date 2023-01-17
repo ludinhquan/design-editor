@@ -67,11 +67,12 @@ export class ElementHandler extends BaseHandler {
   }
 
   private getElementOption(event: IMouseMoveEvent) {
-    const {image} = this.appContext;
+    const {image, activeTool} = this.appContext;
     const styles = this.getShapeStyles();
 
     const options: Partial<GenericOptions> = {
       image,
+      itemType: activeTool,
       left: event.x,
       top: event.y,
       ...styles

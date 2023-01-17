@@ -1,4 +1,4 @@
-import {IconButton} from "@/components";
+import {IconButton, LockedIcon} from "@/components";
 import {SHAPES} from "@/constants";
 import {IAppContext} from "@/contexts";
 import {useAppContext} from "@/hooks";
@@ -54,6 +54,12 @@ const ShapeComponent = React.memo((props: ShapeProps) => {
     <div className="flex justify-center" >
       <div className="p-[4px] rounded-[4px] shadow-main">
         <div className="flex space-x-1">
+          <div className="pr-[12px] mr-[8px] border-r">
+            <IconButton
+              icon={LockedIcon}
+              active={true}
+            />
+          </div>
           {SHAPES.map(shape => (
             <IconButton
               key={shape.value}

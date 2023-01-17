@@ -1,4 +1,4 @@
-import {CURSOR_TYPE, ShapeOptions} from "@/constants";
+import {CURSOR_TYPE, ShapeOptions, ShapeType} from "@/constants";
 import {fabric} from "fabric";
 import {nanoid} from "nanoid";
 import {FabricCanvas, GenericOptions, IMouseMoveEvent} from "../type";
@@ -50,13 +50,13 @@ export abstract class BaseElement<Type extends fabric.Object = fabric.Object, Op
 
   updateStyles(shapeStyle: Partial<Record<keyof Type, any>>) {
     this.instance.set(shapeStyle)
-    // this.instance.set(, value)
   }
 
-  public async startDraw(event: Partial<Option>) {
-    await this.create(event)
+  public async startDraw(option: Partial<Option>) {
+    await this.create(option)
     if(!this.instance) return
     this.instance.id = this.id;
+    this.instance.itemType = option.itemType;
   }
 
   public drawing(event: IMouseMoveEvent) {

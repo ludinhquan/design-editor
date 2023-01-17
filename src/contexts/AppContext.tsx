@@ -20,12 +20,9 @@ export interface IAppContext {
 }
 
 const emptyFunc = () => {}
-
-export type StateChangedKey = 'image' | 'activeTool' | 'shapeOptions' | 'activeObjects'
-
-export const AppContext = createContext<IAppContext>({
+const defaultContext: IAppContext = {
   image: null,
-  activeTool: null,
+  activeTool: 'selection',
   shapeOptions: DefaultShapeOptions,
   activeObjects: {isActiveSelection: false, type: [], hasGroup: false, options: {}},
 
@@ -36,14 +33,18 @@ export const AppContext = createContext<IAppContext>({
 
   canvasInstance: null,
   executeAction: emptyFunc
-})
+}
+
+export type StateChangedKey = 'image' | 'activeTool' | 'shapeOptions' | 'activeObjects'
+
+export const AppContext = createContext<IAppContext>(defaultContext)
 
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>('selection');
-  const [shapeOptions, setState] = useState<IAppContext['shapeOptions']>(DefaultShapeOptions)
-  const [image, setImage] = useState<IAppContext['image']>();
-  const [activeObjects, setActiveObjects] = useState<ActiveObjects>({isActiveSelection: false, type: [], hasGroup: false, options: {}});
+  const [activeTool, setActiveTool] = useState<IAppContext['activeTool']>(defaultContext.activeTool);
+  const [shapeOptions, setState] = useState<IAppContext['shapeOptions']>(defaultContext.shapeOptions)
+  const [image, setImage] = useState<IAppContext['image']>(defaultContext.image);
+  const [activeObjects, setActiveObjects] = useState<ActiveObjects>(defaultContext.activeObjects);
 
   const canvasInstance = useRef<CanvasInstance>();
 

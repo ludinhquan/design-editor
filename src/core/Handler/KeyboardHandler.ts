@@ -38,19 +38,30 @@ export class KeyboardHandler extends BaseHandler {
   ])
 
   private changeActiveTool(combineKey: string) {
+    if (!this.isSelectionMode || this.isTyping) return
     const activeTool = this.tools[combineKey];
     if (activeTool) this.appContext.setActiveTool(activeTool);
   }
 
+  private discard(){
+    this.appContext.setActiveTool('selection');
+    this.canvas.discardActiveObject()
+    this.canvas.requestRenderAll()
+  }
+
   private handleKeyboardEvent(e: KeyboardEvent) {
-    if (!this.isSelectionMode || this.isTyping) return
 
     const combineActions: Record<string, Function> = {
-      'ctrl-a': () => this.handler.actionHandler.executeAction(Actions.SelectAll),
+      'escape': this.discard.bind(this),
       'delete': () => this.handler.actionHandler.executeAction(Actions.Trash),
+      'ctrl-a': () => this.handler.actionHandler.executeAction(Actions.SelectAll),
       'ctrl-c': () => this.handler.actionHandler.executeAction(Actions.Copy),
       'ctrl-x': () => this.handler.actionHandler.executeAction(Actions.Cut),
       'ctrl-v': () => this.handler.actionHandler.executeAction(Actions.Paste),
+      'ctrl-[': () => this.handler.actionHandler.executeAction(Actions.SendBackward),
+      'ctrl-]': () => this.handler.actionHandler.executeAction(Actions.BringForward),
+      'ctrl-shift-{': () => this.handler.actionHandler.executeAction(Actions.SendToBack),
+      'ctrl-shift-}': () => this.handler.actionHandler.executeAction(Actions.BringToFront),
     }
 
     const keys = combineKeys.reduce(
@@ -59,10 +70,12 @@ export class KeyboardHandler extends BaseHandler {
     );
 
     const combineKey = keys.concat(e.key).join('-').toLowerCase();
+
     if (combineKey in combineActions) {
       combineActions[combineKey]()
       e.preventDefault()
     }
+
     this.changeActiveTool(combineKey);
 
     if (this.preventCombinedKeys.has(combineKey)) e.preventDefault()

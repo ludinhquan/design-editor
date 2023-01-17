@@ -9,8 +9,8 @@ export class ActionHandler extends BaseHandler {
 
   private readonly commands: Partial<Record<Actions, Function>> = {
     [Actions.SendToBack]: this.sendToBack.bind(this),
-    [Actions.SendBackward]: this.sendBackward.bind(this),
     [Actions.BringToFront]: this.bringToFront.bind(this),
+    [Actions.SendBackward]: this.sendBackward.bind(this),
     [Actions.BringForward]: this.bringForward.bind(this),
     [Actions.Trash]: this.delete.bind(this),
     [Actions.Duplicate]: this.duplicate.bind(this),

@@ -3,6 +3,7 @@
 namespace fabric {
   interface Object {
     id: string
+    itemType: string
   }
 }
 

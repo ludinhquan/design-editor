@@ -1,8 +1,12 @@
+import {ShapeType} from "@/constants";
+
 export type FillStyle = "hachure" | "cross-hatch" | "solid";
 export type StrokeStyle = "solid" | "dashed" | "dotted";
 export type EdgeType = string
 
-export interface GenericStyles extends fabric.IObjectOptions, fabric.Object {}
+export interface GenericStyles extends fabric.IObjectOptions, fabric.Object {
+  itemType: ShapeType
+}
 
 type ElementOption = Readonly<GenericStyles>;
 
