@@ -10,7 +10,7 @@ type RawData = {
 export class JsonHandler extends BaseHandler {
   constructor(handler: Handler) {
     super(handler)
-    this.registerHandlers();
+    // this.registerHandlers();
   }
 
   private registerHandlers = () => {
