@@ -10,3 +10,5 @@ namespace fabric {
 interface ClassType<T> {
   new(...args: any[]): T
 }
+
+function noop(): void

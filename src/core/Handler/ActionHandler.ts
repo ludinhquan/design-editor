@@ -118,8 +118,9 @@ export class ActionHandler extends BaseHandler {
       } else {
         objects.push(object)
       }
-    })
+    });
 
+    if (!activeSelection) return;
     objects.map(item => activeSelection.addWithUpdate(item))
 
     this.canvas.requestRenderAll();

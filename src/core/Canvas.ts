@@ -48,7 +48,7 @@ export class CanvasInstance {
     this.#canvas.setWidth(width);
     this.#canvas.setHeight(height);
     this.#canvas.setZoom(zoom);
-    this.#canvas.loadFromJSON(json, () => {})
+    this.#canvas.loadFromJSON(json, noop)
   }
 
 
@@ -62,7 +62,7 @@ export class CanvasInstance {
     }
 
     this.timeOut = setTimeout(() => {
-      console.log("StateChangedEvent", this.changedKeys)
+      console.log("StateChangedEvent", new Set(this.changedKeys))
 
       const oldState = {...this.#appContext};
 

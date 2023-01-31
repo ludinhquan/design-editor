@@ -66,7 +66,8 @@ export class KeyboardHandler extends BaseHandler {
       'ctrl-[': () => this.handler.actionHandler.executeAction(Actions.SendBackward),
       'ctrl-]': () => this.handler.actionHandler.executeAction(Actions.BringForward),
       'ctrl-shift-{': () => this.handler.actionHandler.executeAction(Actions.SendToBack),
-      'ctrl-shift-}': () => this.handler.actionHandler.executeAction(Actions.BringToFront),
+      'ctrl-g': () => this.handler.actionHandler.executeAction(Actions.Group),
+      'ctrl-shift-g': () => this.handler.actionHandler.executeAction(Actions.UnGroup),
     }
 
     const keys = combineKeys.reduce(
