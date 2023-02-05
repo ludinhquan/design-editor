@@ -147,11 +147,17 @@ export class ActionHandler extends BaseHandler {
     this.canvas.getActiveObject().clone((object: fabric.Object) => {
       this.clipboard = object;
       this.pasteTimes = this.INITIAL_PASTE_TIMES;
-      this.canvas.remove(this.canvas.getActiveObject())
+      if (object.type === 'activeSelection') {
+        this.canvas.remove(...(this.canvas.getActiveObject() as fabric.ActiveSelection).getObjects());
+        this.canvas.discardActiveObject()
+        this.canvas.requestRenderAll()
+      } else
+        this.canvas.remove(this.canvas.getActiveObject())
     })
   }
 
   private paste() {
+    console.log(this.clipboard)
     if (!this.clipboard) return
     this.canvas.discardActiveObject();
     const latestPointerPosition = this.latestPointerPosition;
