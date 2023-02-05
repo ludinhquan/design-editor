@@ -1,4 +1,8 @@
-.button > svg {
+.fillable > svg {
   fill: #5b57d1;
+  color: #5b57d1;
+}
+
+.active {
   color: #5b57d1;
 }

@@ -1,4 +1,4 @@
-import {IconButton, LockedIcon} from "@/components";
+import {IconButton, LockedIcon, UnlockedIcon} from "@/components";
 import {SHAPES} from "@/constants";
 import {IAppContext} from "@/contexts";
 import {useAppContext} from "@/hooks";
@@ -56,8 +56,9 @@ const ShapeComponent = React.memo((props: ShapeProps) => {
         <div className="flex space-x-1">
           <div className="pr-[12px] mr-[8px] border-r">
             <IconButton
-              icon={LockedIcon}
+              icon={isLocked ? LockedIcon : UnlockedIcon}
               active={isLocked}
+              fillable={false}
               onClick={() => lockMode(!isLocked)}
             />
           </div>
