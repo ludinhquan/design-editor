@@ -33,14 +33,13 @@ export class ElementHandler extends BaseHandler {
   }
 
   updateObjectStyles() {
-    const styles = this.getShapeStyles()
     const objects = this.canvas.getActiveObjects();
     objects.map(object => {
       if (object.type === 'group') {
-        (object as fabric.Group).getObjects().map(ele => ele.set(styles));
+        (object as fabric.Group).getObjects().map(ele => this.updateStyle(ele));
         return;
       }
-      object.set(styles)
+      this.updateStyle(object)
     });
     this.canvas.requestRenderAll()
   }
@@ -50,7 +49,18 @@ export class ElementHandler extends BaseHandler {
     this.updateObjectStyles();
   }
 
-  getShapeStyles() {
+  private updateStyle(object: fabric.Object) {
+    const styles = this.getShapeStyles()
+    if (object.type === 'ellipse') {
+      const {rx, ry, ...ellipseStyle} = styles;
+      object.set(ellipseStyle)
+      return
+    }
+
+    object.set(styles)
+  }
+
+  private getShapeStyles() {
     const {shapeOptions} = this.appContext
     return {
       stroke: shapeOptions.strokeColor,
