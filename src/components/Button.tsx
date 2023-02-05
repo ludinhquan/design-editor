@@ -1,16 +1,23 @@
 import {Button, ButtonProps} from "antd";
+import styles from './button.module.css'
 
 type IconButtonProps = ButtonProps & {
   active?: boolean
   border?: boolean
+  fillable?: boolean
 }
 
 
 export const IconButton = (props: IconButtonProps) => {
-  const {active, border, className, ...restProps} = props
+  const {active, border, fillable, className, ...restProps} = props
 
   const activeClassName = active ? 'bg-[#e3e2fe]' : ''
   const borderClassName = !border ? 'border-0' : ''
+  const fill = fillable && active ? styles.button : ''
 
-  return <Button size="large" {...restProps} className={`flex justify-center items-center ${activeClassName} ${borderClassName} ${className}`} style={{outline: 'none'}}/>
+  return <Button
+    size="large" {...restProps}
+    className={`flex justify-center items-center ${activeClassName} ${borderClassName} ${className} ${fill}`}
+    style={{outline: 'none'}}
+  />
 }

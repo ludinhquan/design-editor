@@ -66,6 +66,7 @@ const ShapeComponent = React.memo((props: ShapeProps) => {
               key={shape.value}
               icon={shape.icon}
               active={shape.value === activeTool}
+              fillable={shape.fillable}
               onClick={() => onClick(shape.value)}
             />
           ))}
